@@ -1,0 +1,7 @@
+PORT=3000
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=
+DB_NAME=`maskiadm_mgt_system`
+EMAIL_USER = ""
+EMAIL_PASS = ""      
