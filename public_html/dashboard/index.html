@@ -1,0 +1,2721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../assets/images/favicon.svg" />
+
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+  .custom-menu a {
+  display: block;
+  padding: 6px 12px;
+  color: #212529;
+  text-decoration: none;
+}
+
+.custom-menu a:hover {
+  background-color: #f8f9fa;
+}
+
+.custom-menu .approve-expense {
+  color: #28a745 !important;
+}
+
+.custom-menu .reject-expense,
+.custom-menu .delete-expense {
+  color: #dc3545 !important;
+}
+
+.custom-menu {
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-item {
+  display: block;
+  padding: 6px 12px;
+  color: #212529;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: #f8f9fa;
+  text-decoration: none;
+}
+
+.approve-expense {
+  color: #28a745 !important;
+}
+
+.reject-expense,
+.delete-expense {
+  color: #dc3545 !important;
+}
+
+.action-menu {
+  transition: transform 0.2s;
+}
+
+.action-menu:hover {
+  transform: scale(1.1);
+}
+</style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="index.html" class="text-decoration-none">Home</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Dashboard</li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+<div class="ms-auto d-lg-flex d-none flex-row">
+<div class="d-flex flex-row gap-1" id="btnfilter">
+<button type="button" class="btn btn-sm btn-filter btn-range active">Today</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Yesterday</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Last 7 Days</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">This Month</button>
+<button type="button" class="btn btn-sm btn-filter btn-range" id="customRangeBtn" >Custom Range</button>
+</div>
+<!-- Custom Date Range Picker (Initially Hidden) -->
+<div id="customRangeContainer" class="mb-3" style="display: none;">
+<div class="d-flex gap-2 align-items-center">
+<input type="date" class="form-control form-control-sm" id="startDate" style="height: 10px;"/>
+<span>to</span>
+<input type="date" class="form-control form-control-sm" id="endDate" />
+<button class="btn btn-sm btn-success" onclick="applyCustomRange()">Apply</button>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div class="row gx-3">
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Total Sales</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+<i class="bi bi-cart-check fs-4 lh-1 text-primary"></i>
+</div>
+<div id="total-sales" class="h5 text-success  overflow-hidden "
+style="max-width: 130px;">
+#500,000,000.00
+</div>
+</div>
+<p class="m-0 small text-secondary">
+Today's Sales<span  id="sales-percentage"  class="float-end badge bg-info text-info bg-opacity-10">50%</span>
+</p>
+</div>
+</div>
+</div>
+
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Total Expenses</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+<i class="bi bi-wallet2 fs-4 lh-1 text-danger"></i>
+</div>
+
+<!-- Wrap the long number -->
+<div id="total-expense" class="h5 text-danger  overflow-hidden "
+style="max-width: 130px;">
+#500,000,000.00
+</div>
+</div>
+
+<p class="m-0 small text-secondary">
+Today's Expenses
+<span id="expense-percentage" class="float-end badge bg-danger text-danger bg-opacity-10">80%</span>
+</p>
+</div>
+</div>
+</div>
+
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Net Profits</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-success grd-success-light rounded-5 d-flex">
+<i class="bi bi-bar-chart fs-4 lh-1 text-success"></i>
+</div>
+<div  id="net-profits" class="h5 text-success  overflow-hidden "
+style="max-width: 130px;">
+#500,000,000.00
+</div>
+
+</div>
+<p class="m-0 small text-secondary">
+Today's Profits<span id="profit-percentage" class="float-end badge bg-success text-success bg-opacity-10">60%</span>
+</p>
+</div>
+</div>
+</div>
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Staff on duty</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-warning grd-warning-light rounded-5 d-flex">
+<i class="bi bi-people fs-4 lh-1 text-warning"></i>
+</div>
+<h2 id="staff-no-on-duty" class="text-warning">2/5</h2>
+</div>
+<p class="m-0 small text-secondary">
+today's staff<span id="today-staff-no" class="float-end badge bg-warning text-warning bg-opacity-10">2</span>
+</p>
+</div>
+</div>
+</div>
+
+</div>
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: -30px;">
+<div class="col-xxl-12">
+<div class="card mb-3">
+<div class="card-body" style="background-color:#e4e9f0">
+<div class="custom-tabs-container">
+<ul class="nav nav-tabs" id="customTab" role="tablist" style="background-color: #f8f9fa;">
+<li class="nav-item" role="presentation">
+<a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#one" role="tab" aria-controls="one" aria-selected="true">Overview</a>
+</li>
+<li class="nav-item" role="presentation">
+<a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#two" role="tab" aria-controls="two" aria-selected="false" tabindex="-1">Stock Movement</a>
+</li>
+<li class="nav-item" role="presentation">
+<a class="nav-link" id="tab-three" data-bs-toggle="tab" href="#three" role="tab" aria-controls="three" aria-selected="false" tabindex="-1">Sales</a>
+</li>
+<li class="nav-item" role="presentation">
+<a class="nav-link" id="tab-four" data-bs-toggle="tab" href="#four" role="tab" aria-controls="four" aria-selected="false" tabindex="-1">Expenses</a>
+</li>
+<li class="nav-item" role="presentation">
+<a class="nav-link" id="tab-five" data-bs-toggle="tab" href="#five" role="tab" aria-controls="five" aria-selected="false" tabindex="-1">Login Attempts</a>
+</li>
+</ul>
+<div class="tab-content" id="customTabContent" style="margin: 0 -20px;">
+
+
+<!-- Tab one section -->
+<div class="tab-pane fade show active" id="one" role="tabpanel" aria-labelledby="tab-one" >
+<div class=" text-center">
+
+<div class="col-lg-12 mx-auto" style="background-color: #f8f9fa;height: 500px;">
+<div class="chart-container">
+<div class="header">
+<div>
+<h3>Today's Overview</h3>
+<p style="color: gray;">Fuel and Non-Fuel Sales</p>
+</div>
+
+<select id="SalefilterSelect">
+<option value="Today">Today</option>
+<option value="Yesterday">Yesterday</option>
+<option value="7days">last 7 days</option>
+<option value="Month">This Month</option>
+<option value="Year">This Year</option>
+</select>
+</div>
+
+<canvas id="dashSalesChart" style="width: 100%; height: 100%;"></canvas>
+
+</div>
+
+</div>
+
+<div class="col-lg-12 mx-auto mt-4" style="background-color: #f8f9fa; height: 300px; border-radius: 12px; padding: 20px;">
+<div class="d-flex justify-content-between align-items-center mb-3">
+<div>
+<h3 class="mb-0">Sales by Category</h3>
+
+</div>
+
+
+<select id="donutFilterSelect" class="form-select w-auto" style="font-size: 14px;">
+<option value="Today">Today</option>
+<option value="Yesterday">Yesterday</option>
+<option value="7days">last 7 days</option>
+<option value="Month">Month</option>
+<option value="Year">Year</option>
+</select>
+</div>
+
+<div class="row" id="salesCategories">
+<!-- Left: Chart -->
+<div class="col-md-6">
+<canvas id="donutChart" style="max-height: 200px;"></canvas>
+
+</div>
+
+<!-- Right: Revenue Info -->
+<div class="col-md-6">
+<div class="text-secondary mb-2">Breakdown of sales by product category</div>
+<div class="revenue mb-2">
+<h1><span id="revenueAmount">0.00</span></h1>
+</div>
+<div class="revenue mb-2">
+<h1><small id="revenueChange" style="color: green;background: #fff;
+padding: 3px;
+border-radius: 3px;">↑ 16%</small></h1>
+</div>
+<div class="legend mt-4">
+<div class="legend-item d-flex justify-content-between mb-2">
+<div class="d-flex align-items-center">
+<span class="dot me-2" style="background:#f16565; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+Fuel Sales
+</div>
+<div><span id="gasAmount">0</span></div>
+</div>
+
+<div class="legend-item d-flex justify-content-between">
+<div class="d-flex align-items-center">
+<span class="dot me-2" style="background:#3ed9a4; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+Non Fuel Sales
+</div>
+<div><span id="storeAmount">0</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-12 mx-auto mt-4" style="background-color: #f8f9fa;  border-radius: 12px; padding: 0px 20px 20px 20px;">
+<div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
+<!-- Accessories -->
+<div class="col d-flex">
+<div class="card-custom bg-green flex-fill d-flex flex-column justify-content-between">
+<div>
+<h6>🛒 Non-Fuel in Stock</h6>
+<div class="d-flex justify-content-between mt-3">
+<h4 id="total-item">✅ 8 Items</h4>
+<h4 id="low-stock-item">⚠️ 3 Low</h4>
+</div>
+<div class="mt-4">
+<p class="mb-1">Total Value</p>
+<h4 id="total-stock-value">₦ 20,000</h4>
+<p class="mb-1 mt-3">Reorder Needed</p>
+<h4 id="items-to-reorder">3 Items</h4>
+</div>
+</div>
+<div>
+<a href="../invetory"><button class="btn btn-light w-100">View Stock</button></a>
+<p id="restock-tracker" class="mt-3 small">Last restocked: Engine Oil – 2 days ago</p>
+</div>
+</div>
+</div>
+
+<!-- Gas Stock -->
+<div class="col d-flex">
+<div class="card-custom bg-blue flex-fill d-flex flex-column justify-content-between">
+<div>
+<h6>⛽  Fuel Stock</h6>
+<h5 class="mt-3">Tank 1</h5>
+<h3  id="fuel-qty">540 Kg / 0kg</h3>
+<p>Stock Level</p>
+<div class="status-bar">
+<div id="fuel-qty-status-bar" class="status-fill" style="width: 54%;"></div>
+</div>
+
+<div id="fuel-stock-level" class="mt-2">✅ <span>Stock Level Normal</span></div>
+<div>
+<a href="../invetory"><button class="btn btn-light w-100">View Stock</button></a>
+<p id="last-restocked-fuel" class="mt-3 small">Last restocked: one week ago from CO gas</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Pending Orders -->
+<div class="col d-flex">
+<div class="card-custom bg-orange flex-fill d-flex flex-column justify-content-between">
+<div>
+<h6>📦 Online Orders</h6>
+<div id="total-orders" class="mt-2"><h4>6 orders </h4></div>
+<div class="mt-4 d-flex justify-content-between">
+<div>
+<p>Fuel </p>
+<h4 id="fuel-orders">3</h4>
+</div>
+<div>
+<p>Non Fuel</p>
+<h4 id="non-fuel-orders">3</h4>
+</div>
+</div>
+</div>
+<div>
+<a href="../sales"> <button class="btn btn-light w-100">View</button></a>
+<p class="mt-3 small">View and manage all customer orders</p>
+</div>
+</div>
+</div>
+
+<!-- Login Attempts -->
+<div class="col d-flex">
+<div class="card-custom bg-red flex-fill d-flex flex-column justify-content-between">
+<div>
+<h6>➡️ Login Attempts</h6>
+<div class="mt-2"><h4> <span id="total-attempts">6</span> Today</h4></div>
+<div class="mt-4 d-flex justify-content-between">
+<div>
+<p>Successful</p>
+<h4 id="success-logins">3</h4>
+</div>
+<div>
+<p>Failed</p>
+<h4 id="failed-logins">3</h4>
+</div>
+</div>
+</div>
+<div>
+<a href="#"><button class="btn btn-light w-100">View login history</button></a>
+<p class="mt-3 small">Review detailed records of all login activity</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- end  -->
+
+
+
+<!-- Tab two section (stock movement)-->
+
+
+<div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+
+
+<div class="col-xxl-12">
+<div class="card mb-3" style="background-color: #f8f9fa;">
+<div class="header">
+<div >
+<h3>Recent Stock Movement</h3>
+<p style="color: gray;">Monitor the flow of inventory items in,out,adjust,damaed..</p>
+</div>
+<div class="dt-buttons btn-group">
+<button  class="btn btn-sm btn-outline-success buttons-copy">View All</button>
+</div>
+</div>
+
+<div class="card-body" style="padding: 0px !important;">
+<div>
+<div class="d-flex flex-wrap gap-2 mb-3" >
+
+<button type="button " class="btn  btn-sm btn-filter active">
+All
+</button>
+
+</div>
+
+</div>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+<!-- Search Input with Icon Button (Right-aligned) -->
+<div class="input-group" style="width: 60%;">
+<button class="btn btn-sm btn-outline-secondary" type="button">
+<i class="bi bi-search"></i>
+</button>
+<input type="text" class="form-control form-control-sm" placeholder="Search products...">
+
+
+</div>
+
+</div>
+
+<div class="table-responsive">
+<table id="stockTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+<thead >
+<tr>
+<th scope="col">Date</th>
+<th scope="col">Item</th>
+<th scope="col">Types</th>
+<th scope="col">Quantity</th>
+<th scope="col">Added By </th>
+<th scope="col">Status</th>
+
+<th scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="grd-primary-light">
+<td>28/10/2022</td>
+<td>Gas</td>
+<td>purcase</td>
+<td>2889Kg</td>
+<td>Samuel Qodebyte</td>
+<td>
+<span class="badge rounded-pill bg-success">IN</span>
+</td>
+
+<td>
+<i class="fs-3 bi bi-three-dots text-success"
+data-bs-toggle="popover"
+data-bs-placement="bottom"
+data-bs-html="true"
+data-bs-content='
+<a href="#" class="d-block text-decoration-none mb-1">View</a>
+<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+style="cursor: pointer;"></i>
+</td>
+
+
+</tr>
+<tr class="grd-primary-light">
+<td>28/10/2022</td>
+<td>6kg Cyllender</td>
+<td>Damaged</td>
+<td>1</td>
+<td>Samuel Qodebyte</td>
+<td>
+<span class="badge rounded-pill bg-danger">Remove</span>
+</td>
+
+<td>
+<i class="fs-3 bi bi-three-dots text-success"
+data-bs-toggle="popover"
+data-bs-placement="bottom"
+data-bs-html="true"
+data-bs-content='
+<a href="#" class="d-block text-decoration-none mb-1">View</a>
+<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+style="cursor: pointer;"></i>
+</td>
+
+
+</tr>
+<tr class="grd-primary-light">
+<td>28/10/2022</td>
+<td>Host</td>
+<td>Sold</td>
+<td>13</td>
+<td>Samuel Qodebyte</td>
+<td>
+<span class="badge rounded-pill bg-danger">OUT</span>
+</td>
+
+<td>
+<i class="fs-3 bi bi-three-dots text-success"
+data-bs-toggle="popover"
+data-bs-placement="bottom"
+data-bs-html="true"
+data-bs-content='
+<a href="#" class="d-block text-decoration-none mb-1">View</a>
+<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+style="cursor: pointer;"></i>
+</td>
+
+
+</tr>
+<tr class="grd-primary-light">
+<td>28/10/2022</td>
+<td>6kg Cyllender</td>
+<td>Adjusted</td>
+<td>1</td>
+<td>Samuel Qodebyte</td>
+<td>
+<span class="badge rounded-pill bg-primary">Increase</span>
+</td>
+
+<td>
+<i class="fs-3 bi bi-three-dots text-success"
+data-bs-toggle="popover"
+data-bs-placement="bottom"
+data-bs-html="true"
+data-bs-content='
+<a href="../inventory/detail" class="d-block text-decoration-none mb-1">View</a>
+<a href="delete" class="d-block text-danger text-decoration-none">Delete</a>'
+style="cursor: pointer;"></i>
+</td>
+
+
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<!--end------StART RECENT SALES tAP-------------------------->
+
+<div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+
+
+<div class="col-xxl-12">
+<div class="card mb-3" style="background-color: #f8f9fa;">
+<div class="header">
+<div >
+<h3>Recent Sales</h3>
+
+<p style="color: gray;">All Sales history paid,pending and cancelled sales</p>
+</div>
+<div class="dt-buttons btn-group">
+<button id="salesPage" class="btn btn-sm btn-success ">View All</button>
+</div>
+</div>
+
+<div class="card-body" style="padding: 0px !important;">
+<div>
+<div class="d-flex flex-wrap gap-2 mb-3" >
+
+<button type="button " class="btn  btn-sm btn-filter active">
+All
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Paid
+</button>
+
+<button type="button " class="btn  btn-sm btn-filter">
+Pending
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Cancelled
+</button>
+</div>
+
+</div>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+<!-- Search Input with Icon Button (Right-aligned) -->
+<div class="input-group" style="width: 60%;">
+<button class="btn btn-sm btn-outline-secondary" type="button">
+<i class="bi bi-search"></i>
+</button>
+<input type="text" class="form-control form-control-sm" placeholder="Search products...">
+
+
+</div>
+
+</div>
+
+<div class="table-responsive">
+<table id="orderSales" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+				<thead>
+				<tr>
+					<th>Invoice No</th>
+					<th> Time</th>
+					<th>Cashier</th>
+				
+					<th>Payment</th>
+				
+      <th>Discount(#)</th>
+      <th>VAT(#)</th>
+      <th>Total(#)</th>
+	  <th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr class="grd-primary-light">
+				
+				</tr>
+				
+				
+				</tbody>
+				</table>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="tab-pane fade" id="four" role="tabpanel" aria-labelledby="tab-four" style="background-color: #f8f9fa;padding:  20px ;">
+
+
+<div class="col-xxl-12">
+<div class="card mb-3" style="background-color: #f8f9fa;">
+<div class="header">
+<div >
+<h3>Recent Expenses</h3>
+<p style="color: gray;">Manage all your business expenses</p>
+</div>
+<div class="dt-buttons btn-group">
+<a href="../sales" class="btn btn-sm btn-outline-success buttons-copy">View All</a>
+</div>
+</div>
+
+<div class="card-body" style="padding: 0px !important;">
+<div>
+<div hidden class="d-flex flex-wrap gap-2 mb-3" >
+
+<button type="button " class="btn  btn-sm btn-filter active">
+All
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Maintaince
+</button>
+
+<button type="button " class="btn  btn-sm btn-filter">
+Salary
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Utilities
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Supplies
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Others
+</button>
+</div>
+
+</div>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+<!-- Search Input with Icon Button (Right-aligned) -->
+<div hidden class="input-group" style="width: 60%;">
+<button class="btn btn-sm btn-outline-secondary" type="button">
+<i class="bi bi-search"></i>
+</button>
+<input type="text" class="form-control form-control-sm" placeholder="Search search By category">
+
+
+</div>
+
+</div>
+
+<div class="table-responsive">
+<table  id="expensesTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Title</th>
+<th scope="col">Category</th>
+<th scope="col">Amount</th>
+<th scope="col">Requested By</th>
+<th scope="col">Approved By</th>
+<th scope="col">Method</th>
+<th scope="col">Status</th>
+<th scope="col">Date</th>
+</tr>
+</thead>
+<tbody>
+
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<div class="tab-pane fade" id="five" role="tabpanel" aria-labelledby="tab-five" style="background-color: #f8f9fa;padding:  20px ;">
+
+
+<div class="col-xxl-12">
+<div class="card mb-3" style="background-color: #f8f9fa;">
+<div class="header">
+<div >
+<h3>Recent Login Attempts</h3>
+<p style="color: gray;">View a record of recent login attempts t monitor account access</p>
+</div>
+<div class="dt-buttons btn-group">
+<button class="btn btn-sm btn-outline-success buttons-copy">View All</button>
+</div>
+</div>
+
+<div class="card-body" style="padding: 0px !important;">
+<div>
+<div class="d-flex flex-wrap gap-2 mb-3" >
+
+<button type="button " class="btn  btn-sm btn-filter active">
+All
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Approved					</button>
+
+<button type="button " class="btn  btn-sm btn-filter">
+Cancelled
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Pending
+</button>
+</div>
+
+</div>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+<!-- Search Input with Icon Button (Right-aligned) -->
+<div class="input-group" style="width: 60%;">
+<button class="btn btn-sm btn-outline-secondary" type="button">
+<i class="bi bi-search"></i>
+</button>
+<input type="text" class="form-control form-control-sm" placeholder="Search By Device Type...">
+
+
+</div>
+
+</div>
+
+<div class="table-responsive">
+<table id="loginAttemptTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+<thead>
+<tr>
+<th scope="col">Device Type</th>
+<th scope="col">IP Address</th>
+<th scope="col">Login Time</th>
+<th scope="col">Location</th>
+<th scope="col">User</th>
+<th scope="col">Approved By</th>
+<th scope="col">Status</th>
+<th scope="col">Date</th>
+<th scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+
+<td>Android</td>
+<td>192.168.1.100</td>
+<td>12:34 PM</td>
+<td>Lagos, Nigeria</td>
+<td>Samuel Qodebyte</td>
+<td>--</td>
+<td><span class="badge bg-warning text-dark">Pending</span></td>
+<td>04/06/2025</td>
+<td>
+<i class="fs-3 bi bi-three-dots text-success"
+data-bs-toggle="popover"
+data-bs-placement="bottom"
+data-bs-html="true"
+data-bs-content='
+<a href="#" class="d-block text-success text-decoration-none mb-1">Approve</a>
+<a href="#" class="d-block text-warning text-decoration-none mb-1">Decline</a>
+<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+style="cursor: pointer;"></i>
+</td>
+</tr>
+
+<td>Windows</td>
+<td>192.168.1.101</td>
+<td>09:10 AM</td>
+<td>Accra, Ghana</td>
+<td>Grace Tech</td>
+<td>Admin</td>
+<td><span class="badge bg-success">Approved</span></td>
+<td>04/06/2025</td>
+<td>
+<i class="fs-3 bi bi-three-dots text-success"
+data-bs-toggle="popover"
+data-bs-placement="bottom"
+data-bs-html="true"
+data-bs-content='
+<a href="#" class="d-block text-decoration-none mb-1">View</a>
+<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+style="cursor: pointer;"></i>
+</td>
+
+</tr>
+<tr>
+<td>iPhone</td>
+<td>192.168.1.150</td>
+<td>11:22 PM</td>
+<td>Cairo, Egypt</td>
+<td>Unknown</td>
+<td>Admin</td>
+<td><span class="badge bg-danger">Declined</span></td>
+<td>03/06/2025</td>
+<td>
+<i class="fs-3 bi bi-three-dots text-success"
+data-bs-toggle="popover"
+data-bs-placement="bottom"
+data-bs-html="true"
+data-bs-content='
+<a href="#" class="d-block text-decoration-none mb-1">View</a>
+<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+style="cursor: pointer;"></i>
+</td>
+
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+<!-- Row end -->
+
+</div>
+<div class=" modal fade" id="quickOrderModel" tabindex="-1" aria-labelledby="quickOrderModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="min-width: 650px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickOrderModel">
+                    Create Order
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                  <div class="row mb-3" >
+                    <div class="col-md-12 mt-4">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <label for="supplier" class="form-label mb-0">Supplier</label>
+                        <span class="text-success" role="button" onclick="openAddSupplierModal('quickOrderModel')" style="font-size: 0.9rem;">Add supplier</span>
+
+                      </div>
+                      <select class="form-select mt-1" id="supplier" name="supplier"  >
+                        <option selected disabled>Choose...</option>
+                        
+                      </select>
+                    </div>
+                  </div>              
+                    <div class="row mb-3">
+                      <div class="col">
+                        <label for="orderDate" class="form-label">Order Date</label>
+                        <input type="date" id="orderDate" class="form-control" />
+                      </div>
+                      <div class="col">
+                        <label for="deliveryDate" class="form-label">Expected Delivery Date</label>
+                        <input type="date" id="deliveryDate" class="form-control" />
+                      </div>
+                    </div>
+              
+                    <div class="mb-3">
+                      <label class="form-label">Products</label>
+                      <div class="input-group">
+                        <select id="productSelect" class="form-select">
+                          <option value="">Select Product</option>
+                          
+                        </select>
+                        <select id="variationSelect" class="form-select">
+                          <option value="">Select Variation</option>
+                          
+                        </select>
+                       
+                      </div>
+                    </div>
+              
+                    <table class="table table-bordered mt-3">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Variation</th>
+                          <th>Quantity</th>
+                          <th>Unit Price</th>
+                          <th>Subtotal</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="productTableBody"></tbody>
+                    </table>
+              
+                    <div class="text-end mb-3">
+                      <strong>Total (₦): <span id="totalAmount">0.00</span></strong>
+                    </div>
+              
+                    <div class="d-flex justify-content-end gap-2">
+                      <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" id="saveOrderBtn" class="btn btn-success">Save Order</button>
+                    </div>
+                  </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="quickProductModal" tabindex="-1" aria-labelledby="quickProductModal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickProductModal">
+                    Add Products
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> 
+            <form style="max-height: 500px; overflow-y: auto;" id="addProductForm" enctype="multipart/form-data">
+            <div class="modal-body">
+               
+                    <div class="row mb-3">
+                      <div class="col-md-12 mb-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="product_name" required>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          <span class="text-success" role="button" onclick="openAddCategoryModal('quickProductModal')" style="font-size: 0.9rem;">Add Category</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="categorydropdown" name="category_id" required>
+                          <option selected disabled>Choose...</option>
+                         
+                        </select>
+                      </div>
+                    </div>
+
+                 <!-- <div hidden class="row mb-3">
+                       <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Supplier</label>
+                          <span class="text-success" role="button" onclick="openAddSupplierModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Supplier</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="supplier" name="supplier" required>
+                          <option selected disabled>Choose...</option>
+     
+                          
+                         
+                        </select>
+                      </div>
+                    </div> -->
+              
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="brand" class="form-label">Brand</label>
+                        <input type="text" class="form-control" id="brand" name="brand" required>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="unit" class="form-label">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit_name" required>
+                      </div>
+                    </div>
+
+                      
+              
+                    <!-- <div hidden class="row mb-4">
+ <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="Unit" class="form-label mb-0">Unit</label>
+                          <span class="text-success" role="button" onclick="openAddUnitModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Unit</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="unit" name="unit" required>
+                          <option selected disabled>Choose...</option>
+                        
+                          
+                         
+                        </select>
+                      </div>
+                      </div> -->
+
+<!-- 
+                      <div class="row mb-4">
+                        <div class="form-check form-switch " style="padding-left:4em">
+                          <input class="form-check-input custom-toggle" type="checkbox" id="isTaxable"
+                           name="is_taxable" onchange="toggleTaxFields()" style="border:1px solid green">
+                          <label class="form-check-label fw-bold" for="isTaxable">Is Taxable?</label>
+                        </div>
+                        
+                        </div>
+                        <div id="taxFields" style="display: none;">
+                          <div class="mb-3">
+                            <label for="tax" class="form-label">Tax (%)</label>
+                            <input type="number" class="form-control" id="tax" name="tax" min="0" step="0.01">
+                          </div>
+                        
+                          <div class="mb-3">
+                            <label for="taxType" class="form-label">Tax Type</label>
+                            <select class="form-select" id="taxType" name="tax_type">
+                              <option selected disabled>Choose tax type</option>
+                              <option value="inclusive">Inclusive</option>
+                              <option value="exclusive">Exclusive</option>
+                            </select>
+                          </div>
+                        </div> -->
+
+                        <div class="row mb-3">
+  <!-- <div class="col-md-6">
+    <label for="currentStock" class="form-label">Current Stock Qty</label>
+    <input type="number" class="form-control" id="currentStock" name="current_product_stock_qty_number" min="0" value="0" required>
+  </div> -->
+  <div class="col-md-6">
+    <label for="alertLimit" class="form-label">Alert Limit</label>
+    <input type="number" class="form-control" id="alertLimit" name="product_alert_limit" min="0" value="0" required>
+  </div>
+</div>
+                        
+              
+                    <div class="mb-3">
+                      <label for="description" class="form-label">Description</label>
+                      <textarea class="form-control" id="description" name="product_description" rows="3"></textarea>
+                    </div>
+              
+                    <div class="mb-4">
+                <label for="productImageInputSection" class="form-label">Upload Design</label>
+                <div class="file-drop-area">
+                    
+                    <div id="productImagePreview" ></div>
+                    <input type="file" name="product_featured_image" id="productImageInputSection" accept="image/*">
+                </div>
+            </div>
+              
+                    
+                  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success"  id="saveProductBtn" onclick="addProduct()">
+                    Save Products
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="quickExpModel" tabindex="-1" aria-labelledby="quickExpModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickExpModel">
+                Add Expenses
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addExpForm"  enctype="multipart/form-data" >
+                <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          <span class="text-success" role="button" onclick="openExpCat('quickExpModel')" style="font-size: 0.9rem;">Add Category</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="expcategory" name="expcategory" required>
+                          <option selected disabled>Choose...</option>
+                        </select>
+                      </div>
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">Description</label>
+                  <input type="text" class="form-control" id="expDes" placeholder="Pump Maintaince" required>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Amount</label>
+                  <input type="number" class="form-control" placeholder="3000" id="expAmt">
+                </div>
+          
+                <div class="mb-3">
+                  <label for="expMethod" class="form-label">Method Of Payment</label>
+                  <select class="form-select" id="expMethod" name="method" required>
+                          <option selected disabled>Choose...</option>
+                          <option>Cash</option>
+                          <option>Transfer</option>
+                          <option>Card</option>
+                       
+                        </select>
+                </div>
+                 <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Date</label>
+                  <input type="date" class="form-control" placeholder="" id="expDate">
+                </div>
+                <div class="mb-4">
+                      <label class="form-label">Upload Payment Receipt </label>
+                      <div class="file-drop-area">
+                       <div id="recieptImagePreview" ></div>
+                        <input type="file" id="recieptImageInput" name="receipt">
+                      </div>
+                    </div>
+              
+                <button id="expBtn" type="button" class="btn btn-success" >Save Expens</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+<div id="model"></div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/dashbaoardchart.js"></script>
+<!--<script src="../assets/js/donutChart.js"></script>-->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const donutCtx = document.getElementById("donutChart").getContext("2d");
+    let donutChart;
+
+    function formatNaira(amount) {
+        return "₦" + Number(amount).toLocaleString("en-NG", {minimumFractionDigits: 2});
+    }
+
+function getPeriodAndCustom(filter) {
+    switch (filter) {
+        case "Today": return { period: "day" };
+        case "7days": return { period: "last7days" };
+        case "Yesterday": return { period: "yesterday" }; 
+        case "Month": return { period: "month" };
+        case "Year": return { period: "year" };
+        default: return { period: "day" };
+    }
+}
+
+    async function fetchCategories() {
+        const res = await fetch('http://localhost:3000/product_category');
+        return await res.json();
+    }
+
+    async function fetchCategorySales(filter) {
+        const { period } = getPeriodAndCustom(filter);
+        let url = `http://localhost:3000/most_ordered_category?period=${encodeURIComponent(period)}`;
+        const res = await fetch(url);
+        if (!res.ok) return [];
+        return await res.json();
+    }
+
+    function clearLegend() {
+        const legend = document.querySelector('.legend.mt-4');
+        if (legend) legend.innerHTML = '';
+    }
+
+    function showNoCategories() {
+        clearLegend();
+        const legend = document.querySelector('.legend.mt-4');
+        if (legend) {
+            legend.innerHTML = `<div class="text-center text-muted">No categories to show</div>`;
+        }
+        document.getElementById("revenueAmount").textContent = "₦0.00";
+        document.getElementById("revenueChange").textContent = "No sales yet";
+    }
+
+    async function updateDonutChart(filter) {
+     
+        const [categories, salesData] = await Promise.all([
+            fetchCategories(),
+            fetchCategorySales(filter)
+        ]);
+
+        if (!categories || categories.length === 0) {
+            showNoCategories();
+            if (donutChart) donutChart.destroy();
+            return;
+        }
+
+       
+   const salesMap = {};
+(Array.isArray(salesData) ? salesData : []).forEach(cat => {
+    salesMap[cat.category_id] = Number(cat.total_sales_amount) || 0;
+});
+
+
+       
+const labels = categories.map(cat => cat.category_name);
+const data = categories.map(cat => salesMap[cat.category_id] || 0);
+
+     
+        const colors = [
+            "#3ed9a4", "#f16565", "#f7b731", "#4b7bec", "#a55eea", "#fd9644", "#26de81", "#8854d0"
+        ];
+        const backgroundColors = labels.map((_, i) => colors[i % colors.length]);
+
+        // Calculate total revenue
+        const revenueAmount = data.reduce((a, b) => a + b, 0);
+
+        // Update chart
+        if (donutChart) donutChart.destroy();
+
+        donutChart = new Chart(donutCtx, {
+            type: "doughnut",
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: "70%",
+                plugins: {
+                    legend: { display: false }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Update revenue
+        document.getElementById("revenueAmount").textContent = formatNaira(revenueAmount);
+        document.getElementById("revenueChange").textContent = revenueAmount > 0 ? "Top: " + (labels[data.indexOf(Math.max(...data))] || "N/A") : "No sales yet";
+
+        // Update legend
+        clearLegend();
+        const legend = document.querySelector('.legend.mt-4');
+        if (legend) {
+            if (labels.length === 0) {
+                legend.innerHTML = `<div class="text-center text-muted">No categories to show</div>`;
+            } else {
+                labels.forEach((label, i) => {
+                    legend.innerHTML += `
+                    <div class="legend-item d-flex justify-content-between mb-2">
+                        <div class="d-flex align-items-center">
+                            <span class="dot me-2" style="background:${backgroundColors[i]}; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+                            ${label}
+                        </div>
+                        <div>${formatNaira(data[i])}</div>
+                    </div>
+                    `;
+                });
+            }
+        }
+    }
+
+    document.getElementById("donutFilterSelect").addEventListener("change", function () {
+        updateDonutChart(this.value);
+    });
+
+    // Initial render
+    updateDonutChart("Today");
+});
+</script>
+
+<script src="../assets/js/form.js"></script>
+ 
+
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<!--<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/dash1/source.js"></script>-->
+
+
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('dashSalesChart').getContext('2d');
+    const filterSelect = document.getElementById('SalefilterSelect');
+    let salesChart;
+
+    function getRangeParam(val) {
+        const mappings = {
+            'Today': 'today',
+            'Yesterday': 'yesterday',
+            '7days': 'last7days',
+            'Month': 'thismonth',
+            'Year': 'thisyear'
+        };
+        return mappings[val] || 'today';
+    }
+
+    function getXAxisTitle(range) {
+        const titles = {
+            'today': 'Hour of Day',
+            'yesterday': 'Hour of Day',
+            'last7days': 'Day',
+            'thismonth': 'Day of Month',
+            'thisyear': 'Month',
+            'custom': 'Date'
+        };
+        return titles[range] || 'Date';
+    }
+
+    async function fetchSalesGraph(range) {
+        try {
+            const url = `http://localhost:3000/sales_graph?range=${encodeURIComponent(range)}`;
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            return await res.json();
+        } catch (error) {
+            console.error('Error fetching sales data:', error);
+            return [];
+        }
+    }
+
+    function formatLabel(label, range) {
+        if (!label) return '';
+        
+        // Handle hour labels (e.g., "12:00")
+        if (label.includes(':')) return label;
+        
+        // Handle date strings
+        const date = new Date(label);
+        if (isNaN(date)) return label;
+        
+        const options = {
+            'today': { hour: '2-digit', hour12: false },
+            'yesterday': { hour: '2-digit', hour12: false },
+            'last7days': { weekday: 'short', day: 'numeric' },
+            'thismonth': { day: 'numeric', month: 'short' },
+            'thisyear': { month: 'short' },
+            'custom': { day: 'numeric', month: 'short' }
+        }[range] || { day: 'numeric', month: 'short' };
+        
+        return date.toLocaleDateString('en-GB', options);
+    }
+
+    function renderChart(data, range) {
+        const labels = data.map(d => formatLabel(d.label, range));
+        const fuelData = data.map(d => d.fuel);
+        const othersData = data.map(d => d.others);
+
+        if (salesChart) salesChart.destroy();
+
+        salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Fuel Sales',
+                        data: fuelData,
+                        backgroundColor: 'rgba(241, 101, 101, 0.8)',
+                        borderColor: 'rgba(241, 101, 101, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Non-Fuel Sales',
+                        data: othersData,
+                        backgroundColor: 'rgba(62, 217, 164, 0.8)',
+                        borderColor: 'rgba(62, 217, 164, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'top',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ₦${context.raw.toLocaleString()}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { 
+                        title: { 
+                            display: true, 
+                            text: getXAxisTitle(range),
+                            font: { weight: 'bold' }
+                        },
+                        grid: { display: false }
+                    },
+                    y: { 
+                        title: { 
+                            display: true, 
+                            text: 'Sales (₦)',
+                            font: { weight: 'bold' }
+                        },
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '₦' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    async function updateSalesChart() {
+        try {
+            const range = getRangeParam(filterSelect.value);
+            const data = await fetchSalesGraph(range);
+            if (data.length === 0) {
+                console.warn('No data available for the selected range');
+            }
+            renderChart(data, range);
+        } catch (error) {
+            console.error('Error updating chart:', error);
+        }
+    }
+
+    filterSelect.addEventListener('change', updateSalesChart);
+    updateSalesChart();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function formatCurrency(amount) {
+        return '₦' + Number(amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+    function formatPercent(val) {
+        if (isNaN(val) || !isFinite(val)) return '0%';
+        return (val > 0 ? '↑ ' : val < 0 ? '↓ ' : '') + Math.abs(val).toFixed(0) + '%';
+    }
+
+    const totalSalesEl = document.getElementById('total-sales');
+    const totalExpenseEl = document.getElementById('total-expense');
+    const netProfitsEl = document.getElementById('net-profits');
+    const salesPercentEl = document.getElementById('sales-percentage');
+    const expensePercentEl = document.getElementById('expense-percentage');
+    const profitPercentEl = document.getElementById('profit-percentage');
+    const btnFilter = document.getElementById('btnfilter');
+    const customRangeBtn = document.getElementById('customRangeBtn');
+    const customRangeContainer = document.getElementById('customRangeContainer');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+
+    const periodMap = {
+        'Today': 'day',
+        'Yesterday': 'day',
+        'Last 7 Days': 'last7days', 
+        'This Month': 'month',
+        'Custom Range': 'custom'
+    };
+
+    function getYesterday() {
+        const d = new Date();
+        d.setDate(d.getDate() - 1);
+        return d.toISOString().split('T')[0];
+    }
+    function getLastWeek() {
+        const now = new Date();
+        const end = new Date(now.setDate(now.getDate() - now.getDay() - 1));
+        const start = new Date(end);
+        start.setDate(end.getDate() - 6);
+        return [start.toISOString().split('T')[0], end.toISOString().split('T')[0]];
+    }
+    function getLastMonth() {
+        const now = new Date();
+        const start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const end = new Date(now.getFullYear(), now.getMonth(), 0);
+        return [start.toISOString().split('T')[0], end.toISOString().split('T')[0]];
+    }
+
+     async function fetchStaffOnDuty(day = null) {
+    let url = 'http://localhost:3000/active_staff_today';
+    if (day) url += `?day=${encodeURIComponent(day)}`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+     
+      document.getElementById('staff-no-on-duty').textContent = `${data.total_active_staffs}/${data.total_staffs}`;
+      document.getElementById('today-staff-no').textContent = data.total_active_staffs;
+    } catch {
+      document.getElementById('staff-no-on-duty').textContent = '--';
+      document.getElementById('today-staff-no').textContent = '--';
+    }
+  }
+
+    async function fetchData(period, customStart, customEnd) {
+        let url = 'http://localhost:3000/sales_expense_data?period=' + encodeURIComponent(period);
+        if (period === 'custom') {
+            url += `&custom_start=${encodeURIComponent(customStart)}&custom_end=${encodeURIComponent(customEnd)}`;
+        }
+        if (period === 'day' && customStart && customEnd) {
+            url = `http://localhost:3000/sales_expense_data?period=custom&custom_start=${encodeURIComponent(customStart)}&custom_end=${encodeURIComponent(customEnd)}`;
+        }
+        const res = await fetch(url);
+        return await res.json();
+    }
+
+    async function fetchAndUpdate(period, customStart, customEnd) {
+        try {
+           
+            const current = await fetchData(period, customStart, customEnd);
+
+            
+            let prev;
+            if (period === 'day' && !customStart) {
+                const yest = getYesterday();
+                prev = await fetchData('day', yest, yest);
+            } else if (period === 'week') {
+                const [start, end] = getLastWeek();
+                prev = await fetchData('custom', start, end);
+            } else if (period === 'month') {
+                const [start, end] = getLastMonth();
+                prev = await fetchData('custom', start, end);
+            } else if (period === 'custom' && customStart && customEnd) {
+                // For custom, compare to previous range of same length
+                const start = new Date(customStart);
+                const end = new Date(customEnd);
+                const diff = (end - start) / (1000 * 60 * 60 * 24) + 1;
+                const prevEnd = new Date(start);
+                prevEnd.setDate(start.getDate() - 1);
+                const prevStart = new Date(prevEnd);
+                prevStart.setDate(prevEnd.getDate() - diff + 1);
+                prev = await fetchData('custom', prevStart.toISOString().split('T')[0], prevEnd.toISOString().split('T')[0]);
+            } else {
+                prev = { total_sales: 0, total_expenses: 0, net_profit: 0 };
+            }
+
+  
+            totalSalesEl.textContent = formatCurrency(current.total_sales);
+            totalExpenseEl.textContent = formatCurrency(current.total_expenses);
+            netProfitsEl.textContent = formatCurrency(current.net_profit);
+
+        
+            const salesPercent = prev.total_sales ? ((current.total_sales - prev.total_sales) / prev.total_sales) * 100 : 0;
+            const expensePercent = prev.total_expenses ? ((current.total_expenses - prev.total_expenses) / prev.total_expenses) * 100 : 0;
+            const profitPercent = prev.net_profit ? ((current.net_profit - prev.net_profit) / Math.abs(prev.net_profit)) * 100 : 0;
+
+            salesPercentEl.textContent = formatPercent(salesPercent);
+            expensePercentEl.textContent = formatPercent(expensePercent);
+            profitPercentEl.textContent = formatPercent(profitPercent);
+
+        } catch (err) {
+            totalSalesEl.textContent = '#';
+            totalExpenseEl.textContent = '#';
+            netProfitsEl.textContent = '#';
+            salesPercentEl.textContent = '0%';
+            expensePercentEl.textContent = '0%';
+            profitPercentEl.textContent = '0%';
+            alert(err.message);
+        }
+    }
+
+    btnFilter.addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-range')) {
+            btnFilter.querySelectorAll('.btn-range').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            const label = e.target.textContent.trim();
+            if (label === 'Custom Range') {
+                customRangeContainer.style.display = '';
+            } else {
+                customRangeContainer.style.display = 'none';
+                if (label === 'Yesterday') {
+                    const yest = getYesterday();
+                    fetchAndUpdate('day', yest, yest);
+                } else {
+                    fetchAndUpdate(periodMap[label]);
+                }
+            }
+        }
+    });
+
+    window.applyCustomRange = function() {
+        const start = startDateInput.value;
+        const end = endDateInput.value;
+        if (!start || !end) {
+            alert('Please select both start and end dates.');
+            return;
+        }
+        fetchAndUpdate('custom', start, end);
+    };
+
+    fetchAndUpdate('day');
+      fetchStaffOnDuty();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Helpers
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleDateString('en-GB');
+    }
+    function badgeClass(action) {
+        return action === 'increase' ? 'bg-success' : 'bg-danger';
+    }
+    function badgeText(action) {
+        return action === 'increase' ? 'Increase' : 'Decrease';
+    }
+
+    let allMods = [];
+    let filteredMods = [];
+
+    async function loadStockMods() {
+        try {
+            const res = await fetch('http://localhost:3000/stock_modify');
+            if (!res.ok) throw new Error();
+            const mods = await res.json();
+
+            // Remove duplicates
+            const uniqueMods = [];
+            const seenIds = new Set();
+            for (const mod of mods) {
+                if (!seenIds.has(mod.stock_modify_id)) {
+                    uniqueMods.push(mod);
+                    seenIds.add(mod.stock_modify_id);
+                }
+            }
+
+            // Add mashup_name
+            await Promise.all(uniqueMods.map(async mod => {
+                if (mod.variations_id) {
+                    try {
+                        const vres = await fetch(`http://localhost:3000/product_variations/${mod.variations_id}/with_attributes`);
+                        if (vres.ok) {
+                            const vdata = await vres.json();
+                            const attrValues = Array.isArray(vdata.attributes)
+                                ? vdata.attributes.map(a => a.value).join('-')
+                                : '';
+                            mod.mashup_name = (attrValues ? attrValues + '-' : '') + vdata.product_name;
+                        } else {
+                            mod.mashup_name = mod.product_name || '--';
+                        }
+                    } catch {
+                        mod.mashup_name = mod.product_name || '--';
+                    }
+                } else {
+                    mod.mashup_name = mod.product_name || '--';
+                }
+            }));
+
+            uniqueMods.sort((a, b) => new Date(b.date) - new Date(a.date));
+            allMods = uniqueMods;
+            filteredMods = uniqueMods;
+            renderTable();
+        } catch {
+            document.querySelector('#stockTable tbody').innerHTML = `<tr><td colspan="8" class="text-center text-muted">Failed to load stock movement</td></tr>`;
+        }
+    }
+
+    // Filtering logic
+    function applyFilters() {
+        let mods = [...allMods];
+        // Type filter (All, Gas, Accessories)
+        const typeBtns = document.querySelectorAll('.tab-pane#two .btn-filter');
+        let type = 'All';
+        typeBtns.forEach(btn => {
+            if (btn.classList.contains('active')) type = btn.textContent.trim();
+        });
+        if (type !== 'All') {
+            mods = mods.filter(m => {
+                if (type === 'Gas') return (m.mashup_name || '').toLowerCase().includes('gas');
+                if (type === 'Accessories') return (m.mashup_name || '').toLowerCase().includes('accessory') || (m.mashup_name || '').toLowerCase().includes('accessories');
+                return true;
+            });
+        }
+        // Search filter
+        const searchVal = document.querySelector('.tab-pane#two .input-group input[type="text"]').value.trim().toLowerCase();
+        if (searchVal) {
+            mods = mods.filter(m =>
+                (m.product_name || '').toLowerCase().includes(searchVal) ||
+                (m.mashup_name || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_type || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_action || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_reason || '').toLowerCase().includes(searchVal) ||
+                (m.notes || '').toLowerCase().includes(searchVal) ||
+                (m.performed_by || '').toLowerCase().includes(searchVal)
+            );
+        }
+        filteredMods = mods;
+        renderTable();
+    }
+
+    // Render table (only 5 most recent)
+    function renderTable() {
+        const tbody = document.querySelector('#stockTable tbody');
+        const pageData = filteredMods.slice(0, 5);
+
+        if (pageData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">No stock movement found</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = pageData.map(mod => `
+            <tr class="grd-primary-light">
+                <td>${formatDate(mod.date)}</td>
+                <td>${mod.mashup_name || '--'}</td>
+                <td>${mod.adjustment_type || '--'}</td>
+                <td>${mod.adjustment_action === 'increase' ? '+' : '-'}${mod.size || 0}</td>
+                <td>${mod.performed_by || '--'}</td>
+                <td>
+                    <span class="badge rounded-pill ${badgeClass(mod.adjustment_action)}">${badgeText(mod.adjustment_action)}</span>
+                </td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                        data-stock-modify-id="${mod.stock_modify_id}"
+                        style="cursor: pointer;"
+                        data-bs-toggle="popover"
+                        data-bs-placement="bottom"
+                        data-bs-html="true"
+                        data-bs-content='
+                            <a href="#" class="d-block text-danger text-decoration-none delete-stock-mod">Delete</a>'
+                    ></i>
+                </td>
+            </tr>
+        `).join('');
+
+        // Enable popovers
+     const popoverTriggerList = [].slice.call(tbody.querySelectorAll('[data-bs-toggle="popover"]'));
+popoverTriggerList.forEach(function (popoverTriggerEl) {
+    new bootstrap.Popover(popoverTriggerEl, { html: true, container: 'body' });
+
+    popoverTriggerEl.addEventListener('shown.bs.popover', function () {
+        const popoverId = popoverTriggerEl.getAttribute('aria-describedby');
+        if (!popoverId) return;
+        const popover = document.getElementById(popoverId);
+        if (!popover) return;
+
+        const deleteBtn = popover.querySelector('.delete-stock-mod');
+        if (deleteBtn) {
+            deleteBtn.onclick = async function (e) {
+                e.preventDefault();
+                if (!confirm('Delete this stock modification?')) return;
+                const stock_modify_id = popoverTriggerEl.getAttribute('data-stock-modify-id');
+                try {
+                    const res = await fetch(`http://localhost:3000/stock_modify/${stock_modify_id}`, { method: 'DELETE' });
+                    if (!res.ok) throw new Error('Delete failed');
+                    // Remove from local arrays and re-render
+                    allMods = allMods.filter(m => m.stock_modify_id != stock_modify_id);
+                    filteredMods = filteredMods.filter(m => m.stock_modify_id != stock_modify_id);
+                    renderTable();
+                } catch (err) {
+                    alert('Failed to delete: ' + err.message);
+                }
+            };
+        }
+    });
+});
+    }
+
+    // Filter button logic
+    document.querySelectorAll('.tab-pane#two .btn-filter').forEach(btn => {
+        btn.onclick = function () {
+            document.querySelectorAll('.tab-pane#two .btn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        };
+    });
+
+    // Search logic
+    document.querySelector('.tab-pane#two .input-group input[type="text"]').oninput = function () {
+        applyFilters();
+    };
+
+    // "View All" button
+    document.querySelector('.tab-pane#two .buttons-copy').onclick = function () {
+        window.location.href = '../inventory';
+    };
+
+    // Initial load
+    loadStockMods();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const ORDERS_API = "http://localhost:3000/order";
+    let allOrders = [];
+    let filteredOrders = [];
+
+    // Helpers
+    function formatCurrency(num) {
+        return Number(num).toLocaleString("en-NG", {minimumFractionDigits: 2});
+    }
+    function formatTime(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleDateString('en-GB');
+    }
+
+    // Fetch all orders (you may want to limit to recent 50 for performance)
+    async function loadOrders() {
+        try {
+            const res = await fetch(`${ORDERS_API}?limit=50`);
+            if (!res.ok) throw new Error();
+            const data = await res.json();
+            allOrders = Array.isArray(data.orders) ? data.orders : data; // adapt to your API shape
+            allOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            filteredOrders = allOrders;
+            renderTable();
+        } catch {
+            document.querySelector('#orderSales tbody').innerHTML = `<tr><td colspan="9" class="text-center text-muted">Failed to load orders</td></tr>`;
+        }
+    }
+
+    // Filtering logic
+    function applyFilters() {
+        let orders = [...allOrders];
+        // Status filter
+        const typeBtns = document.querySelectorAll('#three .btn-filter');
+        let type = 'All';
+        typeBtns.forEach(btn => {
+            if (btn.classList.contains('active')) type = btn.textContent.trim();
+        });
+        if (type !== 'All') {
+            orders = orders.filter(o => (o.status || '').toLowerCase() === type.toLowerCase());
+        }
+        // Search filter
+        const searchVal = document.querySelector('#three .input-group input[type="text"]').value.trim().toLowerCase();
+        if (searchVal) {
+            orders = orders.filter(o =>
+                (o.order_id || '').toLowerCase().includes(searchVal) ||
+                (o.cashier_name || '').toLowerCase().includes(searchVal) ||
+                (o.payment_method || '').toLowerCase().includes(searchVal)
+            );
+        }
+        filteredOrders = orders;
+        renderTable();
+    }
+
+    // Render table (only 5 most recent)
+    function renderTable() {
+        const tbody = document.querySelector('#orderSales tbody');
+        const pageData = filteredOrders.slice(0, 5);
+
+        
+
+        if (pageData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">No orders found</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = pageData.map(order => `
+            <tr class="grd-primary-light">
+                <td>${order.order_id}</td>
+                <td>${formatTime(order.created_at)}-${formatDate(order.created_at)}</td>
+                <td>${order.cashier_name || '--'}</td>
+                 <td>${(() => {
+        const pm = order.payment_method || '';
+        if (pm === 'credit_card') return 'Card';
+        if (pm === 'cash') return 'Cash';
+        if (pm === 'bank_transfer') return 'Transfer';
+        if (pm === 'split') return 'Split';
+        return pm.charAt(0).toUpperCase() + pm.slice(1);
+      })()}</td>
+                <td>${formatCurrency(order.discount || 0)}</td>
+                <td>${formatCurrency(order.tax || 0)}</td>
+                <td>${formatCurrency(order.total_order_amount || 0)}</td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                        data-bs-toggle="popover"
+                        data-bs-placement="bottom"
+                        data-bs-html="true"
+                        data-bs-content='
+                            <a href="../sales/invoice.html?order_id=${order.order_id}" class="d-block text-decoration-none mb-1">View</a>
+                            <a href="#" class="d-block text-danger text-decoration-none delete-order">Delete</a>'
+                        style="cursor: pointer;"
+                        data-order-id="${order.order_id}"
+                    ></i>
+                </td>
+            </tr>
+        `).join('');
+
+        // Enable popovers and delete
+        const popoverTriggerList = [].slice.call(tbody.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.forEach(function (popoverTriggerEl) {
+            new bootstrap.Popover(popoverTriggerEl, { html: true, container: 'body' });
+
+            popoverTriggerEl.addEventListener('shown.bs.popover', function () {
+                const popoverId = popoverTriggerEl.getAttribute('aria-describedby');
+                if (!popoverId) return;
+                const popover = document.getElementById(popoverId);
+                if (!popover) return;
+
+                const deleteBtn = popover.querySelector('.delete-order');
+                if (deleteBtn) {
+                    deleteBtn.onclick = async function (e) {
+                        e.preventDefault();
+                        if (!confirm('Delete this order?')) return;
+                        const order_id = popoverTriggerEl.getAttribute('data-order-id');
+                        try {
+                            const res = await fetch(`${ORDERS_API}/${order_id}`, { method: 'DELETE' });
+                            if (!res.ok) throw new Error('Delete failed');
+                            allOrders = allOrders.filter(o => o.order_id != order_id);
+                            filteredOrders = filteredOrders.filter(o => o.order_id != order_id);
+                            renderTable();
+                        } catch (err) {
+                            alert('Failed to delete: ' + err.message);
+                        }
+                    };
+                }
+            });
+        });
+    }
+
+    // Filter button logic
+    document.querySelectorAll('#three .btn-filter').forEach(btn => {
+        btn.onclick = function () {
+            document.querySelectorAll('#three .btn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        };
+    });
+
+    // Search logic
+    document.querySelector('#three .input-group input[type="text"]').oninput = function () {
+        applyFilters();
+    };
+
+
+      document.getElementById('salesPage').onclick = function () {
+        window.location.href = '../sales';
+    };
+
+
+    // Initial load
+    loadOrders();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+    function formatNaira(amount) {
+        return "₦" + Number(amount).toLocaleString("en-NG", {minimumFractionDigits: 0});
+    }
+    function pluralize(count, word) {
+        return count + " " + (count === 1 ? word : word + "s");
+    }
+    function timeAgo(dateStr) {
+        if (!dateStr) return "--";
+        const now = new Date();
+        const date = new Date(dateStr);
+        const diffMs = now - date;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) {
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            if (diffHours === 0) {
+                const diffMins = Math.floor(diffMs / (1000 * 60));
+                return diffMins <= 1 ? "just now" : `${diffMins} mins ago`;
+            }
+            return diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
+        }
+        return diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
+    }
+
+    async function fetchStockDeepDive() {
+        const res = await fetch('http://localhost:3000/dashboard-stock-deep-dive');
+        if (!res.ok) throw new Error("Failed to fetch stock deep dive");
+        return await res.json();
+    }
+
+    try {
+        const data = await fetchStockDeepDive();
+
+       
+        document.getElementById('total-item').textContent =
+            `✅ ${pluralize(data.non_fuel_stock.variations.length, "Item")}`;
+        document.getElementById('low-stock-item').textContent =
+            `⚠️ ${pluralize(data.non_fuel_stock.alert_level_variations.length, "Low Item")}`;
+        document.getElementById('total-stock-value').textContent =
+            formatNaira(data.non_fuel_stock.total_value);
+        document.getElementById('items-to-reorder').textContent =
+            pluralize(data.non_fuel_stock.reorder_variations.length, "Item");
+        let lastRestocked = "--";
+        if (data.non_fuel_stock.last_restocked) {
+            lastRestocked = `${data.non_fuel_stock.last_restocked.product_name || ''} – ${timeAgo(data.non_fuel_stock.last_restocked.date)}`;
+        }
+        document.getElementById('restock-tracker').textContent =
+            `Last restocked: ${lastRestocked}`;
+
+        
+        if (data.fuel_stock) {
+          
+            let maxCapacity = Number(data.fuel_stock.max_capacity) || 0;
+    document.getElementById('fuel-qty').textContent =
+        `${data.fuel_stock.total_quantity} Kg / ${maxCapacity}kg`;
+
+    const percent = maxCapacity > 0
+        ? Math.round((data.fuel_stock.total_quantity / maxCapacity) * 100)
+        : 0;
+    document.getElementById('fuel-qty-status-bar').style.width = percent + "%";
+
+    let levelText = "✅ <span>Stock Level Normal</span>";
+    if (data.fuel_stock.stock_level === "low") {
+        levelText = "⚠️ <span>Stock Level Low</span>";
+    } else if (data.fuel_stock.stock_level === "finished") {
+        levelText = "❌ <span>Stock Finished</span>";
+    }
+    document.getElementById('fuel-stock-level').innerHTML = levelText;
+
+    let lastFuelRestocked = "--";
+    if (data.fuel_stock.last_restocked) {
+        lastFuelRestocked = `${data.fuel_stock.last_restocked.product_name || ''} – ${timeAgo(data.fuel_stock.last_restocked.date)}`;
+    }
+    document.getElementById('last-restocked-fuel').textContent =
+        `Last restocked: ${lastFuelRestocked}`;
+        }
+    } catch (err) {
+        document.getElementById('total-item').textContent = "Error";
+        document.getElementById('low-stock-item').textContent = "Error";
+        document.getElementById('total-stock-value').textContent = "Error";
+        document.getElementById('items-to-reorder').textContent = "Error";
+        document.getElementById('restock-tracker').textContent = "Error";
+     
+        document.getElementById('fuel-qty').textContent = "Error";
+        document.getElementById('fuel-qty-status-bar').style.width = "0%";
+        document.getElementById('fuel-stock-level').innerHTML = "Error";
+        document.getElementById('last-restocked-fuel').textContent = "Error";
+    }
+});
+</script>
+
+<script>
+const expensePageSize = 5; 
+let allExpenses = [];
+let filteredExpenses = [];
+let allExpenseCategories = [];
+let activeCategory = "All";
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  document.querySelector('.input-group input[type="text"]')?.addEventListener('input', filterExpenses);
+
+  loadExpenseTable();
+});
+
+async function loadExpenseTable() {
+  try {
+    showLoading('#expensesTable tbody');
+    const [expenses, categories] = await Promise.all([
+      fetchExpenses(),
+      fetchExpenseCategories()
+    ]);
+    allExpenses = expenses;
+    filteredExpenses = [...expenses];
+    allExpenseCategories = categories.map(c => c.expense_category_name);
+    renderCategoryFilters();
+    renderExpenseTable();
+  } catch (error) {
+    showError('#expensesTable tbody', 'Failed to load expenses. Please try again.');
+  }
+}
+
+async function fetchExpenses() {
+  try {
+    const res = await fetch('http://localhost:3000/expense');
+    if (!res.ok) throw new Error();
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
+async function fetchExpenseCategories() {
+  try {
+    const res = await fetch('http://localhost:3000/expense_category');
+    if (!res.ok) throw new Error();
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
+function renderCategoryFilters() {
+  const container = document.querySelector('.d-flex.flex-wrap.gap-2.mb-3');
+  if (!container) return;
+  container.innerHTML = `
+    <button type="button" class="btn btn-sm btn-filter${activeCategory === "All" ? " active" : ""}">
+      All
+    </button>
+  `;
+  for (let cat of allExpenseCategories) {
+    container.innerHTML += `
+      <button type="button" class="btn btn-sm btn-filter${activeCategory === cat ? " active" : ""}">
+        ${cat}
+      </button>
+    `;
+  }
+  container.querySelectorAll('.btn-filter').forEach(btn => {
+    btn.onclick = () => {
+      activeCategory = btn.textContent.trim();
+      filterExpenses();
+      renderCategoryFilters();
+    };
+  });
+}
+
+function filterExpenses() {
+  const searchVal = document.querySelector('.input-group input[type="text"]')?.value.trim().toLowerCase() || '';
+  filteredExpenses = allExpenses.filter(exp => {
+    const matchCat = activeCategory === "All" || exp.expense_category_name === activeCategory;
+    const matchSearch = !searchVal ||
+      (exp.expense_category_name && exp.expense_category_name.toLowerCase().includes(searchVal)) ||
+      (exp.description && exp.description.toLowerCase().includes(searchVal));
+    return matchCat && matchSearch;
+  });
+  renderExpenseTable();
+}
+
+function renderExpenseTable() {
+  const tbody = document.querySelector('#expensesTable tbody');
+  if (!tbody) return;
+  const pageData = filteredExpenses.slice(0, 5); 
+
+  if (!pageData.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center text-muted">
+          No expenses found matching your criteria
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = "";
+  for (const exp of pageData) {
+    if (!exp.expense_id) continue;
+    tbody.innerHTML += `
+      <tr>
+        <td>${exp.expense_id}</td>
+        <td>${exp.description || "-"}</td>
+        <td>${exp.expense_category_name || "-"}</td>
+        <td>₦${formatNumber(exp.amount)}</td>
+        <td>${exp.requested_by || "-"}</td>
+        <td>${exp.approved_by || "-"}</td>
+        <td>${formatMethod(exp.payment_method)}</td>
+        <td>${renderStatus(exp.expense_status)}</td>
+        <td>${formatDate(exp.date)}</td>
+      </tr>
+    `;
+  }
+}
+
+function formatMethod(method) {
+  if (!method) return "-";
+  const methods = {
+    'bank_transfer': 'Transfer',
+    'mobile_money': 'Mobile Money',
+    'cash': 'Cash',
+    'card': 'Card'
+  };
+  return methods[method] || method.charAt(0).toUpperCase() + method.slice(1);
+}
+
+function renderStatus(status) {
+  if (!status) return `<span class="badge bg-warning text-dark">Pending</span>`;
+  const statusMap = {
+    'pending': 'bg-warning text-dark',
+    'approved': 'bg-success',
+    'rejected': 'bg-danger'
+  };
+  const statusClass = statusMap[status.toLowerCase()] || 'bg-warning text-dark';
+  const displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
+  return `<span class="badge ${statusClass}">${displayStatus}</span>`;
+}
+
+function formatNumber(num) {
+  if (isNaN(num) || num === null || num === undefined) return "0";
+  return Number(num).toLocaleString('en-US');
+}
+
+function formatDate(dateString) {
+  if (!dateString) return "-";
+  try {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  } catch (e) {
+    return dateString.split('T')[0] || "-";
+  }
+}
+
+function showLoading(selector) {
+  const element = document.querySelector(selector);
+  if (element) {
+    element.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center py-3">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </td>
+      </tr>
+    `;
+  }
+}
+
+function showError(selector, message) {
+  const element = document.querySelector(selector);
+  if (element) {
+    element.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center text-danger py-3">
+          ${message}
+        </td>
+      </tr>
+    `;
+  }
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    async function updateOnlineOrders() {
+        let fuel = 0, nonFuel = 0;
+        try {
+            const res = await fetch('http://localhost:3000/online_order_data');
+            if (res.ok) {
+                const data = await res.json();
+                fuel = Number(data.fuel_online_orders) || 0;
+                nonFuel = Number(data.non_fuel_online_orders) || 0;
+            }
+        } catch (err) {
+            console.error('Failed to fetch online orders:', err);
+            fuel = 0;
+            nonFuel = 0;
+        }
+        document.getElementById('fuel-orders').textContent = fuel;
+        document.getElementById('non-fuel-orders').textContent = nonFuel;
+        document.getElementById('total-orders').innerHTML = `<h4>${fuel + nonFuel} orders </h4>`;
+    }
+
+    updateOnlineOrders();
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const PAGE_SIZE = 5;
+    let allAttempts = [];
+    let filteredAttempts = [];
+    let currentPage = 1;
+    let currentStatus = 'All';
+    let searchTerm = '';
+
+   
+    let admin = null;
+    try {
+        admin = JSON.parse(sessionStorage.getItem('admin'));
+        if (!admin || !admin.admin_role) throw new Error();
+    } catch {
+        document.querySelector('#loginAttemptTable tbody').innerHTML = `
+            <tr><td colspan="9" class="text-center text-danger">No admin in session. Please log in again.</td></tr>`;
+        return;
+    }
+
+   
+    async function loadAttempts() {
+        try {
+            const admin = JSON.parse(sessionStorage.getItem('admin'));
+const admin_id = admin?.id;
+          const res = await fetch(`http://localhost:3000/pending-login-attempts/${admin_id}`, {
+    credentials: 'include'
+});
+            if (!res.ok) throw new Error('Failed to fetch login attempts');
+            allAttempts = await res.json();
+            applyFilters();
+        } catch (err) {
+            document.querySelector('#loginAttemptTable tbody').innerHTML = `
+                <tr><td colspan="9" class="text-center text-danger">${err.message}</td></tr>`;
+        }
+    }
+
+    
+    function applyFilters() {
+        filteredAttempts = allAttempts.filter(attempt => {
+           
+            if (currentStatus !== 'All') {
+                if (currentStatus === 'Pending' && attempt.status !== 'pending_approval' && attempt.status !== 'pending_otp') return false;
+                if (currentStatus === 'Approved' && attempt.status !== 'approved') return false;
+                if (currentStatus === 'Cancelled' && attempt.status !== 'rejected') return false;
+            }
+           
+            if (searchTerm) {
+                const deviceType = (attempt.device_info || attempt.user_agent || '').toLowerCase();
+                if (!deviceType.includes(searchTerm.toLowerCase())) return false;
+            }
+            return true;
+        });
+        renderTable();
+        renderPagination();
+    }
+
+   
+    function renderTable() {
+        const tbody = document.querySelector('#loginAttemptTable tbody');
+        if (!tbody) return;
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const pageData = filteredAttempts.slice(start, start + PAGE_SIZE);
+
+        if (!pageData.length) {
+            tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">No login attempts found</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = pageData.map(attempt => `
+            <tr>
+                <td>${parseDeviceType(attempt.device_info || attempt.user_agent)}</td>
+                <td>${attempt.ip_address || '--'}</td>
+                <td>${formatTime(attempt.login_time)}</td>
+                <td>${attempt.location || '--'}</td>
+                <td>${attempt.first_name || ''} ${attempt.last_name || ''}</td>
+                <td>${attempt.approved_by_role || '--'}</td>
+                <td>${renderStatusBadge(attempt.status)}</td>
+                <td>${formatDate(attempt.login_time)}</td>
+                <td>
+                    ${renderActions(attempt)}
+                </td>
+            </tr>
+        `).join('');
+
+       
+        attachActionHandlers();
+    }
+
+   
+     function renderStatusBadge(status) {
+        if (status === 'approved') return `<span class="badge bg-success">Approved</span>`;
+        if (status === 'rejected' || status === 'cancelled') return `<span class="badge bg-danger">Declined</span>`;
+        if (status === 'pending_approval' || status === 'pending_otp') return `<span class="badge bg-warning text-dark">Pending</span>`;
+        if (status === 'otp_verified') return `<span class="badge bg-success">Logged In</span>`;
+        if (status === 'failed') return `<span class="badge bg-danger">Failed</span>`;
+        return `<span class="badge bg-secondary">${status}</span>`;
+    }
+
+   
+    function renderActions(attempt) {
+        if (attempt.status === 'pending_approval') {
+            return `
+                <i class="fs-3 bi bi-three-dots text-success"
+                    data-bs-toggle="popover"
+                    data-bs-placement="bottom"
+                    data-bs-html="true"
+                    data-login-attempt-id="${attempt.login_attempt_id}"
+                    data-bs-content='
+                        <a href="#" class="d-block text-success text-decoration-none mb-1 approve-attempt">Approve</a>
+                        <a href="#" class="d-block text-warning text-decoration-none mb-1 decline-attempt">Decline</a>
+                        <a href="#" class="d-block text-danger text-decoration-none delete-attempt">Delete</a>'
+                    style="cursor: pointer;"></i>
+            `;
+        } else {
+            return `
+                <i class="fs-3 bi bi-three-dots text-success"
+                    data-bs-toggle="popover"
+                    data-bs-placement="bottom"
+                    data-bs-html="true"
+                    data-login-attempt-id="${attempt.login_attempt_id}"
+                    data-bs-content='
+                        <a href="#" class="d-block text-decoration-none mb-1 view-attempt">View</a>
+                        <a href="#" class="d-block text-danger text-decoration-none delete-attempt">Delete</a>'
+                    style="cursor: pointer;"></i>
+            `;
+        }
+    }
+
+    
+    function attachActionHandlers() {
+        const popoverTriggerList = [].slice.call(document.querySelectorAll('#loginAttemptTable [data-bs-toggle="popover"]'));
+        popoverTriggerList.forEach(function (el) {
+            new bootstrap.Popover(el, { html: true, container: 'body' });
+
+            el.addEventListener('shown.bs.popover', function () {
+                const popoverId = el.getAttribute('aria-describedby');
+                if (!popoverId) return;
+                const popover = document.getElementById(popoverId);
+                if (!popover) return;
+
+                
+                const approveBtn = popover.querySelector('.approve-attempt');
+                if (approveBtn) {
+                    approveBtn.onclick = async function (e) {
+                        e.preventDefault();
+                        await approveDevice(el.getAttribute('data-login-attempt-id'), true);
+                    };
+                }
+               
+                const declineBtn = popover.querySelector('.decline-attempt');
+                if (declineBtn) {
+                    declineBtn.onclick = async function (e) {
+                        e.preventDefault();
+                        await approveDevice(el.getAttribute('data-login-attempt-id'), false);
+                    };
+                }
+                
+               const deleteBtn = popover.querySelector('.delete-attempt');
+if (deleteBtn) {
+    deleteBtn.onclick = async function (e) {
+        e.preventDefault();
+        if (!confirm('Delete this login attempt?')) return;
+        const login_attempt_id = el.getAttribute('data-login-attempt-id');
+        try {
+            const res = await fetch(`http://localhost:3000/login_attempts/${login_attempt_id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Delete failed');
+            showToast(data.message);
+            await loadAttempts();
+        } catch (err) {
+            showToast('Error: ' + err.message, 'danger');
+        }
+    };
+}
+              
+                const viewBtn = popover.querySelector('.view-attempt');
+                if (viewBtn) {
+                    viewBtn.onclick = function (e) {
+                        e.preventDefault();
+                        showToast('View details not implemented.');
+                    };
+                }
+            });
+        });
+    }
+
+    
+  async function approveDevice(login_attempt_id, approve) {
+    try {
+        const admin = JSON.parse(sessionStorage.getItem('admin'));
+        const admin_id = admin?.id;
+        const res = await fetch(`http://localhost:3000/approve-device/${admin_id}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ login_attempt_id, approve })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Failed to update device approval');
+        showToast(data.message);
+        await loadAttempts();
+    } catch (err) {
+        showToast('Error: ' + err.message, 'danger');
+    }
+}
+   
+    function renderPagination() {
+        const totalPages = Math.ceil(filteredAttempts.length / PAGE_SIZE);
+        let html = '';
+        if (totalPages > 1) {
+            html += `<nav><ul class="pagination justify-content-center">`;
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<li class="page-item${i === currentPage ? ' active' : ''}">
+                    <a class="page-link" href="#">${i}</a></li>`;
+            }
+            html += `</ul></nav>`;
+        }
+        let pagDiv = document.getElementById('loginAttemptPagination');
+        if (!pagDiv) {
+            pagDiv = document.createElement('div');
+            pagDiv.id = 'loginAttemptPagination';
+            document.querySelector('#loginAttemptTable').after(pagDiv);
+        }
+        pagDiv.innerHTML = html;
+        if (totalPages > 1) {
+            pagDiv.querySelectorAll('.page-link').forEach((a, idx) => {
+                a.onclick = function (e) {
+                    e.preventDefault();
+                    currentPage = idx + 1;
+                    renderTable();
+                    renderPagination();
+                };
+            });
+        }
+    }
+
+   
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleDateString('en-GB');
+    }
+    function formatTime(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return '';
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+    }
+    function parseDeviceType(ua) {
+        if (!ua) return '--';
+        ua = ua.toLowerCase();
+        if (ua.includes('android')) return 'Android';
+        if (ua.includes('iphone')) return 'iPhone';
+        if (ua.includes('windows')) return 'Windows';
+        if (ua.includes('mac')) return 'Mac';
+        if (ua.includes('linux')) return 'Linux';
+        return ua.length > 20 ? ua.slice(0, 20) + '...' : ua;
+    }
+
+    
+    document.querySelectorAll('.tab-pane#five .btn-filter').forEach(btn => {
+        btn.onclick = function () {
+            document.querySelectorAll('.tab-pane#five .btn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentStatus = btn.textContent.trim();
+            currentPage = 1;
+            applyFilters();
+        };
+    });
+
+   
+    document.querySelector('.tab-pane#five .input-group input[type="text"]').oninput = function () {
+        searchTerm = this.value.trim();
+        currentPage = 1;
+        applyFilters();
+    };
+
+  
+    loadAttempts();
+});
+</script>
+
+<script>
+    	function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    async function updateLoginAttemptsCard() {
+        try {
+            const res = await fetch('http://localhost:3000/login_attempts/today');
+            if (!res.ok) throw new Error('Failed to fetch login attempts');
+            const data = await res.json();
+            document.getElementById('total-attempts').textContent = data.total || 0;
+            document.getElementById('success-logins').textContent = data.successful || 0;
+            document.getElementById('failed-logins').textContent = data.failed || 0;
+        } catch (err) {
+            document.getElementById('total-attempts').textContent = '--';
+            document.getElementById('success-logins').textContent = '--';
+            document.getElementById('failed-logins').textContent = '--';
+        }
+    }
+
+    updateLoginAttemptsCard();
+});
+</script>
+</body>
+
+</html>

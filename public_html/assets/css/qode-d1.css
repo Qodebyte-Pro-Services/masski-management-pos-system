@@ -1,0 +1,109 @@
+.sidebar-search {
+    width: 90%;
+    margin: 0 auto; /* centers it */
+    padding: 10px 0;
+  }
+  
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .input-wrapper input[type="text"] {
+    width: 100%;
+    padding: 8px 36px 8px 10px;
+    border: 1px solid #ccc !important;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    background-color: transparent;
+  }
+  
+  .search-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #888 !important;
+  }
+  
+  .search-button:hover {
+    color: #28a745 !important;
+  }
+  .sidebar-menu > li.current-page > a {
+    color: #fff;
+    background: #17a634 !important;
+     
+    border-radius: 5px;
+  }
+  .menu-section {
+    font-size: 12px;
+    font-weight: ;
+    text-transform: uppercase;
+    color: #999;
+    padding: 10px 12px 5px;
+    pointer-events: none;
+  }.breadcrumb ,.breadcrumb .breadcrumb-item a{
+    color: #241818 !important;
+  }
+  .custom-tabs-container .nav-tabs .nav-link {
+    padding: .5rem 3rem !important;color:#241818 !important;
+  } 
+  .custom-tabs-container .nav-tabs .nav-link.active {
+    border-color: rgba(0,0,0,0) rgba(0,0,0,0) #1ae83a !important;
+    color: #011304 !important;
+    background: rgba(178, 191, 190, 0.31) !important;
+    border-bottom-width: 3px;
+  }	
+  
+  .chart-container {
+    
+    padding: 2rem;
+    border-radius: 10px;
+    
+    width: 100%;
+    height: 400px; /* Normal size like screenshot */
+  }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .dropdown {
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+  
+  
+      .card-custom {
+        border-radius: 12px;
+        padding: 20px;
+        color: white;
+        height: 100%;
+      }
+      .bg-green { background-color: #1cb698 !important; }
+      .bg-blue { background-color: #3756e0 !important; }
+      .bg-orange { background-color: #fe5c1c !important; }
+      .bg-red { background-color: #ec2f2f !important; }
+      .status-bar {
+        height: 10px;
+        border-radius: 5px;
+        background-color: white;
+        overflow: hidden;
+      }
+      .status-fill {
+        height: 100%;
+        background-color: yellow !important;
+      }
+       table td{background-color: #f8f9fa !important;padding: .7rem .5rem !important;}
+      table th{background-color: #e3e7eb !important;padding: .7rem .5rem !important;}
+      .btn-filter{background-color: #cfd8db !important  ;border-radius: 5px;}
+      .btn-filter.active {
+      background-color: #3ed9a4 !important; /* Active color */
+      color: white !important;
+      border-color: #3ed9a4 !important;
+    }

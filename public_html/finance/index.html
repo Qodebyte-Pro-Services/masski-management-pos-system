@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Finance | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+	
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/ext-decoration-none">Home</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Finance</li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+<div class="ms-auto d-lg-flex d-none flex-row">
+<div class="d-flex flex-row gap-1" id="btnfilter">
+<button type="button" class="btn btn-sm btn-filter btn-range active">Today</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Yesterday</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Last 7 Days</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">This Month</button>
+<button type="button" class="btn btn-sm btn-filter btn-range" id="customRangeBtn" >Custom Range</button>
+</div>
+<!-- Custom Date Range Picker (Initially Hidden) -->
+<div id="customRangeContainer" class="mb-3" style="display: none;">
+<div class="d-flex gap-2 align-items-center">
+<input type="date" class="form-control form-control-sm" id="startDate" style="height: 10px;"/>
+<span>to</span>
+<input type="date" class="form-control form-control-sm" id="endDate" />
+<button class="btn btn-sm btn-success" onclick="applyCustomRange()">Apply</button>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Total Sales</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-success grd-success-light rounded-5 d-flex">
+	<i class="bi bi-bar-chart fs-4 lh-1 text-success"></i>
+</div>
+<div id="total-sales" class="h5 text-success  overflow-hidden "
+style="max-width: 130px;">
+#400,000,000.00
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Total fuel Sales</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+<i class="bi bi-cart-check fs-4 lh-1 text-primary"></i>
+</div>
+
+<!-- Wrap the long number -->
+<div id="total-fuel-sales" class="h5 text-primary  overflow-hidden "
+style="max-width: 130px;">
+#20,000,000.00
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3"> Non-fuel Sales</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-info grd-info-light rounded-5 d-flex">
+<i class="bi bi-cart-check fs-4 lh-1 text-info"></i>
+</div>
+
+<!-- Wrap the long number -->
+<div id="total-non-fuel-sales" class="h5 text-info  overflow-hidden "
+style="max-width: 130px;">
+#20,000,000.00
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Cost of Goods Sold(COGS)</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-warning grd-warning-light rounded-5 d-flex">
+<i class="bi bi-bar-chart-steps fs-4 lh-1 text-warning"></i>
+
+</div>
+<h2 id="cogs" class="text-warning">#3,000,000.00</h2>
+</div>
+
+</div>
+</div>
+</div>
+<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Total Expense</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-danger"></i>
+	</div>
+	<div id="total-expense" class="h5 text-danger  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Staff Payment</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-danger"></i>
+	</div>
+	<div id="total-staff-pay" class="h5 text-danger  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+		<div class="card mb-3">
+		<div class="card-body">
+		<h6 class="mb-3">Budget Usage</h6>
+		<div class="mb-2 d-flex align-items-center justify-content-between">
+		<div class="p-3 border border-warning grd-warning-light rounded-5 d-flex">
+		
+		<i class="bi bi-wallet2 fs-4 lh-1 text-warning"></i>
+		
+		</div>
+		<div id="budget-usage" class="h5 text-warning  overflow-hidden "
+		style="max-width: 130px;">
+		75%
+		</div>
+		
+		</div>
+		
+		</div>
+		</div>
+		</div>
+	<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Total Discout</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+	<i class="bi bi-bar-chart-line fs-4 lh-1 text-primary"></i>
+	</div>
+	<div id="total-discount" class="h5 text-info  overflow-hidden "
+style="max-width: 130px;">
+#20,000,000.00
+</div>
+	</div>
+
+	</div>
+	</div>
+	</div>
+	<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Tax Paid</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-danger"></i>
+	</div>
+	<div id="tax-paid" class="h5 text-danger  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Gross Profit</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+	<i class="bi bi-bar-chart-line fs-4 lh-1 text-primary"></i>
+	</div>
+	<div id="gross" class="h5 text-info  overflow-hidden "
+style="max-width: 130px;">
+#20,000,000.00
+</div>
+	</div>
+
+	</div>
+	</div>
+	</div>
+		
+	<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Net Profit</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+	<i class="bi bi-bar-chart-line fs-4 lh-1 text-primary"></i>
+	</div>
+	<div id="net-profit" class="h5 text-info  overflow-hidden "
+style="max-width: 130px;">
+#20,000,000.00
+</div>
+	</div>
+
+	</div>
+	</div>
+	</div>
+	
+	<div hidden class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Net Cash Flow</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+	<i class="bi bi-bar-chart-line fs-4 lh-1 text-primary"></i>
+	</div>
+	<div id="net-cash-flow" class="h5 text-info  overflow-hidden "
+style="max-width: 130px;">
+#20,000,000.00
+</div>
+	</div>
+
+	</div>
+	</div>
+	</div>
+
+</div>
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: -30px;">
+	<div class="col-xxl-12">
+	<div class="card mb-3">
+	<div class="card-body" style="background-color:#e4e9f0">
+	<div class="custom-tabs-container">
+	<ul class="nav nav-tabs" id="customTab" role="tablist" style="background-color: #f8f9fa;">
+	<li class="nav-item" role="presentation">
+	<a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#one" role="tab" aria-controls="one" aria-selected="true">Overview</a>
+	</li>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" href="expenses.html">Expenses Managment</a>
+		</li>
+		<li class="nav-item" role="presentation">
+		<a class="nav-link" href="budget.html">Budget Managment </a>
+		</li>
+
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" href="tax.html">Tax Managment</a>
+		</li>
+
+	<!-- Purchase Order Tab
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" id="tab-three" data-bs-toggle="tab" href="#three" role="tab" aria-controls="three" aria-selected="false" tabindex="-1">Purchase Order</a>
+		</li>
+	 -->
+	
+	</ul>
+	<div class="tab-content" id="customTabContent" style="margin: 0 -20px;">
+	
+	
+	<!-- Tab one section -->
+	<div class="tab-pane fade show active" id="one" role="tabpanel" aria-labelledby="tab-one" >
+	<div class=" text-center">
+	
+	<div class="col-lg-12 mx-auto" style="background-color: #f8f9fa;height: 500px;">
+			<div class="chart-container">
+			<div class="header">
+			<div>
+			<h3>Income Vs Expenses</h3>
+			<p style="color: gray;">Income and expenses generated </p>
+			</div>
+			
+			<select id="incomeExpenseFilter">
+			<option value="Today">Today</option>
+			<option value="7days">last 7 days</option>
+			
+			<option value="Month">This Month</option>
+			<option value="Year">This Year</option>
+			</select>
+			</div>
+			
+			<canvas id="income-vs-expense" style="width: 995px; height: 336px; display: block; box-sizing: border-box;" width="995" height="336"></canvas>
+			
+			</div>
+			
+			</div>
+	<!---------Linchart----------------->
+	<div class="row gx-3 mt-4">
+		<div class="col-lg-12 mx-auto" style="background-color: #f8f9fa;height: 500px;">
+			<div class="chart-container">
+			<div class="header">
+			<div>
+			<h3>Gross Profits Vs Next Profits</h3>
+			<p style="color: gray;">Gross Profits Vs Net Profits generated </p>
+			</div>
+			
+			<select id="gross-profit-filter">
+			<option value="Today">Today</option>
+			<option value="7days">last 7 days</option>
+			
+			<option value="Month">This Month</option>
+			<option value="Year">This Year</option>
+			</select>
+			</div>
+			
+			<canvas id="grossprofit-chart" height="200"></canvas>
+			
+			</div>
+			
+			</div>
+</div>
+	
+	</div>
+	</div>
+	<!-- end  -->
+	
+	
+	
+	<!------------------------------ Tab two section (Products)--------------------------------->
+	<div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+		<div class="col-xxl-12">
+		<div class="card mb-3" style="background-color: #f8f9fa;">
+		<div class="header">
+		<div >
+		<h3>All Products In Sctock</h3>
+		<p style="color: gray;">Manage all your Products</p>
+		</div>
+		<div class="dt-buttons btn-group">
+			<button type="button" class="btn btn-success">
+				
+			</button>
+			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenteredScrollable">
+				<i class=" bi bi-plus-lg"></i>Add New Product
+			</button>
+			
+		</div>
+		</div>
+		
+		<div class="card-body" style="padding: 0px !important;">
+		<div>
+		<div class="d-flex flex-wrap gap-2 mb-3" >
+		
+		<button type="button " class="btn  btn-sm btn-filter active">
+		All
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+		Gas
+		</button>
+		
+		<button type="button " class="btn  btn-sm btn-filter">
+		Cylinder
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+		Burner
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+		Regulator
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+		Host
+		</button>
+		</div>
+		
+		</div>
+		<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+		
+		<!-- Search Input with Icon Button (Right-aligned) -->
+		<div class="input-group" style="width: 60%;">
+		<button class="btn btn-sm btn-outline-secondary" type="button">
+		<i class="bi bi-search"></i>
+		</button>
+		<input type="text" class="form-control form-control-sm" placeholder="Search search By Product/ Category">
+		
+		
+		</div>
+		<div class="filter-wrapper">
+			
+
+			<select>
+			  <option value="">Filter by</option>
+			  <option value="date">Date</option>
+			  <option value="status">Status</option>
+			  <option value="amount">Amount</option>
+			</select>
+		  </div>
+		</div>
+		
+		<div class="table-responsive">
+		<table id="expensesTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+		<thead>
+		<tr>
+		<th scope="col">ID</th>
+		<th scope="col"> Name</th>
+		<th scope="col">Category</th>
+		<th scope="col">Quantity</th>
+		<th scope="col">Valued</th>
+
+		<th scope="col">Status</th>
+		<th scope="col">Created On</th>
+		<th scope="col">Actions</th>
+		</tr>
+		</thead>
+		<tbody>
+		
+		<td>#P001</td>
+		<td>Cooking Gas</td>
+		<td>Gas</td>
+		<td>200kg</td>
+		<td>₦5,000</td>
+		<td><span class="badge bg-warning text-dark">Low Stock</span></td>
+		<td>2025-06-01</td>
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="detail.html" class="d-block text-success text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-warning text-decoration-none mb-1">Reorder</a>
+		<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		</tr>
+		
+		
+		<td>#P002</td>
+		<td>Burna</td>
+		<td>Accessories</td>
+		<td>50pcs</td>
+		<td>#500,000</td>
+		
+		<td><span class="badge bg-success">In Stock</span></td>
+		<td>2025-06-02</td>
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="detail.html" class="d-block text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		
+		</tr>
+		
+		
+		<td>#P003</td>
+		<td>Cylinder</td>
+		<td>Accessories</td>
+		<td>0pcs</td>
+		<td>#0.00</td>
+		
+		<td><span class="badge bg-danger">Out of Stoct</span></td>
+		<td>2025-06-03</td>
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="detail.html" class="d-block text-success text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-warning text-decoration-none mb-1">Reorder</a>
+		<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		
+		</tr>
+		</tbody>
+		</table>
+<!-- Pagination aligned to right -->
+<nav aria-label="Table pagination">
+    <ul class="pagination justify-content-end" style="margin-top: 10px;">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Previous</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+  </nav>
+		</div>
+		</div>
+		</div>
+		</div>
+		
+		</div>
+	
+	
+	<!--end------Order Management-------------------------->
+	
+	<div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+	<div class="col-xxl-12">
+	<div class="card mb-3" style="background-color: #f8f9fa;">
+	<div class="header">
+	<div >
+	<h3>Purchase Order</h3>
+	
+	<p style="color: gray;">Track and manage all products purchase order</p>
+	</div>
+	<div class="dt-buttons btn-group">
+		<button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#orderModel">
+			Create Order
+		</button>
+	</div>
+	</div>
+	
+	<div class="card-body" style="padding: 0px !important;">
+	<div>
+	<div class="d-flex flex-wrap gap-2 mb-3" >
+	
+	<button type="button " class="btn  btn-sm btn-filter active">
+	All
+	</button>
+	<button type="button " class="btn  btn-sm btn-filter">
+Received	</button>
+	
+	<button type="button " class="btn  btn-sm btn-filter">
+	Pending
+	</button>
+	<button type="button " class="btn  btn-sm btn-filter">
+	Cancelled
+	</button>
+	</div>
+	
+	</div>
+	<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+	
+	<!-- Search Input with Icon Button (Right-aligned) -->
+	<div class="input-group" style="width: 60%;">
+	<button class="btn btn-sm btn-outline-secondary" type="button">
+	<i class="bi bi-search"></i>
+	</button>
+	<input type="text" class="form-control form-control-sm" placeholder="Search products...">
+	
+	
+	</div>
+	
+	</div>
+	
+	<div class="table-responsive">
+	<table  class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+	<thead>
+	<tr>
+	<th scope="col">PO Ref</th>
+	<th scope="col">Supplier</th>
+	<th scope="col">Order Date</th>
+	<th scope="col">Expected Delivery</th>
+	
+	<th scope="col">Total Amount(#)</th>
+	<th scope="col">Created By</th>
+	
+	<th scope="col">Payment Status</th>
+	<th scope="col">Status</th>
+	
+	<th scope="col">Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr class="grd-primary-light">
+	<td>Po-000123</td>
+	<td>LLPc Limited</td>
+	<td>12/06/2025</td>
+	<td>15/06/2025</td>
+	<td>30,000.00</td>
+	
+	<td>Samuel Qodebyte</td>
+	<td class="text-success">Paid</td>
+	
+	<td><span class="badge bg-success">Received</span></td>
+	<td>
+	<i class="fs-3 bi bi-three-dots text-success"
+	data-bs-toggle="popover"
+	data-bs-placement="bottom"
+	data-bs-html="true"
+	data-bs-content='
+	<a href="../inventory/po.html" class="d-block text-decoration-none mb-1">View</a>
+	
+		'
+	style="cursor: pointer;"></i>
+	</td>
+	</tr>
+	
+	<tr class="grd-primary-light">
+		<td>Po-000123</td>
+		<td>LLPc Limited</td>
+		<td>12/06/2025</td>
+		<td>15/06/2025</td>
+		<td>30,000.00</td>
+		
+		<td>Samuel Qodebyte</td>
+		<td class="text-success">Paid</td>
+		
+		<td><span class="badge bg-warning">Pending</span></td>
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="#" class="d-block text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-decoration-none mb-1">Edit</a>
+		<a href="#" class="d-block text-success text-decoration-none">Mark as Received</a>
+	
+		'
+		style="cursor: pointer;"></i>
+		</td>
+		</tr>
+		<tr class="grd-primary-light">
+			<td>Po-000123</td>
+			<td>LLPc Limited</td>
+			<td>12/06/2025</td>
+			<td>15/06/2025</td>
+			<td>30,000.00</td>
+			
+			<td>Samuel Qodebyte</td>
+			<td class="text-danger">Unpaid</td>
+			
+			<td><span class="badge bg-danger">Cancelled</span></td>
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="#" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>
+		
+			'
+			style="cursor: pointer;"></i>
+			</td>
+			</tr>
+	</tbody>
+	</table>
+	<nav aria-label="Table pagination">
+		<ul class="pagination justify-content-end" style="margin-top: 10px;">
+		  <li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1">Previous</a>
+		  </li>
+		  <li class="page-item"><a class="page-link" href="#">1</a></li>
+		  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+		  <li class="page-item"><a class="page-link" href="#">3</a></li>
+		  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+		</ul>
+	  </nav>
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	</div>
+	
+	<!-----END----------------START OF Stock Movement ----------------------------------------->
+	<div class="tab-pane fade" id="four" role="tabpanel" aria-labelledby="tab-four" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+		<div class="col-xxl-12">
+			<div class="card mb-3" style="background-color: #f8f9fa;">
+			<div class="header">
+			<div >
+			<h3>Recent Stock Movement</h3>
+			<p style="color: gray;">Monitor the flow of inventory items in,out,adjust,damaed..</p>
+			</div>
+			<div class="dt-buttons btn-group">
+				<button type="button" class="btn btn-success">
+					<i class="bi bi-printer"></i> Print
+				</button>
+			</div>
+			</div>
+			
+			<div class="card-body" style="padding: 0px !important;">
+			<div>
+			<div class="d-flex flex-wrap gap-2 mb-3" >
+			
+			<button type="button " class="btn  btn-sm btn-filter active">
+			All
+			</button>
+			<button type="button " class="btn  btn-sm btn-filter">
+		Purchase
+			</button>
+			
+			<button type="button " class="btn  btn-sm btn-filter">
+			Sold
+			</button>
+			<button type="button " class="btn  btn-sm btn-filter">
+				Adjustment
+				</button>
+			</div>
+			
+			</div>
+			<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+			
+			<!-- Search Input with Icon Button (Right-aligned) -->
+			<div class="input-group" style="width: 60%;">
+			<button class="btn btn-sm btn-outline-secondary" type="button">
+			<i class="bi bi-search"></i>
+			</button>
+			<input type="text" class="form-control form-control-sm" placeholder="Search by ">
+			
+			
+			</div>
+			<select id="filterS">
+				<option value="All">All</option>
+				<option value="Today">Today</option>
+				<option value="7days">last 7 days</option>
+				
+				<option value="Month">This Month</option>
+				<option value="Year">This Year</option>
+				<option value="custome">Custom</option>
+				</select>
+			</div>
+			
+			<div class="table-responsive">
+				<table id="employeeTable"   class="display nowrap table align-middle table-hover m-0" style="width:100%; background-color: #f8f9fa; border: 1px solid #dee2e6;">
+			<thead >
+			<tr>
+			<th scope="col">Date</th>
+			<th scope="col">Item</th>
+			<th scope="col">Types</th>
+			<th scope="col">Quantity</th>
+			<th scope="col">Reason</th>
+			<th scope="col">Added By </th>
+			<th scope="col">Status</th>
+			
+			<th scope="col">Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr class="grd-primary-light">
+			<td>28/10/2022</td>
+			<td>Gas</td>
+			<td>purchase</td>
+			<td>+2889Kg</td>
+			<td>Stock purcase</td>
+	
+			<td>Samuel Qodebyte</td>
+			<td>
+			<span class="badge rounded-pill bg-success">Increase</span>
+			</td>
+			
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="../inventory/detail" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+			style="cursor: pointer;"></i>
+			</td>
+			
+			
+			</tr>
+			<tr class="grd-primary-light">
+			<td>28/10/2022</td>
+			<td>6kg Cyllender</td>
+			<td>Adjustment</td>
+			<td>-1</td>
+			<td>Damaged</td>
+			<td>Samuel Qodebyte</td>
+			<td>
+			<span class="badge rounded-pill bg-danger">Decrease</span>
+			</td>
+			
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="#" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+			style="cursor: pointer;"></i>
+			</td>
+			
+			
+			</tr>
+			<tr class="grd-primary-light">
+			<td>28/10/2022</td>
+			<td>Host</td>
+			<td>Sold</td>
+			<td>-13</td>
+			<td>Pos Sales</td>
+			<td>Samuel Qodebyte</td>
+			
+			<td>
+			<span class="badge rounded-pill bg-danger">Decrease</span>
+			</td>
+			
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="#" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+			style="cursor: pointer;"></i>
+			</td>
+			
+			
+			</tr>
+			<tr class="grd-primary-light">
+			<td>28/10/2022</td>
+			<td>6kg Cyllender</td>
+			<td>Adjustment</td>
+			<td>-1</td>
+			<td>Transfer out</td>
+			
+			<td>Samuel Qodebyte</td>
+			<td>
+			<span class="badge rounded-pill bg-danger">Decrease</span>
+			</td>
+			
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="../inventory/detail" class="d-block text-decoration-none mb-1">View</a>
+			<a href="delete" class="d-block text-danger text-decoration-none">Delete</a>'
+			style="cursor: pointer;"></i>
+			</td>
+			
+			
+			</tr>
+			</tbody>
+			</table>
+			<nav aria-label="Table pagination">
+				<ul class="pagination justify-content-end" style="margin-top: 10px;">
+				  <li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">Previous</a>
+				  </li>
+				  <li class="page-item"><a class="page-link" href="#">1</a></li>
+				  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+				  <li class="page-item"><a class="page-link" href="#">3</a></li>
+				  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
+			  </nav>
+			</div>
+			</div>
+			</div>
+			</div>
+		
+		</div>
+	
+	<!--END---------------------Stock Category--------------------------------------------------------------------------->
+	<div class="tab-pane fade" id="five" role="tabpanel" aria-labelledby="tab-five" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+	<div class="col-xxl-12">
+	<div class="card mb-3" style="background-color: #f8f9fa;">
+	<div class="header">
+	<div>
+	<h3>All Stock Category</h3>
+	<p style="color: gray;">Mange all Stock Categories </p>
+	</div>
+	<div class="dt-buttons btn-group">
+	<button class="btn btn-sm btn-success " onclick="openAddCategoryModal()">Creat New Category</button>
+	</div>
+	</div>
+	
+	<div class="card-body" style="padding: 0px !important;">
+	
+	<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+	
+	<!-- Search Input with Icon Button (Right-aligned) -->
+	<div class="input-group" style="width: 60%;">
+	<button class="btn btn-sm btn-outline-secondary" type="button">
+	<i class="bi bi-search"></i>
+	</button>
+	<input type="text" class="form-control form-control-sm" placeholder="Search Stock Category...">
+	
+	
+	</div>
+	
+	</div>
+	
+	<div class="table-responsive">
+	<table id="loginAttemptTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+	<thead>
+	<tr>
+	<th scope="col">ID</th>
+	<th scope="col">Category Name</th>
+	<th scope="col">Created On</th>
+	
+	<th scope="col">Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+	<td>Cat-1002</td>
+	<td>Accessories</td>
+	
+	
+	<td>04/06/2025</td>
+	<td>
+	<i class="fs-3 bi bi-three-dots text-success"
+	data-bs-toggle="popover"
+	data-bs-placement="bottom"
+	data-bs-html="true"
+	data-bs-content='
+	
+
+	<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+	style="cursor: pointer;"></i>
+	</td>
+	</tr>
+	<tr>
+		<td>Cat-1002</td>
+		
+		<td>Fuel</td>
+		
+		<td>04/06/2025</td>
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		
+	
+		<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		</tr>
+	</tbody>
+	</table>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	
+	</div>
+<!-- Row end -->
+<!----Model section -->
+<div id="model"></div>
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/dashbaoardchart.js"></script>
+<script src="../assets/js/donutChart.js"></script>
+<script src="../assets/js/form.js"></script>
+<script src="js/profitschart.js"></script>
+
+<script>
+	//function to hide overwiev matrice when click tabs
+	document.addEventListener("DOMContentLoaded", function () {
+	  const gxRow = document.getElementById("gxRow");
+	  const customTab = document.getElementById("customTab");
+  
+	  // Function to toggle visibility
+	  function toggleGxRow(activeTabId) {
+		if (activeTabId === "tab-one") {
+		  gxRow.style.setProperty("display", "flex", "important"); // for .row
+		} else {
+		  gxRow.style.setProperty("display", "none", "important");
+		}
+	  }
+  
+	  // Initial check on page load
+	  const activeTab = customTab.querySelector(".nav-link.active");
+	  toggleGxRow(activeTab?.id);
+  
+	  // Event listener for tab change
+	  customTab.querySelectorAll(".nav-link").forEach(link => {
+		link.addEventListener("shown.bs.tab", function (e) {
+		  toggleGxRow(e.target.id);
+		});
+	  });
+	});
+
+	
+	document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('salesTable').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    [ 'transactions'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("report");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+  
+
+
+  </script>
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+
+<script>
+const periodMap = {
+  "Today": "today",
+  "Yesterday": "yesterday",
+  "Last 7 Days": "last7days",
+  "Month": "thismonth",
+  "This Month": "thismonth",
+  "Year": "thisyear",
+  "This Year": "thisyear",
+  "7days": "last7days"
+};
+
+let currentPeriod = "today";
+let customStart = "";
+let customEnd = "";
+
+
+function formatCurrency(num) {
+  num = Number(num) || 0;
+  return "₦" + num.toLocaleString("en-NG", {minimumFractionDigits: 2});
+}
+
+
+async function updateFinanceSummary() {
+  let url = `http://localhost:3000/finance-data?period=${currentPeriod}`;
+  if (currentPeriod === "custom" && customStart && customEnd) {
+    url += `&custom_start=${customStart}&custom_end=${customEnd}`;
+  }
+  const res = await fetch(url);
+  const data = await res.json();
+
+  document.getElementById("total-sales").innerText = formatCurrency(data.raw_sales);
+  document.getElementById("total-fuel-sales").innerText = formatCurrency(data.total_fuel_sales);
+  document.getElementById("total-non-fuel-sales").innerText = formatCurrency(data.total_non_fuel_sales);
+  document.getElementById("cogs").innerText = formatCurrency(data.total_cogs);
+  document.getElementById("total-expense").innerText = formatCurrency(data.total_expenses);
+  document.getElementById("total-staff-pay").innerText = formatCurrency(data.total_staff_payment);
+  document.getElementById("budget-usage").innerText = (data.budget_usage_percentage || 0).toFixed(2) + "%";
+  document.getElementById("total-discount").innerText = formatCurrency(data.total_discount);
+  document.getElementById("gross").innerText = formatCurrency(data.gross_profit);
+  document.getElementById("net-profit").innerText = formatCurrency(data.net_profit);
+  document.getElementById("tax-paid").innerText = formatCurrency(data.total_tax);
+
+  
+  const netCashFlow = (Number(data.raw_sales) - Number(data.total_expenses) - Number(data.total_staff_payment) - Number(data.total_tax) + Number(data.total_cogs) );
+  document.getElementById("net-cash-flow").innerText = formatCurrency(netCashFlow);
+}
+
+
+let incomeVsExpenseChart = null;
+let grossProfitChart = null;
+
+
+async function drawIncomeVsExpenseChart() {
+    let url = `http://localhost:3000/finance-graph-expense-vs-income?period=${currentPeriod}`;
+    if (currentPeriod === "custom" && customStart && customEnd) {
+        url += `&custom_start=${customStart}&custom_end=${customEnd}`;
+    }
+    const res = await fetch(url);
+    const data = await res.json();
+
+   
+       let labels;
+    if (currentPeriod === "thismonth" || currentPeriod === "month") {
+   
+        labels = data.map((d, i) => d.label?.toLowerCase().includes("week") ? d.label : `Week ${i + 1}`);
+    } else if (currentPeriod === "thisyear" || currentPeriod === "year") {
+     
+        labels = data.map(d => {
+          
+            const date = new Date(d.label);
+            if (!isNaN(date)) {
+                return date.toLocaleDateString('en-US', { month: 'short' }); 
+            }
+           
+            return d.label;
+        });
+    } else {
+       
+        labels = data.map(d => {
+            const date = new Date(d.label);
+            if (!isNaN(date)) {
+                return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            }
+            return d.label;
+        });
+    }
+
+    const sales = data.map(d => d.sales);
+    const expenses = data.map(d => d.expenses);
+
+    if (incomeVsExpenseChart) incomeVsExpenseChart.destroy();
+    const ctx = document.getElementById("income-vs-expense").getContext("2d");
+    incomeVsExpenseChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Income",
+                    data: sales,
+                    backgroundColor: "#28a745",
+                    borderColor: "#28a745",
+                    borderWidth: 1
+                },
+                {
+                    label: "Expenses",
+                    data: expenses,
+                    backgroundColor: "#dc3545",
+                    borderColor: "#dc3545",
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { 
+                legend: { 
+                    display: true 
+                } 
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                },
+                y: {
+                    stacked: false,
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+async function drawGrossProfitChart() {
+  let url = `http://localhost:3000/finance-graph-profit?period=${currentPeriod}`;
+  if (currentPeriod === "custom" && customStart && customEnd) {
+    url += `&custom_start=${customStart}&custom_end=${customEnd}`;
+  }
+  const res = await fetch(url);
+  const data = await res.json();
+
+ let labels;
+    if (currentPeriod === "thismonth" || currentPeriod === "month") {
+        labels = data.map((d, i) => d.label?.toLowerCase().includes("week") ? d.label : `Week ${i + 1}`);
+    } else if (currentPeriod === "thisyear" || currentPeriod === "year") {
+        labels = data.map(d => {
+            const date = new Date(d.label);
+            if (!isNaN(date)) {
+                return date.toLocaleDateString('en-US', { month: 'short' });
+            }
+            return d.label;
+        });
+    } else {
+        labels = data.map(d => {
+            const date = new Date(d.label);
+            if (!isNaN(date)) {
+                return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            }
+            return d.label;
+        });
+    }
+  const gross = data.map(d => d.gross_profit);
+  const net = data.map(d => d.net_profit);
+
+  if (grossProfitChart) grossProfitChart.destroy();
+  const ctx = document.getElementById("grossprofit-chart").getContext("2d");
+  grossProfitChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Gross Profit",
+          data: gross,
+          borderColor: "#007bff",
+          backgroundColor: "rgba(0,123,255,0.1)",
+          fill: true,
+          tension: 0.4
+        },
+        {
+          label: "Net Profit",
+          data: net,
+          borderColor: "#17a2b8",
+          backgroundColor: "rgba(23,162,184,0.1)",
+          fill: true,
+          tension: 0.4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: true } }
+    }
+  });
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+ 
+  document.querySelectorAll("#btnfilter .btn-range").forEach(btn => {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("#btnfilter .btn-range").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      let val = btn.innerText.trim();
+      if (val === "Custom Range") {
+        document.getElementById("customRangeContainer").style.display = "block";
+        currentPeriod = "custom";
+      } else {
+        document.getElementById("customRangeContainer").style.display = "none";
+        currentPeriod = periodMap[val] || "today";
+        customStart = "";
+        customEnd = "";
+        updateFinanceSummary();
+        drawIncomeVsExpenseChart();
+        drawGrossProfitChart();
+      }
+    });
+  });
+
+
+  window.applyCustomRange = function () {
+    const start = document.getElementById("startDate").value;
+    const end = document.getElementById("endDate").value;
+    if (start && end) {
+      customStart = start;
+      customEnd = end;
+      updateFinanceSummary();
+      drawIncomeVsExpenseChart();
+      drawGrossProfitChart();
+    }
+  };
+
+
+  document.getElementById("incomeExpenseFilter").addEventListener("change", function () {
+    let val = this.value.trim();
+    currentPeriod = periodMap[val] || "today";
+    drawIncomeVsExpenseChart();
+  });
+
+
+  document.getElementById("gross-profit-filter").addEventListener("change", function () {
+    let val = this.value.trim();
+    currentPeriod = periodMap[val] || "today";
+    drawGrossProfitChart();
+  });
+
+  updateFinanceSummary();
+  drawIncomeVsExpenseChart();
+  drawGrossProfitChart();
+});
+</script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+</body>
+
+</html>

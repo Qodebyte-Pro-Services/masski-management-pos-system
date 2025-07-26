@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Point of Sales | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!--------to save in localforge--- for offline storage ---------------------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    localStorage.setItem("currentCashier", "Samuel Qodebyte");
+  });
+  
+</script>
+
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+   
+.product-img {
+  max-height: 100px;
+  object-fit: contain;
+}
+.keyboard {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .keyboard button {
+      flex: 1 0 30%;
+      padding: 10px;
+      font-size: 18px;
+    }
+    @media print {
+/* Remove unwanted elements */
+#printBtn,
+.btn {
+  display: none !important;
+}
+
+body {
+  background: white !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  font-size: 10px !important;
+  line-height: 1.5;
+}
+
+@page {
+  size: 40mm auto;
+  margin: 5mm; /* Adjust to reduce top/bottom white space */
+}
+
+#invoice {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+}
+
+h4, h6, p {
+  font-size: 10px !important;
+  margin: 0 0 3px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse !important;
+  margin-top: 5px;
+}
+
+th, td {
+  border: 1px solid #444 !important;
+  font-size: 5px !important;
+  padding: 5px !important;
+  text-align: left;
+}
+
+.badge {
+  font-size: 10px !important;
+  padding: 2px 5px !important;
+}
+
+small {
+  font-size: 5px !important;
+}
+
+.text-end {
+  text-align: right !important;
+}
+}
+#invoice{width: 370px;margin: 0 auto}
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main " style="background-color: #fff !important;">
+
+<!-- posSidebar wrapper start 
+<div id="posSidebar"></div>
+Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+
+<!-- App Hero header ends --><!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+    <!-- Breadcrumb and Stats start -->
+    <div class="d-flex align-items-center mb-3">
+    
+    <!-- Breadcrumb start -->
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+    <i class="bi bi-house lh-1"></i>
+    <a aria-current="page">Point of Sale</a>
+    </li>
+    <li class="breadcrumb-item" >POS</li>
+    </ol>
+    <!-- Breadcrumb end -->
+    
+    <!-- Sales stats start -->
+    <!-- clock In And Date -->
+    <div class="ms-auto d-lg-flex d-none flex-row">
+        <span id="offlineIndicator" style="margin-right: 2px; margin-top:3px;" class="text-danger d-none">📴 Offline Mode</span>
+
+        <div class="clock-in" style="background:#28a745; color: #fff;
+            padding: 10px;font-size: 16px;">Clock In: <span id="sessionTimer">00:00:00</span></div>    
+        <div class="current-date" id="currentDate" style="background: #444; color: #fff;
+            padding: 10px;font-size: 16px;margin-left: 10px;"></div>
+             <button id="clockOut" class="btn btn-sm btn-primary ms-2" onclick="ClockOut()"> 
+              Clock Out
+            </button>
+    </div>
+    </div>
+    <!-- Breadcrumb and stats end -->
+    </div>
+    <!-- App Hero header ends -->
+
+
+<!-- App body starts -->
+<div class="app-body mt-4">
+
+
+
+
+
+
+    <div class="row gx-3">
+        <!---------------------Products Gride Section------------------------------------------------------->
+        <div class="col-xl-7 d-flex flex-column card" id="products_grid" style="background-color: #f8f9fa;">
+
+          <div class="card-header mb-2">
+            <div class="d-flex flex-wrap gap-2 px-3 pt-3 pb-2" id="labelFilters">
+              <!-- Buttons will be generated dynamically -->
+            </div>
+          
+            <!-- Search -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 px-3 mb-2">
+  
+              <!-- Search Input -->
+              <div class="input-group " style="width: 45%;">
+                <button class="btn btn-sm btn-outline-secondary" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+                <input type="text" class="form-control form-control-sm" placeholder="Search by product name or SKU">
+              </div>
+            
+              <!-- Category Dropdown -->
+              <select id="productCategory" class="form-select form-select-sm" style="width: 25%;">
+              
+              </select>
+              
+            
+              <!-- Brand Dropdown -->
+              <select id="productBrand" class="form-select form-select-sm" style="width: 25%;">
+                
+              </select>
+            
+            </div>
+            
+          </div>
+          <!-- Filter Buttons -->
+          
+        
+          <!-- Scrollable Products Only -->
+          <div class="px-3 pb-3 card-body" style="max-height: 100vh; overflow-y: auto;">
+            <div class="row gx-3"></div>
+            <div id="noResultsMessage" class="text-center text-muted mt-4" style="display: none;">
+              <i class="bi bi-emoji-frown fs-4 d-block mb-2"></i>
+              No matching products found.
+            </div>
+          </div>
+        </div>
+        
+        
+        <!-----------Order Summary Section------------------------------------------------------------------->
+        <div class="col-xl-5 d-flex flex-column" id="order_summary" style=" overflow: hidden;">
+          <div class="card mb-3 d-flex flex-column h-100" style="background-color: #f8f9fa;">
+            <form id="salesForm" class="d-flex flex-column h-100">
+        
+              <div class="card-header d-flex justify-content-between align-items-center mb-2">
+                <h3 class="mb-0">Cart Summary</h3>
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li hidden ><a class="dropdown-item" href="#" onclick="showInput('coupon')">Apply Coupon</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="showInput('manual')"> Discount</a></li>
+                  </ul>
+                </div>
+              </div>
+        
+              <div class="px-3">
+                <div class="customerIfo">
+                  <div class="row mb-1">
+                    <div class="col-md-12 mt-3">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <label for="supplier" class="form-label mb-0">Customer</label>
+                        <span class="text-success" role="button" onclick="openAddCustomer()" style="font-size: 0.9rem;">Add Customer</span>
+                      </div>
+                      <select class="form-select mt-1" id="customer" name="customer">
+                        <option disabled value="">Choose</option>
+                      </select>
+                    </div>
+                  </div>
+        
+                  <div class="row mb-3">
+                    <div class="col-md-12 mt-2">
+                      <label for="salesMethod" class="form-label mb-0">Sales Point</label>
+                      <select class="form-select mt-1" id="salesPoint" name="salesPoint">
+                        <option disabled value="">Choose sales point</option>
+                        <option value="at_station_order">In-store (Gas Station)</option>
+                        <option value="online_order">Online (Call / WhatsApp)</option>
+                      </select>
+                    </div>
+                  </div>
+        
+                  <div id="couponSection" class="mb-3" style="display:none;">
+                    <label for="couponCode" class="form-label">Coupon Code</label>
+                    <div class="input-group">
+                      <input type="text" id="couponCode" class="form-control" placeholder="e.g. SAVE10">
+                      <button type="button" class="btn btn-outline-primary" onclick="applyCoupon()">Apply</button>
+                    </div>
+                    <div id="couponMessage" class="small mt-1"></div>
+                  </div>
+        
+                  <div id="manualDiscountSection" class="mb-3" style="display:none;">
+                    <label for="discountInput" class="form-label">Discount (₦)</label>
+                    <input type="number" id="discountInput" class="form-control" placeholder="e.g. 500" oninput="renderCart()">
+                  </div>
+                </div>
+              </div>
+        
+              <!-- Scrollable Order Details Section -->
+              <div class="card-body d-flex flex-column p-1 pt-0 px-3" style="flex: 1; min-height: 0;">
+                <h5 class="mb-3">Order Details</h5>
+                <div id="order-summary" class="overflow-auto" style="max-height: 250px; min-height: 100px;"></div>
+              </div>
+              
+        
+              <div class="card-footer mt-auto px-3">
+                <div class="mt-2">
+                  <div class="d-flex justify-content-between">
+                    <span>Sub Total</span>
+                    <span>₦<span id="subtotal">0.00</span></span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span>Discount</span>
+                    <span>-₦<span id="discount">0.00</span></span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span id="tax-rate">Tax (10%)</span>
+                    <span>₦<span id="tax">0.00</span></span>
+                  </div>
+                  <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
+                    <span>Total</span>
+                    <span>₦<span id="total">0.00</span></span>
+                  </div>
+        
+                  <div class="mt-4 d-flex flex-wrap gap-2 justify-content-center">
+                    <button type="button" class="btn btn-outline-primary" onclick="payNow('cash')">Cash</button>
+                    <button type="button" class="btn btn-outline-success" onclick="payNow('credit_card')">Card</button>
+                    <button type="button" class="btn btn-outline-warning" onclick="payNow('bank_transfer')">Transfer</button>
+                    <button type="button" class="btn btn-outline-dark" onclick="openSplitPaymentModal()">Split</button>
+
+                    <button type="button" class="btn btn-outline-info" onclick="addDraft()">Draft</button>
+                    <button type="button" class="btn btn-outline-info" onclick="showDrafts()">Load Draft <span id="draftCountBadge" class="badge bg-danger">0</span></button>
+
+            
+                    <button type="button" class="btn btn-danger" onclick="clearSale()">Clear Sale</button>
+<a href="reports.html"><button type="button" class="btn btn-dark">View Transaction History</button></a>
+                  </div>
+                </div>
+              </div>
+        
+            </form>
+          </div>
+        </div>
+        
+    </div>
+
+<!---------All Sales Modal sections ------------------------------------------------------->
+ <!-- --------------------Cash to Gas Modal -------------------------------------------------------->
+ <div class="modal fade" id="cashToGasModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Convert Cash to Cooking Gas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Toggle buttons -->
+        <div class="mb-3 d-flex justify-content-center">
+          <button id="cashToggle" class="btn btn-success me-2" onclick="setInputMode('cash')">Enter by Cash</button>
+          <button id="kgToggle" class="btn btn-outline-secondary" onclick="setInputMode('kg')">Enter by KG</button>
+        </div>
+
+        <div id="cashInputGroup">
+          <label class="form-label">Enter Amount (₦)</label>
+          <input type="text" id="cashInput" class="form-control mb-2" placeholder="₦ e.g. 5000" oninput="syncFromCash()">
+
+        </div>
+
+        <div id="kgInputGroup" style="display:none">
+          <label class="form-label">Enter Quantity (kg)</label>
+          <input type="text" id="kgInput" class="form-control mb-2" placeholder="kg e.g. 2.5" oninput="syncFromKg()">
+
+        </div>
+
+        <!-- Virtual Keyboard -->
+        <div class="keyboard">
+          <button onclick="keyInput('1')">1</button>
+          <button onclick="keyInput('2')">2</button>
+          <button onclick="keyInput('3')">3</button>
+          <button onclick="keyInput('4')">4</button>
+          <button onclick="keyInput('5')">5</button>
+          <button onclick="keyInput('6')">6</button>
+          <button onclick="keyInput('7')">7</button>
+          <button onclick="keyInput('8')">8</button>
+          <button onclick="keyInput('9')">9</button>
+          <button onclick="keyInput('.')">.</button>
+          <button onclick="keyInput('0')">0</button>
+          <button onclick="clearInputs()">C</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="applyCashToGas()">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-------Draft Modal----------------------->
+<div class="modal fade" id="draftModal" tabindex="-1" aria-labelledby="draftModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-md">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="draftModalLabel">📋 Saved Drafts</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="draftListBody">
+        <!-- Draft list items will go here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger btn-sm" onclick="clearAllDrafts()">🗑️ Clear All Drafts</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 9999">
+  <div id="toastBox" class="toast align-items-center border-0 fade" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div id="toastMessage" class="toast-body text-white fw-semibold">
+        <!-- Message appears here -->
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+
+<!-------------------Receipt ---------------------------------------------------------------------------------->
+<div class="row gx-3" style="display: none;">
+<div  id="invoice" >
+  <div>
+      <div class="card-header text-center">
+          <img id="company-logo" src="../assets/images/IMG_4703.PNG" class="logo" alt="Bootstrap Gallery">
+      </div>
+      <div>
+          <!-- Header Row -->
+          <div>
+          
+              <div class=" text-center">
+                  <p id="company-name" class="fw-bold "><strong> Maski Cooking Gas</strong> </p>
+                  <p id="address" class="">
+                       9990 St. 000 Church Street, Suite 550
+                      Huntsville, Alabama, 99990
+                  </p>
+                  <p id="phone" class="">Tel: 08012345678 | Email: <span id="email">info@example.com</span></p>
+              </div>
+          </div>
+
+          <!-- Invoice Details -->
+          <div>
+              <div  style="border-top: 2px dashed #38393a;">
+                  <div>
+                    <h6 class="fw-bold">Sales Invoice</h6>
+                    <p class="d-flex justify-content-between" style="border-top: 2px dashed #38393a;">
+                      <span>Sales Point:</span>
+                      <span class="sales-point">Head Office</span>
+                    </p>
+                    <p class="d-flex justify-content-between" style="border-top: 2px dashed #38393a;">
+                      <span>Customer:</span>
+                      <span class="customer-name">Walk-in</span>
+                    </p>
+                    <p class="d-flex justify-content-between" style="border-top: 2px dashed #38393a;">
+                      <span>Sold By:</span>
+                      <span class="cashier-name">Samuel</span>
+                    </p>
+                    <p class="d-flex justify-content-between" style="border-top: 2px dashed #38393a;">
+                      <span>Payent:</span>
+                      <span class="payment-method">Transfer</span>
+                    </p>
+                        </p>
+                        <p class="d-flex justify-content-between" style="border-top: 2px dashed #38393a;">
+                          <span>Invoice No:</span>
+                          <span class="invoice-no">12334</span>
+                        </p>
+                        <p class="d-flex justify-content-between" style="border-top: 2px dashed #38393a;"d>
+                          <span>Invoice Date:</span>
+                          <span class="invoice-date">11/06/25 10:03:2025</span>
+                        </p>
+                      
+                  </div>
+              </div>
+          </div>
+
+          <!-- Table Section -->
+          <div class="">
+              <div >
+                  <div class="table-responsive">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>Items</th>
+                                  <th>Qty</th>
+                                  <th>Amount(#)</th>
+                                  
+                              </tr>
+                          </thead>
+                          <tbody >
+                              <!-- Filled by JS -->
+                            </tbody>
+                      </table>
+                      <div class="" style="background: #e7ebf0 !important;">
+                         
+                          <p class="" style="border-bottom: dashed 1px #38393a;">
+                              
+                                  
+                              Thanks for your Patronage! Please keep your
+                              receipt as A proof of Payment!<br> 
+                      No refund of money or perishables after payment.
+                                                                 
+                          </p>
+                          <p class="">
+                             
+Software by Qodebyte Digital Solution:
+09134697313
+                          </p>
+                      </div>
+                      
+                  </div>
+              </div>
+          </div>
+
+
+          </div>
+      </div>
+  </div>
+</div>
+
+</div>
+
+<!-----Sales Invoice Preview--------------------------------------------------------------------------------->
+<div class="offcanvas offcanvas-end" id="confirmOffcanvas" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title" id="confirmOffcanvasLabel">Sales Invoice Preview</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <!-- Company Info -->
+    <div class="text-center mb-2" style="border-bottom: 1px dashed #999;">
+      <h5 id="company-name-2" class="fw-bold mb-1">Maski Cooking Gas</h5>
+      <p id="address2" class="mb-0 small">123 Business Road, Lagos</p>
+      <p id="phone2" class="small">Tel: 08012345678 | Email: <span id="email2">info@example.com</span></p>
+    </div>
+    
+
+    <!-- Sales Invoice Header -->
+<!-- Sales Invoice Info Block -->
+<div class="mb-3">
+  <h6 class="fw-bold pb-1">Sales Invoice</h6>
+  <pre id="offcanvasInvoiceInfo" style="font-family: 'Courier New', monospace; font-size: 14px; margin: 0;">
+    Sales Point : <span id="offcanvasSalesPoint">--</span>
+    Customer    : <span id="offcanvasCustomer">--</span>
+    Sold By     : <span id="offcanvasCashier">--</span>
+    Invoice No  : <span id="receiptNumber">--</span>
+    Posted On   : <span id="receiptDate">--</span>
+    </pre>
+</div>
+
+
+
+    <!-- Item Table -->
+    <div class="table-responsive" style="border-bottom: 1px dashed #999;">
+      <table class="table table-sm table-bordered">
+        <thead class="small">
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="receiptItemBody">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="border-top pt-2 small" style="border-bottom: 1px dashed #999;">
+      <div class="d-flex justify-content-between"><span>Payment Method:</span><span id="receiptMethod">-</span></div>
+      <div class="d-flex justify-content-between"><span>Subtotal:</span><span id="receiptSubtotal">₦0</span></div>
+      <div class="d-flex justify-content-between"><span>Discount:</span><span id="receiptDiscount">₦0</span></div>
+      <div class="d-flex justify-content-between"><span id="tax-rate2">VAT (0%):</span><span id="receiptVat">₦0</span></div>
+      
+      <div class="d-flex justify-content-between fw-bold fs-5 mt-2 p-2" style="border-top: 1px dashed #999;"><span>Total:</span><span id="receiptTotal">₦0</span></div>
+    </div>
+
+    <!-- Print Button -->
+    <div class="mt-4 text-end" >
+      <button class="btn btn-secondary btn-sm"  data-bs-dismiss="offcanvas" aria-label="Close">Close</button>
+      <button class="btn btn-success btn-sm" id="confirmBtn">✅ Confirm Sale</button>
+      <button class="btn btn-primary btn-sm d-none" id="printReceiptBtn">🖨️ Print Receipt</button>
+      
+    </div>
+  </div>
+</div>
+
+<!-- 🔀 Split Payment Modal -->
+<div class="modal fade" id="splitPaymentModal" tabindex="-1" aria-labelledby="splitPaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="splitPaymentModalLabel">Split Payment</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">
+        <p class="mb-2">Total Amount: <strong>₦<span id="splitTotalAmount">0.00</span></strong></p>
+        
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <label for="splitAmount1" class="form-label">Amount 1</label>
+            <input type="number" class="form-control" id="splitAmount1" placeholder="e.g. 5000">
+          </div>
+          <div class="col-md-6">
+            <label for="splitMethod1" class="form-label">Method 1</label>
+            <select class="form-select" id="splitMethod1">
+              <option value="cash">Cash</option>
+              <option value="credit_card">Card</option>
+              <option value="bank_transfer">Transfer</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <label for="splitAmount2" class="form-label">Amount 2</label>
+            <input type="number" class="form-control" id="splitAmount2" placeholder="e.g. 3000">
+          </div>
+          <div class="col-md-6">
+            <label for="splitMethod2" class="form-label">Method 2</label>
+            <select class="form-select" id="splitMethod2">
+              <option value="cash">Cash</option>
+              <option value="credit_card">Card</option>
+              <option value="bank_transfer">Transfer</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="splitErrorMsg" class="text-danger small mt-2"></div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-success" onclick="confirmSplitPayment()">Confirm Payment</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class=" modal fade" id="quickOrderModel" tabindex="-1" aria-labelledby="quickOrderModelLabel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="min-width: 650px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickOrderModelLabel">
+                    Create Order
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                  <div class="row mb-3" >
+                    <div class="col-md-12 mt-4">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <label for="supplier" class="form-label mb-0">Supplier</label>
+                        <span class="text-success" role="button" onclick="openAddSupplierModal('quickOrderModel')" style="font-size: 0.9rem;">Add supplier</span>
+
+                      </div>
+                      <select class="form-select mt-1" id="supplier" name="supplier"  >
+                        <option selected disabled>Choose...</option>
+                        
+                      </select>
+                    </div>
+                  </div>              
+                    <div class="row mb-3">
+                      <div class="col">
+                        <label for="orderDate" class="form-label">Order Date</label>
+                        <input type="date" id="orderDate" class="form-control" />
+                      </div>
+                      <div class="col">
+                        <label for="deliveryDate" class="form-label">Expected Delivery Date</label>
+                        <input type="date" id="deliveryDate" class="form-control" />
+                      </div>
+                    </div>
+              
+                    <div class="mb-3">
+                      <label class="form-label">Products</label>
+                      <div class="input-group">
+                        <select id="productSelect" class="form-select">
+                          <option value="">Select Product</option>
+                          
+                        </select>
+                        <select id="variationSelect" class="form-select">
+                          <option value="">Select Variation</option>
+                          
+                        </select>
+                       
+                      </div>
+                    </div>
+              
+                    <table class="table table-bordered mt-3">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Variation</th>
+                          <th>Quantity</th>
+                          <th>Unit Price</th>
+                          <th>Subtotal</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="productTableBody"></tbody>
+                    </table>
+              
+                    <div class="text-end mb-3">
+                      <strong>Total (₦): <span id="totalAmount">0.00</span></strong>
+                    </div>
+              
+                    <div class="d-flex justify-content-end gap-2">
+                      <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" id="saveOrderBtn" class="btn btn-success">Save Order</button>
+                    </div>
+                  </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="quickProductModal" tabindex="-1" aria-labelledby="quickProductModalLabel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickProductModalLabel">
+                    Add Products
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> 
+            <form style="max-height: 500px; overflow-y: auto;" id="addProductForm" enctype="multipart/form-data">
+            <div class="modal-body">
+               
+                    <div class="row mb-3">
+                      <div class="col-md-12 mb-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="product_name" required>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          <span class="text-success" role="button" onclick="openAddCategoryModal('quickProductModal')" style="font-size: 0.9rem;">Add Category</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="categorydropdown" name="category_id" required>
+                          <option selected disabled>Choose...</option>
+                         
+                        </select>
+                      </div>
+                    </div>
+
+                 <!-- <div hidden class="row mb-3">
+                       <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Supplier</label>
+                          <span class="text-success" role="button" onclick="openAddSupplierModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Supplier</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="supplier" name="supplier" required>
+                          <option selected disabled>Choose...</option>
+     
+                          
+                         
+                        </select>
+                      </div>
+                    </div> -->
+              
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="brand" class="form-label">Brand</label>
+                        <input type="text" class="form-control" id="brand" name="brand" required>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="unit" class="form-label">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit_name" required>
+                      </div>
+                    </div>
+
+                      
+              
+                    <!-- <div hidden class="row mb-4">
+ <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="Unit" class="form-label mb-0">Unit</label>
+                          <span class="text-success" role="button" onclick="openAddUnitModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Unit</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="unit" name="unit" required>
+                          <option selected disabled>Choose...</option>
+                        
+                          
+                         
+                        </select>
+                      </div>
+                      </div> -->
+
+<!-- 
+                      <div class="row mb-4">
+                        <div class="form-check form-switch " style="padding-left:4em">
+                          <input class="form-check-input custom-toggle" type="checkbox" id="isTaxable"
+                           name="is_taxable" onchange="toggleTaxFields()" style="border:1px solid green">
+                          <label class="form-check-label fw-bold" for="isTaxable">Is Taxable?</label>
+                        </div>
+                        
+                        </div>
+                        <div id="taxFields" style="display: none;">
+                          <div class="mb-3">
+                            <label for="tax" class="form-label">Tax (%)</label>
+                            <input type="number" class="form-control" id="tax" name="tax" min="0" step="0.01">
+                          </div>
+                        
+                          <div class="mb-3">
+                            <label for="taxType" class="form-label">Tax Type</label>
+                            <select class="form-select" id="taxType" name="tax_type">
+                              <option selected disabled>Choose tax type</option>
+                              <option value="inclusive">Inclusive</option>
+                              <option value="exclusive">Exclusive</option>
+                            </select>
+                          </div>
+                        </div> -->
+
+                        <div class="row mb-3">
+  <!-- <div class="col-md-6">
+    <label for="currentStock" class="form-label">Current Stock Qty</label>
+    <input type="number" class="form-control" id="currentStock" name="current_product_stock_qty_number" min="0" value="0" required>
+  </div> -->
+  <div class="col-md-6">
+    <label for="alertLimit" class="form-label">Alert Limit</label>
+    <input type="number" class="form-control" id="alertLimit" name="product_alert_limit" min="0" value="0" required>
+  </div>
+</div>
+                        
+              
+                    <div class="mb-3">
+                      <label for="description" class="form-label">Description</label>
+                      <textarea class="form-control" id="description" name="product_description" rows="3"></textarea>
+                    </div>
+              
+                    <div class="mb-4">
+                <label for="productImageInputSection" class="form-label">Upload Design</label>
+                <div class="file-drop-area">
+                    
+                    <div id="productImagePreview" ></div>
+                    <input type="file" name="product_featured_image" id="productImageInputSection" accept="image/*">
+                </div>
+            </div>
+              
+                    
+                  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success"  id="saveProductBtn" onclick="addProduct()">
+                    Save Products
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="quickExpModel" tabindex="-1" aria-labelledby="quickExpModelLabel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickExpModelLabel">
+                Add Expenses
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addExpForm"  enctype="multipart/form-data" >
+                <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          <span class="text-success" role="button" onclick="openExpCat('quickExpModel')" style="font-size: 0.9rem;">Add Category</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="expcategory" name="expcategory" required>
+                          <option selected disabled>Choose...</option>
+                        </select>
+                      </div>
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">Description</label>
+                  <input type="text" class="form-control" id="expDes" placeholder="Pump Maintaince" required>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Amount</label>
+                  <input type="number" class="form-control" placeholder="3000" id="expAmt">
+                </div>
+          
+                <div class="mb-3">
+                  <label for="expMethod" class="form-label">Method Of Payment</label>
+                  <select class="form-select" id="expMethod" name="method" required>
+                          <option selected disabled>Choose...</option>
+                          <option>Cash</option>
+                          <option>Transfer</option>
+                          <option>Card</option>
+                       
+                        </select>
+                </div>
+                 <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Date</label>
+                  <input type="date" class="form-control" placeholder="" id="expDate">
+                </div>
+                <div class="mb-4">
+                      <label class="form-label">Upload Payment Receipt </label>
+                      <div class="file-drop-area">
+                       <div id="recieptImagePreview" ></div>
+                        <input type="file" id="recieptImageInput" name="receipt">
+                      </div>
+                    </div>
+              
+                <button id="expBtn" type="button" class="btn btn-success" >Save Expens</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<!-- Row start -->
+
+<!-- Row end -->
+
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+</div>
+<!-- App footer end -->
+ 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/barchart.js"></script>
+<script src="salesjs/pos.js"></script>
+<script src="../assets/js/form.js"></script>
+<script src="../assets/js/order.js"></script>
+<script src="salesjs/clockin.js"></script>
+
+
+<div id="model"></div>
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">-->
+<!--<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>-->
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<!--<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/dash1/source.js"></script>-->
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+</body>
+
+</html>

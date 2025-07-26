@@ -1,0 +1,25 @@
+# Enable RewriteEngine
+RewriteEngine On
+
+# Set the base directory if your project is in a subfolder
+# RewriteBase /your-subfolder/
+
+# Enable URL rewriting
+RewriteEngine On
+
+# If directory doesn't exist but .html file does, rewrite to .html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Redirect root domain to Account/login
+RewriteRule ^$ account/login [L]
+
+
+# Remove .html extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Optional: redirect from index.html to clean URL
+RewriteRule ^index\.html$ / [R=301,L]

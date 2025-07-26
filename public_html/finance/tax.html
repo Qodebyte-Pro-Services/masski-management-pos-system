@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Expenses Management | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+	
+	@media print {
+    /* Remove unwanted elements */
+    #printBtn,nav[aria-label="Table pagination"],
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-size: 16px !important;
+        line-height: 1.5;
+    }
+
+    
+
+   @page {
+    size: A4 auto;
+    margin: 10mm;
+  }
+}
+
+    #expenhold {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    h4, h6, p {
+        font-size: 16px !important;
+        margin: 0 0 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse !important;
+        margin-top: 10px;
+    }
+
+    th, td {
+       
+        font-size: 14px !important;
+        padding: 10px !important;
+        text-align: left;
+    }
+
+    .badge {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .text-end {
+        text-align: right !important;
+    }
+
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/">Home</a>
+</li>
+<li class="breadcrumb-item">
+
+<a href="../finance/">Finance</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Tax</li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+
+<div class="ms-auto d-lg-flex d-none flex-row">
+   
+	<div class="d-flex flex-row gap-1" id="btnfilter">
+    
+	  <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addExpModel">
+		Add New Item Tax
+	  </button>
+	 
+    <div class="filter-wrapper">
+       <select id="tax-filter" class="form-select">
+  <option value="today">Today</option>
+  <option value="yesterday">Yesterday</option>
+  <option value="last7days">Last 7 days</option>
+  <option value="weekly">Weekly</option>
+  <option value="monthly">Monthly</option>
+  <option value="yearly">Yearly</option>
+</select>
+        </div>
+	</div>
+    
+</div>
+  
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Total Tax Collected</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-info grd-info-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-info"></i>
+	</div>
+	<div id="total-tax-collected" class="h5 text-info  overflow-hidden "
+	style="max-width: 130px;">
+	₦0
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Tax Refunds</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-warning grd-warning-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-warning"></i>
+	</div>
+	<div id="tax-refunds" class="h5 text-warning  overflow-hidden "
+	style="max-width: 130px;">
+	₦0
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Defualt tax Rat</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-success grd-warning-light rounded-5 d-flex">
+	<i class=" bi bi-bar-chart fs-4 lh-1 text-secondary"></i>
+	</div>
+	<div id="default-tax-rate" class="h5 text-success  overflow-hidden "
+	style="max-width: 130px;">
+NAN<span class="text-success">0%</span>
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+</div>
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+    <div class="row g-4">
+  <!-- Left Chart Column -->
+  <div class="col-lg-12 mx-auto" style="background-color: #f8f9fa; height: 500px;">
+    <div class="chart-container">
+      <div class="header d-flex justify-content-between">
+        <div>
+          <h3>Tax Flow OverTime</h3>
+          <p style="color: gray;">Tax Flow</p>
+        </div>
+        <div class="mt-3">
+          <select id="taxFlowFilter" class="form-select">
+            <option value="today">Today</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+      </div>
+  <canvas id="taxFlowChart" style="max-width:100%; height: 300px;"></canvas>
+    </div>
+  </div>
+
+ 
+</div>
+
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: 30px;">
+	<div class="col-xxl-12">
+<div class="card mb-3 p-3" style="background-color: #f8f9fa;">
+<div class="header">
+<div >
+<h3>Tax History</h3>
+<p style="color: gray;">Manage all government tax </p>
+</div>
+<div class="dt-buttons btn-group">
+					<button class="btn btn-info me-2" onclick="exportToExcel()"> Excel</button>
+					<button id="downloadBtn" class="btn btn-outline-success me-2" onclick="downloadPDF()">PDF</button>
+					<button id="printBtn" class="btn btn-success">Print</button>
+				  </div>
+</div>
+
+<div class="card-body" style="padding: 0px !important;">
+<div>
+
+
+</div>
+
+
+<div class="table-responsive" id="expenhold">
+<table id="tax-table" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+<thead>
+<tr>
+<th scope="col">Date</th>
+<th scope="col">Sales Invoice</th>
+<th scope="col">Customer</th>
+<th scope="col">Item Count</th>
+<th scope="col">Tax Collected</th>
+<th scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+
+<tr><td>2025-07-01</td>
+<td>TX-175046044896</td>
+<td>Walkin</td>
+<td class="">4</td>
+<td class="text-success">â‚¦2,000</td>
+
+<td><a href="../sales/invoice.html"><span class="badge bg-secondary">View</span></td></a>
+</tr>
+
+</tbody>
+</table>
+<nav aria-label="Table pagination">
+					<ul class="pagination justify-content-end" style="margin-top: 10px;">
+					  <li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					  </li>
+					  <li class="page-item"><a class="page-link" href="#">1</a></li>
+					  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+					  <li class="page-item"><a class="page-link" href="#">3</a></li>
+					  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				  </nav>
+</div>
+</div>
+</div>
+</div>
+	</div>
+<!-- Row end -->
+<!----Model section for adding expense-->
+<div class="modal fade" id="addExpModel" tabindex="-1" aria-labelledby="addExpModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addExpModel">
+                  Add Tax
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form id="addProductTax">
+
+              <div class="mb-3">
+    <label for="productSelect" class="form-label">Select Product</label>
+    <select class="form-select" id="productSelect">
+      <option value="">Select Product</option>
+   
+    </select>
+  </div>
+
+  <input type="hidden" id="taxNameInput" name="tax_name">
+  <div class="mb-3">
+    <label class="form-label mt-2">Tax Rate (%)</label>
+    <input type="number" class="form-control" name="tax_rate" value="7.5" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label mt-2">Tax Type</label>
+    <select class="form-select" name="tax_type" required>
+      <!-- <option value="inclusive">Inclusive</option> -->
+      <option value="exclusive">Exclusive</option>
+    </select>
+  </div>
+  <button id="taxBtn" type="submit" class="btn btn-primary mt-3">Assign Tax</button>
+</form>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<!----Model section for adding expense end-->
+<!------Success message Div-------->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/form.js"></script>
+<script src="js/tax.js"></script>
+<script>
+	//function to hide overwiev matrice when click tabs
+	document.addEventListener("DOMContentLoaded", function () {
+	  const gxRow = document.getElementById("gxRow");
+	  const customTab = document.getElementById("customTab");
+  
+	  // Function to toggle visibility
+	  function toggleGxRow(activeTabId) {
+		if (activeTabId === "tab-one") {
+		  gxRow.style.setProperty("display", "flex", "important"); // for .row
+		} else {
+		  gxRow.style.setProperty("display", "none", "important");
+		}
+	  }
+  
+	  // Initial check on page load
+	  const activeTab = customTab.querySelector(".nav-link.active");
+	  toggleGxRow(activeTab?.id);
+  
+	  // Event listener for tab change
+	  customTab.querySelectorAll(".nav-link").forEach(link => {
+		link.addEventListener("shown.bs.tab", function (e) {
+		  toggleGxRow(e.target.id);
+		});
+	  });
+	});
+
+	
+	document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('expenhold').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    [ 'expensesTable'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("expensesTable");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+  
+
+
+  </script>
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let taxFlowChartInstance = null;
+
+function getWeekOfMonth(date) {
+  const d = new Date(date);
+  const firstDay = new Date(d.getFullYear(), d.getMonth(), 1);
+  return Math.ceil((d.getDate() + firstDay.getDay()) / 7);
+}
+
+async function loadTaxFlowChart(period = "today") {
+  try {
+    const res = await fetch(`http://localhost:3000/tax_collected_graph?filter=${period}`);
+    const data = await res.json();
+
+    let labels = [];
+    if (period === "weekly") {
+    
+      labels = data.map(row => {
+        const d = new Date(row.label);
+        return d.toLocaleDateString(undefined, { weekday: 'short' });
+      });
+    } else if (period === "monthly") {
+    
+      labels = data.map(row => {
+        const weekNum = getWeekOfMonth(row.label);
+        return `Week ${weekNum}`;
+      });
+    } else if (period === "yearly") {
+    
+      labels = data.map(row => row.label); 
+    } else {
+     
+      labels = data.map(row => row.label);
+    }
+
+    const values = data.map(row => Number(row.total_tax_collected || 0));
+
+    if (taxFlowChartInstance) {
+      taxFlowChartInstance.destroy();
+    }
+
+    const ctx = document.getElementById('taxFlowChart').getContext('2d');
+    taxFlowChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Tax Collected',
+          data: values,
+          fill: true,
+          borderColor: '#28a745',
+          backgroundColor: 'rgba(40, 167, 69, 0.15)',
+          tension: 0.4,
+          pointRadius: 3,
+          pointBackgroundColor: '#28a745'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => `₦${Number(ctx.parsed.y).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`
+            }
+          }
+        },
+        scales: {
+          x: {
+             title: { display: true, text: 'Period' },
+               ticks: {
+      autoSkip: true,
+      maxTicksLimit: 10
+    }
+            },
+          y: {
+            title: { display: true, text: 'Tax Collected (₦)' },
+            beginAtZero: true,
+            ticks: {
+              callback: value => '₦' + Number(value).toLocaleString()
+            }
+          }
+        }
+      }
+    });
+  } catch (err) {
+    showToast(err.message || "Failed to load tax flow chart", "danger");
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadTaxFlowChart(document.getElementById('taxFlowFilter').value);
+
+  document.getElementById('taxFlowFilter').addEventListener('change', function() {
+    loadTaxFlowChart(this.value);
+  });
+});
+</script>
+<script>
+    	function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+
+</script>
+
+<!-- <script>
+  $(document).ready(function() {
+ 
+  $.get('http://localhost:3000/product', function(products) {
+    const $productSelect = $('#productSelect');
+    products.forEach(p => {
+      $productSelect.append(`<option value="${p.product_id}">${p.product_name}</option>`);
+    });
+  });
+
+ 
+  $('#productSelect').on('change', function() {
+    const productId = $(this).val();
+    const $variationSelect = $('#variationSelect');
+    $variationSelect.html('<option value="">Select Variation</option>');
+    if (!productId) return;
+
+    $.get(`http://localhost:3000/product_variations/product/${productId}`, function(variations) {
+      variations.forEach(v => {
+       
+        let attrStr = '';
+        if (v.attributes && Array.isArray(v.attributes)) {
+          attrStr = v.attributes.map(a => `${a.attribute_name}: ${a.value}`).join(', ');
+        }
+        const label = `${v.product_name || ''}${attrStr ? ' (' + attrStr + ')' : ''}`;
+        $variationSelect.append(`<option value="${v.variations_id}" data-product-name="${v.product_name}" data-attr="${attrStr}">${label}</option>`);
+      });
+    });
+  });
+
+
+  $('#variationSelect').on('change', function() {
+    const selected = $(this).find('option:selected');
+    const taxName = selected.data('product-name') + (selected.data('attr') ? ' (' + selected.data('attr') + ')' : '');
+    $('#taxNameInput').val(taxName);
+  });
+
+
+  $('#addProductTax').on('submit', function(e) {
+    e.preventDefault();
+    const variations_id = $('#variationSelect').val();
+    const tax_name = $('#taxNameInput').val();
+    const tax_rate = Number($(this).find('input[name="tax_rate"]').val());
+    const tax_type = $(this).find('select[name="tax_type"]').val();
+    const btn = document.getElementById('taxBtn');
+    btn.disabled = true;
+    btn.innerHTML = 'Assigning Tax...';
+
+    $.ajax({
+      url: 'http://localhost:3000/variation_tax',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ variations_id, tax_name, tax_rate, tax_type }),
+      success: function(resp) {
+        showToast('Tax assigned successfully!');
+        btn.disabled = false;
+        btn.innerHTML = 'Assign Tax';
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+        $('#addExpModel').modal('hide');
+      },
+      error: function(xhr) {
+        showToast(xhr.responseJSON?.error || 'Failed to assign tax', 'danger');
+        btn.disabled = false;
+        btn.innerHTML = 'Assign Tax';
+      }
+    });
+  });
+});
+</script> -->
+<script>
+  $(document).ready(function() {
+  // Load products
+  $.get('http://localhost:3000/product', function(products) {
+    const $productSelect = $('#productSelect');
+    $productSelect.html('<option value="">Select Product</option>');
+    products.forEach(p => {
+      $productSelect.append(`<option value="${p.product_id}">${p.product_name}</option>`);
+    });
+  });
+
+  // Remove variation select logic
+
+  // Set tax name input when product changes
+  $('#productSelect').on('change', function() {
+    const selected = $(this).find('option:selected');
+    $('#taxNameInput').val(selected.text());
+  });
+
+  // Submit handler
+  $('#addProductTax').on('submit', function(e) {
+    e.preventDefault();
+    const product_id = $('#productSelect').val();
+    const tax_name = $('#taxNameInput').val();
+    const tax_rate = Number($(this).find('input[name="tax_rate"]').val());
+    const tax_type = $(this).find('select[name="tax_type"]').val();
+    const btn = document.getElementById('taxBtn');
+    btn.disabled = true;
+    btn.innerHTML = 'Assigning Tax...';
+
+    $.ajax({
+      url: 'http://localhost:3000/tax',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ product_id, tax_name, tax_rate, tax_type }),
+      success: function(resp) {
+        showToast('Tax assigned successfully!');
+        btn.disabled = false;
+        btn.innerHTML = 'Assign Tax';
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+        $('#addExpModel').modal('hide');
+      },
+      error: function(xhr) {
+        showToast(xhr.responseJSON?.error || 'Failed to assign tax', 'danger');
+        btn.disabled = false;
+        btn.innerHTML = 'Assign Tax';
+      }
+    });
+  });
+});
+</script>
+<script>
+  let currentPage = 1;
+const pageSize = 10; // items per page
+
+async function loadAllTaxSales(page = 1) {
+  try {
+    const res = await fetch('http://localhost:3000/product_tax/all_sales');
+    const data = await res.json();
+   
+const allSales = [];
+if (Array.isArray(data)) {
+  data.forEach(tax => {
+    if (Array.isArray(tax.sales)) {
+      tax.sales.forEach(sale => {
+        allSales.push({
+          ...sale,
+          tax_name: tax.tax_name,
+          product_name: tax.product_name,
+          tax_rate: tax.tax_rate,
+          tax_type: tax.tax_type
+        });
+      });
+    }
+  });
+} else {
+  showToast('No tax sales data found', 'danger');
+  return;
+}
+
+
+    const totalItems = allSales.length;
+    const totalPages = Math.ceil(totalItems / pageSize);
+    currentPage = Math.max(1, Math.min(page, totalPages));
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const pageRows = allSales.slice(start, end);
+
+   
+    const tbody = document.querySelector('#tax-table tbody');
+    tbody.innerHTML = '';
+    pageRows.forEach(row => {
+      const date = row.order_date ? row.order_date.slice(0, 10) : '';
+     const invoice = row.order_id ? `TX-${row.order_id.slice(-12)}` : '';
+      tbody.innerHTML += `
+        <tr>
+          <td>${date}</td>
+          <td>${invoice}</td>
+          <td>${row.customer_fullname || 'Walkin'}</td>
+          <td>${row.quantity}</td>
+          <td class="text-success">&#8358;${Number(row.tax_collected).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</td>
+          <td>
+            <a href="../sales/invoice.html?order_id=${row.order_id}">
+              <span class="badge bg-secondary">View</span>
+            </a>
+          </td>
+        </tr>
+      `;
+    });
+
+    renderPagination(totalPages, currentPage);
+
+  } catch (err) {
+    showToast(err.message || 'Failed to load tax sales', 'danger');
+  }
+}
+
+function renderPagination(totalPages, currentPage) {
+  const pag = document.querySelector('.pagination');
+  if (!pag) return;
+  let html = `
+    <li class="page-item${currentPage === 1 ? ' disabled' : ''}">
+      <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
+    </li>
+  `;
+  for (let i = 1; i <= totalPages; i++) {
+    html += `
+      <li class="page-item${i === currentPage ? ' active' : ''}">
+        <a class="page-link" href="#" data-page="${i}">${i}</a>
+      </li>
+    `;
+  }
+  html += `
+    <li class="page-item${currentPage === totalPages ? ' disabled' : ''}">
+      <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
+    </li>
+  `;
+  pag.innerHTML = html;
+
+  pag.querySelectorAll('a.page-link').forEach(link => {
+    link.onclick = function(e) {
+      e.preventDefault();
+      const page = Number(this.getAttribute('data-page'));
+      if (page >= 1 && page <= totalPages) {
+        loadAllTaxSales(page);
+      }
+    };
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadAllTaxSales(1);
+});
+</script>
+
+<script>
+  async function loadTaxData(period = "today") {
+  try {
+    const res = await fetch(`http://localhost:3000/product_tax_data?period=${period}`);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    
+    const formatNaira = n => "₦" + Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+
+   
+    document.getElementById("total-tax-collected").innerHTML = formatNaira(data.total_tax_collected);
+    document.getElementById("tax-refunds").innerHTML = formatNaira(data.tax_refunds);
+    document.getElementById("default-tax-rate").innerHTML =
+      (data.default_tax_type.charAt(0).toUpperCase() + data.default_tax_type.slice(1)) +
+      `<span class="text-success">${data.default_tax_rate}%</span>`;
+  } catch (err) {
+    showToast(err.message || "Failed to load tax data", "danger");
+  }
+}
+
+
+document.getElementById("tax-filter").addEventListener("change", function() {
+  let val = this.value;
+  if (val === "last7days" || val === "7days") val = "last7days";
+  loadTaxData(val);
+});
+
+
+loadTaxData(document.getElementById("tax-filter").value);
+</script>
+</body>
+
+</html>

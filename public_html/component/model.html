@@ -1,0 +1,646 @@
+<!------Model for add products----------->
+<div class="modal fade" id="exampleModalCenteredScrollable" tabindex="-1" aria-labelledby="exampleModalCenteredScrollableTitle"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenteredScrollableTitle">
+                    Add Products
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> 
+            <form style="max-height: 500px; overflow-y: auto;" id="addProductForm">
+            <div class="modal-body">
+               
+                    <div class="row mb-3">
+                      <div class="col-md-12 mb-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="product_name" required>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          <span class="text-success" role="button" onclick="openAddCategoryModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Category</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="categorydropdown" name="category_id" required>
+                          <option selected disabled>Choose...</option>
+                         
+                        </select>
+                      </div>
+                    </div>
+
+                 <!-- <div hidden class="row mb-3">
+                       <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Supplier</label>
+                          <span class="text-success" role="button" onclick="openAddSupplierModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Supplier</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="supplier" name="supplier" required>
+                          <option selected disabled>Choose...</option>
+     
+                          
+                         
+                        </select>
+                      </div>
+                    </div> -->
+              
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="brand" class="form-label">Brand</label>
+                        <input type="text" class="form-control" id="brand" name="brand" required>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="unit" class="form-label">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit_name" required>
+                      </div>
+                    </div>
+
+                      
+              
+                    <!-- <div hidden class="row mb-4">
+ <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="Unit" class="form-label mb-0">Unit</label>
+                          <span class="text-success" role="button" onclick="openAddUnitModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Unit</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="unit" name="unit" required>
+                          <option selected disabled>Choose...</option>
+                        
+                          
+                         
+                        </select>
+                      </div>
+                      </div> -->
+
+<!-- 
+                      <div class="row mb-4">
+                        <div class="form-check form-switch " style="padding-left:4em">
+                          <input class="form-check-input custom-toggle" type="checkbox" id="isTaxable"
+                           name="is_taxable" onchange="toggleTaxFields()" style="border:1px solid green">
+                          <label class="form-check-label fw-bold" for="isTaxable">Is Taxable?</label>
+                        </div>
+                        
+                        </div>
+                        <div id="taxFields" style="display: none;">
+                          <div class="mb-3">
+                            <label for="tax" class="form-label">Tax (%)</label>
+                            <input type="number" class="form-control" id="tax" name="tax" min="0" step="0.01">
+                          </div>
+                        
+                          <div class="mb-3">
+                            <label for="taxType" class="form-label">Tax Type</label>
+                            <select class="form-select" id="taxType" name="tax_type">
+                              <option selected disabled>Choose tax type</option>
+                              <option value="inclusive">Inclusive</option>
+                              <option value="exclusive">Exclusive</option>
+                            </select>
+                          </div>
+                        </div> -->
+
+                        <div class="row mb-3">
+  <!-- <div class="col-md-6">
+    <label for="currentStock" class="form-label">Current Stock Qty</label>
+    <input type="number" class="form-control" id="currentStock" name="current_product_stock_qty_number" min="0" value="0" required>
+  </div> -->
+  <div class="col-md-6">
+    <label for="alertLimit" class="form-label">Alert Limit</label>
+    <input type="number" class="form-control" id="alertLimit" name="product_alert_limit" min="0" value="0" required>
+  </div>
+</div>
+                        
+              
+                    <div class="mb-3">
+                      <label for="description" class="form-label">Description</label>
+                      <textarea class="form-control" id="description" name="product_description" rows="3"></textarea>
+                    </div>
+              
+                    <div class="mb-4">
+                      <label class="form-label">Upload Design</label>
+                      <div class="file-drop-area">
+                        <span class="text-muted">Drag & Drop file here or click to browse</span>
+                        <input type="file" name="product_featured_image">
+                      </div>
+                    </div>
+              
+                    
+                  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success" onclick="addProduct()">
+                    Save Products
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Supplier Side Modal (Offcanvas) -->
+<!-- Add Supplier Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addSupplierModal"
+     aria-labelledby="addSupplierModalLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="addSupplierModalLabel">Add New Supplier</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="addSupplierForm" >
+      <div class="mb-3">
+        <label for="supplierName" class="form-label">Supplier Name</label>
+        <input type="text" class="form-control" id="supplierName" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="supplierPhone" class="form-label">Phone</label>
+        <input type="tel" class="form-control" id="supplierPhone" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="supplierEmail" class="form-label">Email</label>
+        <input type="email" class="form-control" id="supplierEmail">
+      </div>
+
+      <div class="mb-3">
+        <label for="supplierAddress" class="form-label">Address</label>
+        <textarea class="form-control" id="supplierAddress" rows="2"></textarea>
+      </div>
+      
+      <button type="button" class="btn btn-success" onclick="addSupplier()">Add Supplier</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addUnitModal"
+     aria-labelledby="addUnitModalLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="addUnitModalLabel">Add New Unit</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="addUnitForm" >
+      <div class="mb-3">
+        <label for="unit_name" class="form-label">Unit Name</label>
+        <input type="text" class="form-control" id="unit_name" required>
+      </div>
+
+        <div class="mb-3">
+          <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          <span class="text-success" role="button" onclick="openAddCategoryModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Category</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="category" name="category" required>
+                          <option selected disabled>Choose...</option>
+
+                          
+                         
+                        </select>
+        </div>
+        </div>
+      
+      <button type="button" class="btn btn-success" onclick="addUnit()">Add Unit</button>
+    </form>
+  </div>
+</div>
+<!------Success message Div-------->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+
+  <!--------------------------------------Adjustment Model-------------------------------------------------------------------------->
+
+
+
+
+
+<!------------------------------Order Model ----------------------------------------------------------------------------------->
+
+
+<!----------------------Variation Model---------------------------------------------------------------------->
+
+
+<!--Offcanvas add Attributs m------------------------------------------------------------------------------------------------>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addattribute"
+     aria-labelledby="addSupplierModalLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="addSupplierModalLabel">Add New Attributs</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="addSupplierForm" >
+      <div class="mb-3">
+        <label for="supplierName" class="form-label">Attributs Name</label>
+        <input type="text" class="form-control" id="attName" required placeholder="eg.color">
+      </div>
+
+      <button type="button" class="btn btn-success" onclick="addAttributs()">Add Attributs</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addCategory"
+     aria-labelledby="addSupplierModalLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="addSupplierModalLabel">Add New Stock Category</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="addCategoryForm" >
+      <div class="mb-3">
+        <label for="category_name" class="form-label">Category Name</label>
+        <input type="text" class="form-control" id="category_name" required placeholder="eg.Accessory">
+      </div>
+
+      
+      
+      <button type="button" class="btn btn-success" onclick="addCategory()">Add Category</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+<!------------Edit Variation Modal---------------------------------------------------------------------------------------------->
+
+
+
+<!-------Edit Attributes Modal------------------------------------------------------------------------------------->
+
+
+<!--------------Edit Supplier-------------------------------------------------------------------------------->
+<div class="modal fade" id="EditsupplierModel" tabindex="-1" aria-labelledby="EditsupplierModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditsupplierModel">
+                  Edit Supplier
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addSupplierForm" >
+                <div class="mb-3">
+                  <label for="supplierName" class="form-label">Supplier Name</label>
+                  <input type="text" class="form-control" id="supplierName" value="NNPC cooking gas Limited" required>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">Phone</label>
+                  <input type="tel" class="form-control" id="supplierPhone" value="08083474382" required>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" value="nnpclimted@gmail.com" id="supplierEmail">
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierAddress" class="form-label">Address</label>
+                  <textarea class="form-control" id="supplierAddress" rows="2">No 15 oman </textarea>
+                </div>
+                
+                <button type="button" class="btn btn-success" >edit Supplier</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--------------------------------------Add customer Offcanvas------------------------------------------------------------------>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addcustomer"
+     aria-labelledby="addSupplierModalLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="addSupplierModalLabel">Add New Customer</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="addCustomerForm" >
+      <div class="mb-3">
+        <label for="supplierName" class="form-label">Customer Name</label>
+        <input type="text" class="form-control" id="customerName" required placeholder="eg.Samuel Qodebyte">
+      </div>
+
+      <div class="mb-3">
+        <label for="supplierName" class="form-label">Customer Phone</label>
+        <input type="text" class="form-control" id="customephone" required placeholder="eg.09134697313">
+      </div>
+      <div class="mb-3">
+        <label for="supplierName" class="form-label">Customer Email(optional)</label>
+        <input type="text" class="form-control" id="customeremail"  placeholder="example@gmail.com">
+      </div>
+
+      <div class="mb-3">
+        <label for="supplierName" class="form-label">Customer Gender(optional)</label>
+        <select class="form-select" id="customerGender" >
+          <option selected disabled>Choose...</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          </select>
+      </div>
+      
+      <button type="button" class="btn btn-success" onclick="addCustomer()">Add Customer</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+<script>
+function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+
+
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Helper: get query param
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+
+    // State
+    let product_id = getQueryParam('product_id');
+    let product_name = '';
+    let current_product_stock_qty_number = 0;
+
+    // Elements
+    const attributsSelect = document.getElementById('attributs');
+    const attributsValueSelect = document.getElementById('attributsValue');
+    const variationForm = document.getElementById('variationForm');
+
+    // Load product info
+    async function loadProductInfo() {
+        if (!product_id) {
+            showToast('No product ID in URL', 'danger');
+            return;
+        }
+        try {
+            const res = await fetch(`http://localhost:3000/product/${product_id}`);
+            if (!res.ok) throw new Error();
+            const product = await res.json();
+            product_name = product.product_name || '';
+            current_product_stock_qty_number = Number(product.current_product_stock_qty_number) || 0;
+        } catch {
+            showToast('Failed to load product info', 'danger');
+        }
+    }
+
+    // Load attributes for select
+    async function loadAttributes() {
+        attributsSelect.innerHTML = '<option selected disabled>Loading...</option>';
+        try {
+            const res = await fetch('http://localhost:3000/attributes');
+            const data = await res.json();
+            attributsSelect.innerHTML = '<option selected disabled>Choose...</option>';
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(attr => {
+                    const opt = document.createElement('option');
+                    opt.value = attr.attribute_id;
+                    opt.textContent = attr.attribute_name;
+                    attributsSelect.appendChild(opt);
+                });
+            } else {
+                attributsSelect.innerHTML = '<option selected disabled>No attributes</option>';
+            }
+        } catch {
+            attributsSelect.innerHTML = '<option selected disabled>Failed to load</option>';
+        }
+    }
+
+    // Load attribute values when attribute changes
+    attributsSelect.addEventListener('change', async function () {
+        const attribute_id = this.value;
+        attributsValueSelect.innerHTML = '<option selected disabled>Loading...</option>';
+        if (!attribute_id) {
+            attributsValueSelect.innerHTML = '<option selected disabled>Choose...</option>';
+            return;
+        }
+        try {
+            const res = await fetch(`http://localhost:3000/attributes/${attribute_id}/values`);
+            const data = await res.json();
+            attributsValueSelect.innerHTML = '<option selected disabled>Choose...</option>';
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(val => {
+                    const opt = document.createElement('option');
+                    opt.value = val.value_id;
+                    opt.textContent = val.value;
+                    attributsValueSelect.appendChild(opt);
+                });
+            } else {
+                attributsValueSelect.innerHTML = '<option selected disabled>No values</option>';
+            }
+        } catch {
+            attributsValueSelect.innerHTML = '<option selected disabled>Failed to load</option>';
+        }
+    });
+
+    // On submit
+    window.addProductVariation = async function () {
+        // Validate
+        if (!product_id) {
+            showToast('No product ID in URL', 'danger');
+            return;
+        }
+        const formData = new FormData(variationForm);
+
+        // Required fields
+        const attribute_id = attributsSelect.value;
+        const value_id = attributsValueSelect.value;
+        const cost_price = formData.get('costPrice');
+        const selling_price = formData.get('sellPrice');
+        const opening_stock_qty = formData.get('opening_stck_qty');
+        const stock_qty_alert_level = formData.get('stock_alert_level');
+        const stock_location = formData.get('stock_location');
+        const stock_expiry_date = formData.get('stock_expiry_date');
+        const design_file = formData.get('design_file');
+
+        if (!attribute_id || !value_id || !cost_price || !selling_price || !opening_stock_qty || !stock_qty_alert_level || !stock_location || !stock_expiry_date) {
+            showToast('Please fill all required fields', 'danger');
+            return;
+        }
+
+        // Compose attributes array for backend
+        const attributes = [{ attribute_id, value_id }];
+        formData.append('product_id', product_id);
+        formData.append('product_name', product_name);
+        formData.append('attributes', JSON.stringify(attributes));
+        formData.append('current_variations_stock_qty_number', opening_stock_qty);
+
+        // Rename file input for backend
+        if (design_file && design_file.name) {
+            formData.append('variation_image', design_file);
+        }
+
+        try {
+            // POST to create variation
+            const res = await fetch('http://localhost:3000/product_variations', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to create variation');
+
+            // PATCH product stock
+            const newStock = current_product_stock_qty_number + Number(opening_stock_qty);
+            await fetch(`http://localhost:3000/product/${product_id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ current_product_stock_qty_number: newStock })
+            });
+
+            showToast('Product variation created', 'success');
+            variationForm.reset();
+            setTimeout(() => { window.location.reload(); }, 1000);
+        } catch (err) {
+            showToast(err.message || 'Network error', 'danger');
+        }
+    };
+
+    // Initial load
+    loadProductInfo();
+    loadAttributes();
+});
+</script>
+
+
+
+
+
+
+
+
+<script>
+  function loadCategories() {
+    const select = document.getElementById('categorydropdown');
+    if (!select) {
+        console.error('No element with id categorydropdown found!');
+        showToast('No category dropdown found', 'danger');
+        return;
+    }
+    select.innerHTML = '<option selected disabled>Loading...</option>';
+    fetch('http://localhost:3000/product_category')
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to fetch categories');
+            return res.json();
+        })
+        .then(data => {
+            select.innerHTML = '<option selected disabled>Choose...</option>';
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat.category_id;
+                    opt.textContent = cat.category_name;
+                    select.appendChild(opt);
+                });
+                console.log('Categories loaded successfully');
+            } else {
+                select.innerHTML = '<option selected disabled>No categories found</option>';
+                console.log('No categories found');
+            }
+        })
+        .catch(err => {
+            select.innerHTML = '<option selected disabled>Failed to load categories</option>';
+            showToast('Failed to load categories', 'danger');
+            console.error(err);
+        });
+}
+
+function addProduct() {
+    const form = document.getElementById('addProductForm');
+    const formData = new FormData(form);
+
+    if (!form.product_name.value.trim()) {
+        showToast('Product name is required', 'danger');
+        return;
+    }
+    if (form.category_id.selectedIndex <= 0) {
+        showToast('Please select a category', 'danger');
+        return;
+    }
+    if (!form.brand.value.trim()) {
+        showToast('Brand is required', 'danger');
+        return;
+    }
+    if (!form.unit_name.value.trim()) {
+        showToast('Unit is required', 'danger');
+        return;
+    }
+    if (!form.product_alert_limit.value.trim()) {
+        showToast('Alert limit is required', 'danger');
+        return;
+    }
+    if (!form.product_description.value.trim()) {
+        showToast('Description is required', 'danger');
+        return;
+    }
+    if (!form.product_featured_image.value) {
+        showToast('Product image is required', 'danger');
+        return;
+    }
+
+    const catSelect = form.category_id;
+    formData.append('category_name', catSelect.options[catSelect.selectedIndex].text);
+
+    fetch('http://localhost:3000/product', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json().then(data => ({ ok: res.ok, data })))
+    .then(({ ok, data }) => {
+        if (!ok) throw new Error(data.error || 'Failed to create product');
+        showToast('Product created successfully', 'success');
+        form.reset();
+        setTimeout(() => window.location.reload(), 1200);
+    })
+    .catch(err => {
+        showToast(err.message || 'Network error. Please try again.', 'danger');
+    });
+}
+
+loadCategories();
+</script>
+

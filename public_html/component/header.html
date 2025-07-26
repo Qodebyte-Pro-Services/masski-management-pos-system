@@ -1,0 +1,78 @@
+<div class="app-header d-flex align-items-center" style="background-color: #fff;">
+
+<!-- Toggle buttons start -->
+<div class="d-flex col">
+<button class="toggle-sidebar" id="toggle-sidebar">
+<i class="bi bi-list lh-1 text-success" style="color: #282b29 #161816 !important;"></i>
+</button>
+
+<div class="ms-2 text-truncate d-lg-block d-none " style="color:#282b29 !important;">
+
+<span >Good Morning, <span id="first-name">Samuel</span></span>
+<span class="d-flex opacity-50 small">Welcome back, nice to see you again!</span>
+</div>
+</div>
+<!-- Toggle buttons end -->
+
+
+
+<!-- App header actions start -->
+<div class="header-actions col">
+<div class="d-lg-flex d-none align-items-center gap-2">
+<div class="dropdown">
+<a class=" header-action-icon" href="../sales/pos" 
+aria-expanded="false">
+<i class="bi bi-grid fs-5 lh-1 text-white"  style="color: #282b29  !important;"></i>
+</a>
+
+</div>
+<div class="dropdown">
+<a class="dropdown-toggle header-action-icon" href="#!" role="button" data-bs-toggle="dropdown"
+aria-expanded="false">
+<i class=" bi bi-bell fs-5 lh-1 text-white"  style="color: #282b29  !important;"></i>
+<span id="notification-label" class="count-label">7</span>
+</a>
+<div class="dropdown-menu  dropdown-menu-end shadow-lg" id="notification-dropdown" style="min-width: 850px !important; max-width:900px !important; width:100% !important;">
+    <div class="d-flex justify-content-between align-items-center px-3 py-2">
+        <h5 id="notification-modal-title" class="mb-0">Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="dropdown" aria-label="Close"></button>
+    </div>
+  <div id="notification-list"></div>
+  <div class="d-flex justify-content-between align-items-center px-3 py-2">
+<a href="javascript:void(0)" class="btn btn-info" id="notification-prev" style="display:none;">Previous</a>
+<a href="javascript:void(0)" class="btn btn-info" id="notification-next">Next</a>
+  </div>
+</div>
+</div>
+
+<div class="dropdown ms-3">
+<a id="userSettings" class="dropdown-toggle d-flex py-2 align-items-center text-decoration-none" href="#!"
+role="button" data-bs-toggle="dropdown" aria-expanded="false">
+<img src="../assets/images/user2.png" class="rounded-2 img-3x" alt="Bootstrap Gallery" />
+<div class="ms-2 text-truncate d-lg-block d-none " style="color:#282b29 !important;">
+<span id="admin-role" class="d-flex opacity-50 small">Admin</span>
+<span id="full_name" >Taylor Franklin</span>
+</div>
+</a>
+<div class="dropdown-menu dropdown-menu-end shadow-lg">
+<div class="header-action-links">
+<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#quickProductModal"><i
+class="bi bi-plus-square  border border-primary text-primary" 
+></i>Add Product</a>
+
+<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#quickExpModel"><i
+class=" bi bi-credit-card-2-front border border-danger text-danger"></i>Create Expenses</a>
+<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#quickOrderModel"><i
+class="bi bi-cart3 border border-success text-success"></i>Create Order</a>
+</div>
+<div class="mx-3 mt-2 d-grid">
+<a id="secondLogout" class="btn btn-primary btn-sm">Logout</a>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- App header actions end -->
+</div>
+

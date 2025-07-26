@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Expenses Management | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+  .custom-menu a {
+  display: block;
+  padding: 6px 12px;
+  color: #212529;
+  text-decoration: none;
+}
+
+.custom-menu a:hover {
+  background-color: #f8f9fa;
+}
+
+.custom-menu .approve-expense {
+  color: #28a745 !important;
+}
+
+.custom-menu .reject-expense,
+.custom-menu .delete-expense {
+  color: #dc3545 !important;
+}
+
+.custom-menu {
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-item {
+  display: block;
+  padding: 6px 12px;
+  color: #212529;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: #f8f9fa;
+  text-decoration: none;
+}
+
+.approve-expense {
+  color: #28a745 !important;
+}
+
+.reject-expense,
+.delete-expense {
+  color: #dc3545 !important;
+}
+
+.action-menu {
+  transition: transform 0.2s;
+}
+
+.action-menu:hover {
+  transform: scale(1.1);
+}
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+	
+	@media print {
+    /* Remove unwanted elements */
+    #printBtn,nav[aria-label="Table pagination"],
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-size: 16px !important;
+        line-height: 1.5;
+    }
+
+    
+
+   @page {
+    size: A4 auto;
+    margin: 10mm;
+  }
+}
+
+    #expenhold {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    h4, h6, p {
+        font-size: 16px !important;
+        margin: 0 0 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse !important;
+        margin-top: 10px;
+    }
+
+    th, td {
+       
+        font-size: 14px !important;
+        padding: 10px !important;
+        text-align: left;
+    }
+
+    .badge {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .text-end {
+        text-align: right !important;
+    }
+
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/">Home</a>
+</li>
+<li class="breadcrumb-item">
+
+<a href="../finance/">Finance</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Expenses</li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+
+<div class="ms-auto d-lg-flex d-none flex-row">
+   
+	<div class="d-flex flex-row gap-1" id="btnfilter">
+    
+	  <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addExpModel">
+		Create Expense
+	  </button>
+	  <button type="button" class="btn btn-outline-success btn-sm" onclick="openExpCat()">
+		 Expense Category
+	  </button>
+    <div class="">
+          <select id="expenseTimeFilterTop" class="form-select">
+            <option value="today">Today</option>
+            <option value="today">Yesterday</option>
+            <option value="7days">Last 7 days</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+	</div>
+    
+</div>
+  
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Total Expenses</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-danger"></i>
+	</div>
+	<div  id="total-exp" class="h5 text-danger  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 id="top-cat-name" class="mb-3">Top Expenses - Salary</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-danger"></i>
+	</div>
+	<div id="top-exp-cat-amount" class="h5 text-danger  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Recent Expenses</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-danger"></i>
+	</div>
+	<div id="recent-expense" class="h5 text-danger  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+</div>
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+    <div class="row g-4">
+  <!-- Left Chart Column -->
+  <div class="col-lg-6 mx-auto" style="background-color: #f8f9fa; height: 500px;">
+    <div class="chart-container">
+      <div class="header d-flex justify-content-between">
+        <div>
+          <h3>Expense Level Overview</h3>
+          <p style="color: gray;">Expense Flow</p>
+        </div>
+        <div class="mt-3">
+          <select id="expenseFlowTimeFilter" class="form-select">
+            <option value="today">Today</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+      </div>
+      <canvas id="expensebarChart" style="width: 100%; height: 100%;"></canvas>
+    </div>
+  </div>
+
+  <!-- Right Category Column -->
+  <div class="col-lg-5 mx-auto" style="background-color: #f8f9fa;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h3 class="mb-0">Expenses by Category</h3>
+        <div class="text-secondary mb-2">Breakdown of Expenses by category</div>
+      </div>
+
+      <select id="catfilterSelect" class="form-select w-auto" style="font-size: 14px;">
+        <option value="Today">Today</option>
+        <option value="7days">Last 7 days</option>
+        <option value="Month">Month</option>
+        <option value="Year">Year</option>
+      </select>
+    </div>
+
+    <div class="row" id="salesCategories">
+      <!-- Left: Donut Chart -->
+      <div class="col-md-6">
+        <canvas id="donutCatChart" style="max-height: 200px;"></canvas>
+      </div>
+
+      <!-- Right: Revenue Breakdown -->
+      <div class="col-md-6">
+        <div class="legend mt-4">
+          <div class="legend-item d-flex justify-content-between mb-2">
+            <div class="d-flex align-items-center">
+              <span class="dot me-2" style="background:#f16565; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+              Salary
+            </div>
+            <div>â‚¦<span id="gasAmount">20,000,000</span></div>
+          </div>
+
+          <div class="legend-item d-flex justify-content-between">
+            <div class="d-flex align-items-center">
+              <span class="dot me-2" style="background:#3ed9a4; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+              Maintenance
+            </div>
+            <div>â‚¦<span id="storeAmount">20,000,000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: 30px;">
+	<div class="col-xxl-12">
+<div class="card mb-3 p-3" style="background-color: #f8f9fa;">
+<div class="header">
+<div >
+<h3>Recent Expenses</h3>
+<p style="color: gray;">Manage all your business expenses</p>
+</div>
+<div class="dt-buttons btn-group">
+					<button class="btn btn-info me-2" onclick="exportToExcel()">Excel</button>
+					<button id="downloadBtn" class="btn btn-outline-success me-2" onclick="downloadPDF()">PDF</button>
+					<button id="printBtn" class="btn btn-success">Print</button>
+				  </div>
+</div>
+
+<div class="card-body" style="padding: 0px !important;">
+<div>
+<div class="d-flex flex-wrap gap-2 mb-3" >
+
+<button type="button " class="btn  btn-sm btn-filter active">
+All
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Maintaince
+</button>
+
+<button type="button " class="btn  btn-sm btn-filter">
+Salary
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Utilities
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Supplies
+</button>
+<button type="button " class="btn  btn-sm btn-filter">
+Others
+</button>
+</div>
+
+</div>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+<!-- Search Input with Icon Button (Right-aligned) -->
+<div class="input-group" style="width: 60%;">
+<button class="btn btn-sm btn-outline-secondary" type="button">
+<i class="bi bi-search"></i>
+</button>
+<input type="text" class="form-control form-control-sm" placeholder="Search search By category">
+
+
+</div>
+
+</div>
+
+<div class="table-responsive" id="expenhold">
+<table id="expensesTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Title</th>
+<th scope="col">Category</th>
+<th scope="col">Amount</th>
+<th scope="col">Approved By</th>
+<th scope="col">Method</th>
+<th scope="col">Status</th>
+<th scope="col">Date</th>
+<th scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+
+<tr><td>#EXP001</td>
+<td>Fuel Refill</td>
+<td>Operations</td>
+<td>â‚¦5,000</td>
+<td>Admin</td>
+<td>Cash</td>
+<td><span class="badge bg-warning text-dark">Pending</span></td>
+<td>2025-06-01</td>
+<td>
+				<i class="fs-3 bi bi-three-dots text-success"
+				data-bs-toggle="popover"
+				data-bs-placement="bottom"
+				data-bs-html="true"
+				data-bs-content='
+				<a href="../finance/exp-detail.html" class="d-block text-decoration-none mb-1" >View</a>
+                <a href="" class="d-block text-decoration-none mb-1 text-success" >Aprove</a>
+                <a href="" class="d-block text-decoration-none mb-1 text-danger" >Decline</a>'
+			
+				style="cursor: pointer;"></i>
+				</td>
+</tr>
+
+
+<tr><td>#EXP002</td>
+<td>Internet Bill</td>
+<td>Utilities</td>
+<td>â‚¦10,000</td>
+<td>Admin</td>
+<td>Transfer</td>
+<td><span class="badge bg-success">Approved</span></td>
+<td>2025-06-02</td>
+<td>
+				<i class="fs-3 bi bi-three-dots text-success"
+				data-bs-toggle="popover"
+				data-bs-placement="bottom"
+				data-bs-html="true"
+				data-bs-content='
+				<a href="../finance/exp-detail.html" class="d-block text-decoration-none mb-1" >View</a>
+                
+                <a href="" class="d-block text-decoration-none mb-1 text-danger" >Delete</a>'
+			
+				style="cursor: pointer;"></i>
+				</td>
+  
+  
+  
+  
+  
+
+</tr>
+
+
+<tr><td>#EXP003</td>
+<td>Printer Ink</td>
+<td>Stationery</td>
+<td>â‚¦3,000</td>
+<td>Admin</td>
+<td>POS</td>
+<td><span class="badge bg-danger">Declined</span></td>
+<td>2025-06-03</td>
+<td>
+				<i class="fs-3 bi bi-three-dots text-success"
+				data-bs-toggle="popover"
+				data-bs-placement="bottom"
+				data-bs-html="true"
+				data-bs-content='
+				<a href="../finance/exp-detail.html" class="d-block text-decoration-none mb-1" >View</a>
+                
+                <a href="" class="d-block text-decoration-none mb-1 text-danger" >Delete</a>'
+			
+				style="cursor: pointer;"></i>
+				</td>
+
+</tr>
+</tbody>
+</table>
+<nav aria-label="Table pagination">
+					<ul class="pagination justify-content-end" style="margin-top: 10px;">
+					  <li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					  </li>
+					  <li class="page-item"><a class="page-link" href="#">1</a></li>
+					  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+					  <li class="page-item"><a class="page-link" href="#">3</a></li>
+					  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				  </nav>
+</div>
+</div>
+</div>
+</div>
+	</div>
+<!-- Row end -->
+<!----Model section for adding expense-->
+<div class="modal fade" id="addExpModel" tabindex="-1" aria-labelledby="addExpModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addExpModel">
+                Add Expenses
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addExpForm"  enctype="multipart/form-data" >
+                <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          <span class="text-success" role="button" onclick="openExpCat('addExpModel')" style="font-size: 0.9rem;">Add Category</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="expcategory" name="expcategory" required>
+                          <option selected disabled>Choose...</option>
+                        </select>
+                      </div>
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">Description</label>
+                  <input type="text" class="form-control" id="expDes" placeholder="Pump Maintaince" required>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Amount</label>
+                  <input type="number" class="form-control" placeholder="3000" id="expAmt">
+                </div>
+          
+                <div class="mb-3">
+                  <label for="expMethod" class="form-label">Method Of Payment</label>
+                  <select class="form-select" id="expMethod" name="method" required>
+                          <option selected disabled>Choose...</option>
+                          <option>Cash</option>
+                          <option>Transfer</option>
+                          <option>Card</option>
+                       
+                        </select>
+                </div>
+                 <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Date</label>
+                  <input type="date" class="form-control" placeholder="" id="expDate">
+                </div>
+                <div class="mb-4">
+                      <label class="form-label">Upload Payment Receipt </label>
+                      <div class="file-drop-area">
+                       <div id="recieptImagePreview" ></div>
+                        <input type="file" id="recieptImageInput" name="receipt">
+                      </div>
+                    </div>
+              
+                <button id="expBtn" type="button" class="btn btn-success" >Save Expens</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!----Offcanava for Expense categroy-->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="expCatModal"
+     aria-labelledby="expCatModalLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="expCatModalLabel">Expenses Category</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="addExpCatForm" >
+      <div class="mb-3">
+        <label for="supplierName" class="form-label">Add New Category</label>
+        <input type="text" class="form-control" id="ExpCate" required>
+      </div>
+    <button type="button" id="btnCat" class="btn btn-success"  onclick="addExpCategory()">Save</button>
+    </form>
+
+      <div class="table-responsive mt-4" id="expCat" style="border-top:1px dashed #555 ;">
+<table id="expensesCatTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+<thead>
+<tr>
+<th scope="col">ID</th>
+<th scope="col">Name</th>
+<th scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td>#EXP001</td>
+<td>Maintaince</td>
+<td><span class="badge bg-danger">Delete</span></td>
+
+</tr>
+<tr>
+  <td>#EXP001</td>
+<td>Maintaince</td>
+<td><span class="badge bg-danger">Delete</span></td>
+</tr>
+</tbody>
+</table>
+<nav aria-label="Table pagination">
+					<ul class="pagination justify-content-end" style="margin-top: 10px;">
+					  <li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					  </li>
+					  <li class="page-item"><a class="page-link" href="#">1</a></li>
+					  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+					  <li class="page-item"><a class="page-link" href="#">3</a></li>
+					  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				  </nav>
+</div>
+      
+  </div>
+</div>
+<!------Success message Div-------->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/dashbaoardchart.js"></script>
+<script src="../assets/js/donutChart.js"></script>
+<script src="../assets/js/form.js"></script>
+<script src="js/expchart.js"></script>
+<script>
+	//function to hide overwiev matrice when click tabs
+	document.addEventListener("DOMContentLoaded", function () {
+	  const gxRow = document.getElementById("gxRow");
+	  const customTab = document.getElementById("customTab");
+  
+	  // Function to toggle visibility
+	  function toggleGxRow(activeTabId) {
+		if (activeTabId === "tab-one") {
+		  gxRow.style.setProperty("display", "flex", "important"); // for .row
+		} else {
+		  gxRow.style.setProperty("display", "none", "important");
+		}
+	  }
+  
+	  // Initial check on page load
+	  const activeTab = customTab.querySelector(".nav-link.active");
+	  toggleGxRow(activeTab?.id);
+  
+	  // Event listener for tab change
+	  customTab.querySelectorAll(".nav-link").forEach(link => {
+		link.addEventListener("shown.bs.tab", function (e) {
+		  toggleGxRow(e.target.id);
+		});
+	  });
+	});
+
+	
+	document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('expenhold').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    [ 'expensesTable'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("expensesTable");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+  
+
+
+  </script>
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+
+<script>
+const categoryPageSize = 5;
+let allCategories = [];
+let categoryCurrentPage = 1;
+
+async function fetchCategories() {
+  const res = await fetch('http://localhost:3000/expense_category');
+  if (!res.ok) return [];
+  return await res.json();
+}
+
+function renderCategoryTable(page = 1) {
+  const tbody = document.querySelector('#expensesCatTable tbody');
+  if (!allCategories.length) {
+    tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted">No categories found</td></tr>`;
+    renderCategoryPagination(1, 1);
+    return;
+  }
+  const start = (page - 1) * categoryPageSize;
+  const end = start + categoryPageSize;
+  const pageData = allCategories.slice(start, end);
+
+  tbody.innerHTML = "";
+  for (const cat of pageData) {
+    tbody.innerHTML += `
+      <tr>
+        <td>${cat.expense_category_id}</td>
+        <td>${cat.expense_category_name}</td>
+        <td>
+          <span class="badge bg-danger" style="cursor:pointer" data-id="${cat.expense_category_id}">Delete</span>
+        </td>
+      </tr>
+    `;
+  }
+
+
+  tbody.querySelectorAll('.badge.bg-danger').forEach(btn => {
+    btn.onclick = function () {
+      const id = this.getAttribute('data-id');
+      if (confirm('Delete this category?')) {
+        fetch(`http://localhost:3000/expense_category/${id}`, { method: 'DELETE' })
+          .then(res => res.json())
+          .then(data => {
+            if (data.message === 'Expense category deleted') {
+              showToast('Category deleted');
+              loadCategoryTable();
+            } else {
+              showToast(data.error || 'Delete failed', 'danger');
+            }
+          });
+      }
+    };
+  });
+
+  renderCategoryPagination(page, Math.ceil(allCategories.length / categoryPageSize));
+}
+
+function renderCategoryPagination(current, total) {
+  let pagination = document.querySelector('#expensesCatTable').parentElement.querySelector('nav ul.pagination');
+  if (!pagination) return;
+  pagination.innerHTML = '';
+
+  pagination.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+    <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+  </li>`;
+
+  for (let i = 1; i <= total; i++) {
+    pagination.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+      <a class="page-link" href="#" data-page="${i}">${i}</a>
+    </li>`;
+  }
+
+  pagination.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+    <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+  </li>`;
+
+  pagination.querySelectorAll('a.page-link').forEach(link => {
+    link.onclick = function (e) {
+      e.preventDefault();
+      const page = Number(this.getAttribute('data-page'));
+      if (page >= 1 && page <= total && page !== categoryCurrentPage) {
+        categoryCurrentPage = page;
+        renderCategoryTable(categoryCurrentPage);
+      }
+    };
+  });
+}
+
+async function loadCategoryTable() {
+  allCategories = await fetchCategories();
+  renderCategoryTable(categoryCurrentPage = 1);
+}
+
+
+function addExpCategory() {
+  const input = document.getElementById('ExpCate');
+  const name = input.value.trim();
+
+  const catBtn = document.getElementById('btnCat');
+  catBtn.disabled = true; 
+    catBtn.innerHTML = 'Adding...';
+
+   
+  if (!name) {
+    showToast('Please enter a category name', 'danger');
+    return;
+  }
+  fetch('http://localhost:3000/expense_category', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ expense_category_name: name })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.message === 'Expense category created') {
+      showToast('Category added');
+      input.value = '';
+        catBtn.disabled = false;
+        catBtn.innerHTML = 'Save';
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+      loadCategoryTable();
+      if (currentModalId) {
+            const modal = new bootstrap.Modal(document.getElementById(currentModalId));
+            modal.show();
+            currentModalId = null; 
+        }
+    } else {
+      showToast(data.error || 'Failed to add category', 'danger');
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', loadCategoryTable);
+</script>
+
+<script>
+document.getElementById('expBtn').addEventListener('click', async function (e) {
+  e.preventDefault();
+  const btn = this;
+  btn.disabled = true;
+  btn.textContent = "Saving...";
+
+  const form = document.getElementById('addExpForm');
+  const formData = new FormData(form);
+
+
+  const catSelect = document.getElementById('expcategory');
+  const selectedOption = catSelect.options[catSelect.selectedIndex];
+  const expense_category_id = selectedOption.value;
+  const expense_category_name = selectedOption.getAttribute('data-name');
+
+
+  let payment_method = document.getElementById('expMethod').value.toLowerCase();
+  if (payment_method === 'transfer') payment_method = 'bank_transfer';
+  if (payment_method === 'card') payment_method = 'mobile_money';
+
+  formData.append('expense_category_id', expense_category_id);
+  formData.append('expense_category_name', expense_category_name);
+  formData.append('description', document.getElementById('expDes').value);
+  formData.append('date', document.getElementById('expDate').value);
+  formData.append('amount', document.getElementById('expAmt').value);
+  formData.append('payment_method', payment_method);
+
+
+
+  try {
+    const res = await fetch('http://localhost:3000/expense', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showToast('Expense recorded successfully');
+      form.reset();
+     setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    } else {
+      showToast(data.error || 'Failed to record expense', 'danger');
+    }
+  } catch (err) {
+    showToast('Network error', 'danger');
+  }
+  btn.disabled = false;
+  btn.textContent = "Save Expens";
+});
+
+</script>
+
+<script>
+async function fetchCategories() {
+  const res = await fetch('http://localhost:3000/expense_category');
+  if (!res.ok) return [];
+  return await res.json();
+}
+
+async function populateCategorySelect() {
+  const select = document.getElementById('expcategory');
+  select.innerHTML = `<option selected disabled>Choose...</option>`;
+  const categories = await fetchCategories();
+  categories.forEach(cat => {
+    select.innerHTML += `<option value="${cat.expense_category_id}" data-name="${cat.expense_category_name}">${cat.expense_category_name}</option>`;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', populateCategorySelect);
+</script>
+
+<script>
+    	function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+function formatNaira(amount) {
+  amount = Number(amount) || 0;
+  return "₦" + amount.toLocaleString();
+}
+
+
+async function loadExpenseSummary(period = "today") {
+  try {
+    const res = await fetch(`http://localhost:3000/expense_summary?period=${period}`);
+    const data = await res.json();
+    document.getElementById('total-exp').textContent = formatNaira(data.total_expense);
+    document.getElementById('recent-expense').textContent = formatNaira(data.total_recent_expense);
+    document.getElementById('top-exp-cat-amount').textContent = formatNaira(data.top_expense_category_value.total_amount);
+    document.getElementById('top-cat-name').textContent = "Top Expenses - " + (data.top_expense_category_value.expense_category_name || "N/A");
+  } catch {
+    document.getElementById('total-exp').textContent = "₦0";
+    document.getElementById('recent-expense').textContent = "₦0";
+    document.getElementById('top-exp-cat-amount').textContent = "₦0";
+    document.getElementById('top-cat-name').textContent = "Top Expenses - N/A";
+  }
+}
+
+
+let expenseBarChart;
+async function loadExpenseGraph(period = "today") {
+  try {
+    const res = await fetch(`http://localhost:3000/expense_graph?period=${period}`);
+    const data = await res.json();
+    const labels = data.map(d => d.date);
+    const values = data.map(d => Number(d.total_amount) || 0);
+
+    const ctx = document.getElementById('expensebarChart').getContext('2d');
+    if (expenseBarChart) expenseBarChart.destroy();
+    expenseBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Expense',
+          data: values,
+          backgroundColor: '#f16565'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { callback: v => "₦" + v.toLocaleString() } }
+        }
+      }
+    });
+  } catch {
+    if (expenseBarChart) expenseBarChart.destroy();
+  }
+}
+
+
+let donutCatChart;
+async function loadExpenseByCategory(period = "today") {
+  try {
+    const res = await fetch(`http://localhost:3000/expense_by_category?period=${period}`);
+    const data = await res.json();
+    const labels = data.map(d => d.expense_category_name);
+    const values = data.map(d => Number(d.total_amount) || 0);
+
+    
+    const colors = [
+      "#f16565", "#3ed9a4", "#f7b731", "#5e72e4", "#ff6f61", "#20c997", "#6f42c1", "#fd7e14", "#17a2b8"
+    ];
+  
+    const ctx = document.getElementById('donutCatChart').getContext('2d');
+    if (donutCatChart) donutCatChart.destroy();
+    donutCatChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors.slice(0, labels.length)
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+
+    const legendDiv = document.querySelector('#salesCategories .legend');
+    legendDiv.innerHTML = '';
+    labels.forEach((cat, i) => {
+      legendDiv.innerHTML += `
+        <div class="legend-item d-flex justify-content-between mb-2">
+          <div class="d-flex align-items-center">
+            <span class="dot me-2" style="background:${colors[i % colors.length]}; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+            ${cat}
+          </div>
+          <div>₦<span>${values[i].toLocaleString()}</span></div>
+        </div>
+      `;
+    });
+  } catch {
+    if (donutCatChart) donutCatChart.destroy();
+    document.querySelector('#salesCategories .legend').innerHTML = '<div class="text-muted">No data</div>';
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const summaryFilter = document.getElementById('expenseTimeFilterTop');
+  function getSummaryPeriod(val) {
+    if (val === "today") return "today";
+    if (val === "Yesterday") return "yesterday";
+    if (val === "7days") return "last7days";
+    if (val === "weekly") return "last7days";
+    if (val === "monthly") return "month";
+    if (val === "yearly") return "year";
+    return "today";
+  }
+  summaryFilter.addEventListener('change', function () {
+    loadExpenseSummary(getSummaryPeriod(this.value));
+  });
+  loadExpenseSummary(getSummaryPeriod(summaryFilter.value));
+
+
+  const barFilter = document.getElementById('expenseFlowTimeFilter');
+  function getBarPeriod(val) {
+    if (val === "today") return "today";
+    if (val === "weekly") return "last7days";
+    if (val === "monthly") return "month";
+    if (val === "yearly") return "year";
+    return "today";
+  }
+  barFilter.addEventListener('change', function () {
+    loadExpenseGraph(getBarPeriod(this.value));
+  });
+  loadExpenseGraph(getBarPeriod(barFilter.value));
+
+
+  const catFilter = document.getElementById('catfilterSelect');
+  function getCatPeriod(val) {
+    if (val.toLowerCase() === "today") return "today";
+    if (val === "7days") return "last7days";
+    if (val.toLowerCase() === "month") return "month";
+    if (val.toLowerCase() === "year") return "year";
+    return "today";
+  }
+  catFilter.addEventListener('change', function () {
+    loadExpenseByCategory(getCatPeriod(this.value));
+  });
+  loadExpenseByCategory(getCatPeriod(catFilter.value));
+});
+</script>
+
+
+<script>
+const expensePageSize = 10;
+let allExpenses = [];
+let filteredExpenses = [];
+let expenseCurrentPage = 1;
+let allExpenseCategories = [];
+let activeCategory = "All";
+let currentOpenMenu = null;
+let clickHandler = null;
+
+// Event delegation for popover actions
+document.addEventListener('DOMContentLoaded', function () {
+ document.addEventListener('click', function(e) {
+    // Handle approve action
+    if (e.target.classList.contains('approve-expense')) {
+      e.preventDefault();
+      const id = e.target.getAttribute('data-expense-id');
+      if (id) {
+        approveExpense(id);
+        hideCustomMenu();
+      }
+      return;
+    }
+    
+    // Handle reject action
+    if (e.target.classList.contains('reject-expense')) {
+      e.preventDefault();
+      const id = e.target.getAttribute('data-expense-id');
+      if (id) {
+        rejectExpense(id);
+        hideCustomMenu();
+      }
+      return;
+    }
+    
+    // Handle delete action
+    if (e.target.classList.contains('delete-expense')) {
+      e.preventDefault();
+      const id = e.target.getAttribute('data-expense-id');
+      if (id) {
+        deleteExpense(id);
+        hideCustomMenu();
+      }
+      return;
+    }
+    
+    // Handle menu button clicks
+    if (e.target.classList.contains('action-menu')) {
+      e.preventDefault();
+      e.stopPropagation();
+      const expenseId = e.target.getAttribute('data-expense-id');
+      const rect = e.target.getBoundingClientRect();
+      showCustomMenu(expenseId, rect.left, rect.bottom);
+      return;
+    }
+    
+    // Close menu when clicking elsewhere
+    if (!e.target.closest('.custom-menu') && !e.target.classList.contains('action-menu')) {
+      hideCustomMenu();
+    }
+  });
+
+  // Search input
+  document.querySelector('.input-group input[type="text"]')?.addEventListener('input', function() {
+    filterExpenses();
+  });
+
+  loadExpenseTable();
+});
+
+
+
+function hideCustomMenu() {
+  if (currentOpenMenu) {
+    document.body.removeChild(currentOpenMenu);
+    currentOpenMenu = null;
+  }
+  if (clickHandler) {
+    document.removeEventListener('click', clickHandler);
+    clickHandler = null;
+  }
+}
+
+
+async function loadExpenseTable() {
+  try {
+    showLoading('#expensesTable tbody');
+    const [expenses, categories] = await Promise.all([
+      fetchExpenses(),
+      fetchExpenseCategories()
+    ]);
+    allExpenses = expenses;
+    filteredExpenses = [...expenses];
+    allExpenseCategories = categories.map(c => c.expense_category_name);
+    renderCategoryFilters();
+    renderExpenseTable(expenseCurrentPage = 1);
+  } catch (error) {
+    console.error('Failed to load expense table:', error);
+    showError('#expensesTable tbody', 'Failed to load expenses. Please try again.');
+  }
+}
+
+async function fetchExpenses() {
+  try {
+    const res = await fetch('http://localhost:3000/expense');
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error('Error fetching expenses:', error);
+    showToast('Failed to load expenses', 'error');
+    return [];
+  }
+}
+
+async function fetchExpenseCategories() {
+  try {
+    const res = await fetch('http://localhost:3000/expense_category');
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    showToast('Failed to load categories', 'error');
+    return [];
+  }
+}
+
+function renderCategoryFilters() {
+  const container = document.querySelector('.d-flex.flex-wrap.gap-2.mb-3');
+  if (!container) return;
+  container.innerHTML = `
+    <button type="button" class="btn btn-sm btn-filter${activeCategory === "All" ? " active" : ""}">
+      All
+    </button>
+  `;
+  let shown = 0;
+  let moreCats = [];
+  for (let cat of allExpenseCategories) {
+    if (shown < 2) {
+      container.innerHTML += `
+        <button type="button" class="btn btn-sm btn-filter${activeCategory === cat ? " active" : ""}">
+          ${cat}
+        </button>
+      `;
+      shown++;
+    } else {
+      moreCats.push(cat);
+    }
+  }
+  if (moreCats.length > 0) {
+    let dropdown = `
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-filter dropdown-toggle" data-bs-toggle="dropdown">
+          More
+        </button>
+        <ul class="dropdown-menu">
+    `;
+    for (let cat of moreCats) {
+      dropdown += `
+        <li><a class="dropdown-item${activeCategory === cat ? " active" : ""}" href="#">
+          ${cat}
+        </a></li>
+      `;
+    }
+    dropdown += `</ul></div>`;
+    container.innerHTML += dropdown;
+  }
+  container.querySelectorAll('.btn-filter').forEach(btn => {
+    btn.onclick = () => {
+      activeCategory = btn.textContent.trim();
+      filterExpenses();
+      renderCategoryFilters();
+    };
+  });
+  container.querySelectorAll('.dropdown-item').forEach(item => {
+    item.onclick = (e) => {
+      e.preventDefault();
+      activeCategory = item.textContent.trim();
+      filterExpenses();
+      renderCategoryFilters();
+    };
+  });
+}
+
+function filterExpenses() {
+  const searchVal = document.querySelector('.input-group input[type="text"]')?.value.trim().toLowerCase() || '';
+  filteredExpenses = allExpenses.filter(exp => {
+    const matchCat = activeCategory === "All" || exp.expense_category_name === activeCategory;
+    const matchSearch = !searchVal ||
+      (exp.expense_category_name && exp.expense_category_name.toLowerCase().includes(searchVal)) ||
+      (exp.description && exp.description.toLowerCase().includes(searchVal));
+    return matchCat && matchSearch;
+  });
+  renderExpenseTable(expenseCurrentPage = 1);
+}
+
+function showCustomMenu(expenseId, left, top) {
+  // Hide any existing menu first
+  hideCustomMenu();
+
+
+    const menuWidth = 150;
+  const menuHeight = 132; // Approximate height for 4 items
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  
+  // Adjust left position if menu would go off right edge
+  if (left + menuWidth > windowWidth) {
+    left = windowWidth - menuWidth - 10;
+  }
+  
+  // Adjust top position if menu would go off bottom edge
+  if (top + menuHeight > windowHeight) {
+    top = windowHeight - menuHeight - 10;
+  }
+
+  
+  // Create menu container
+  const menu = document.createElement('div');
+  menu.className = 'custom-menu';
+  menu.style.position = 'fixed';
+  menu.style.left = `${left}px`;
+  menu.style.top = `${top}px`;
+  menu.style.zIndex = '1000';
+  menu.style.backgroundColor = 'white';
+  menu.style.border = '1px solid #ddd';
+  menu.style.borderRadius = '4px';
+  menu.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+  menu.style.padding = '8px 0';
+  menu.style.minWidth = `${menuWidth}px`;
+  
+  // Add menu items
+  menu.innerHTML = `
+    <a href="../finance/exp-detail.html?id=${expenseId}" class="d-block text-decoration-none mb-1 px-3 py-1 menu-item">View</a>
+    <a href="#" class="d-block text-decoration-none mb-1 px-3 py-1 text-success menu-item approve-expense" data-expense-id="${expenseId}">Approve</a>
+    <a href="#" class="d-block text-decoration-none mb-1 px-3 py-1 text-danger menu-item reject-expense" data-expense-id="${expenseId}">Reject</a>
+    <a href="#" class="d-block text-decoration-none mb-1 px-3 py-1 text-danger menu-item delete-expense" data-expense-id="${expenseId}">Delete</a>
+  `;
+  
+  // Add hover effects
+  menu.querySelectorAll('a').forEach(link => {
+    link.style.display = 'block';
+    link.style.transition = 'background-color 0.2s';
+    link.addEventListener('mouseenter', () => {
+      link.style.backgroundColor = '#f8f9fa';
+    });
+    link.addEventListener('mouseleave', () => {
+      link.style.backgroundColor = 'transparent';
+    });
+  });
+  
+  // Add to document
+  document.body.appendChild(menu);
+  currentOpenMenu = menu;
+  
+
+   clickHandler = function(e) {
+    if (!menu.contains(e.target) && !e.target.classList.contains('action-menu')) {
+      hideCustomMenu();
+    }
+  };
+
+  
+  
+  setTimeout(() => {
+    document.addEventListener('click', clickHandler);
+  }, 0);
+}
+
+function renderExpenseTable(page = 1) {
+  const tbody = document.querySelector('#expensesTable tbody');
+  if (!tbody) return;
+  
+  if (!filteredExpenses.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center text-muted">
+          No expenses found matching your criteria
+        </td>
+      </tr>
+    `;
+    renderExpensePagination(1, 1);
+    return;
+  }
+  
+  const start = (page - 1) * expensePageSize;
+  const end = start + expensePageSize;
+  const pageData = filteredExpenses.slice(start, end);
+  
+  tbody.innerHTML = "";
+  
+  for (const exp of pageData) {
+    if (!exp.expense_id) continue;
+    
+    tbody.innerHTML += `
+      <tr>
+        <td>${exp.expense_id}</td>
+        <td>${exp.description || "-"}</td>
+        <td>${exp.expense_category_name || "-"}</td>
+        <td>₦${formatNumber(exp.amount)}</td>
+        <td>${exp.approved_by || "-"}</td>
+        <td>${formatMethod(exp.payment_method)}</td>
+        <td>${renderStatus(exp.expense_status)}</td>
+        <td>${formatDate(exp.date)}</td>
+        <td>
+          <i class="fs-3 bi bi-three-dots text-success action-menu"
+            data-expense-id="${exp.expense_id}"
+            style="cursor: pointer;"></i>
+        </td>
+      </tr>
+    `;
+  }
+  
+  renderExpensePagination(page, Math.ceil(filteredExpenses.length / expensePageSize));
+}
+
+function initializeActionMenus() {
+  document.querySelectorAll('.action-menu').forEach(el => {
+    const instance = bootstrap.Popover.getInstance(el);
+    if (instance) instance.dispose();
+  });
+  document.querySelectorAll('.action-menu').forEach(el => {
+    const expenseId = el.getAttribute('data-expense-id');
+    new bootstrap.Popover(el, {
+      html: true,
+      placement: 'bottom',
+      trigger: 'click',
+      content: `
+        <div class="popover-actions">
+          <a href="../finance/exp-detail.html?id=${expenseId}" class="d-block text-decoration-none mb-1">View</a>
+          <a href="#" class="d-block text-decoration-none mb-1 text-success approve-expense" data-expense-id="${expenseId}">Approve</a>
+          <a href="#" class="d-block text-decoration-none mb-1 text-danger reject-expense" data-expense-id="${expenseId}">Reject</a>
+          <a href="#" class="d-block text-decoration-none mb-1 text-danger delete-expense" data-expense-id="${expenseId}">Delete</a>
+        </div>
+      `
+    });
+    el.addEventListener('show.bs.popover', () => {
+      document.querySelectorAll('.action-menu').forEach(otherEl => {
+        if (otherEl !== el) {
+          const otherInstance = bootstrap.Popover.getInstance(otherEl);
+          if (otherInstance) otherInstance.hide();
+        }
+      });
+    });
+  });
+}
+
+function renderExpensePagination(current, total) {
+  const pagination = document.querySelector('#expensesTable')?.parentElement?.querySelector('nav ul.pagination');
+  if (!pagination) return;
+  pagination.innerHTML = `
+    <li class="page-item${current === 1 ? ' disabled' : ''}">
+      <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+    </li>
+  `;
+  if (current > 3) {
+    pagination.innerHTML += `
+      <li class="page-item">
+        <a class="page-link" href="#" data-page="1">1</a>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">...</span>
+      </li>
+    `;
+  }
+  const startPage = Math.max(1, current - 1);
+  const endPage = Math.min(total, current + 1);
+  for (let i = startPage; i <= endPage; i++) {
+    pagination.innerHTML += `
+      <li class="page-item${i === current ? ' active' : ''}">
+        <a class="page-link" href="#" data-page="${i}">${i}</a>
+      </li>
+    `;
+  }
+  if (current < total - 2) {
+    pagination.innerHTML += `
+      <li class="page-item disabled">
+        <span class="page-link">...</span>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" data-page="${total}">${total}</a>
+      </li>
+    `;
+  }
+  pagination.innerHTML += `
+    <li class="page-item${current === total ? ' disabled' : ''}">
+      <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+    </li>
+  `;
+  pagination.querySelectorAll('a.page-link').forEach(link => {
+    link.onclick = function (e) {
+      e.preventDefault();
+      const page = Number(this.getAttribute('data-page'));
+      if (page >= 1 && page <= total && page !== expenseCurrentPage) {
+        expenseCurrentPage = page;
+        renderExpenseTable(expenseCurrentPage);
+      }
+    };
+  });
+}
+
+function formatMethod(method) {
+  if (!method) return "-";
+  const methods = {
+    'bank_transfer': 'Transfer',
+    'mobile_money': 'Mobile Money',
+    'cash': 'Cash',
+    'card': 'Card'
+  };
+  return methods[method] || method.charAt(0).toUpperCase() + method.slice(1);
+}
+
+function renderStatus(status) {
+  if (!status) return `<span class="badge bg-warning text-dark">Pending</span>`;
+  const statusMap = {
+    'pending': 'bg-warning text-dark',
+    'approved': 'bg-success',
+    'rejected': 'bg-danger'
+  };
+  const statusClass = statusMap[status.toLowerCase()] || 'bg-warning text-dark';
+  const displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
+  return `<span class="badge ${statusClass}">${displayStatus}</span>`;
+}
+
+function formatNumber(num) {
+  if (isNaN(num) || num === null || num === undefined) return "0";
+  return Number(num).toLocaleString('en-US');
+}
+
+function formatDate(dateString) {
+  if (!dateString) return "-";
+  try {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  } catch (e) {
+    return dateString.split('T')[0] || "-";
+  }
+}
+
+function getApprovedBy() {
+  try {
+    const adminStr = sessionStorage.getItem('admin');
+    if (adminStr) {
+      const admin = JSON.parse(adminStr);
+      const first = admin.first_name || '';
+      const last = admin.last_name || '';
+      const role = admin.admin_role || '';
+      return `${first} ${last} (${role})`.trim();
+    }
+  } catch (e) {
+    console.error('Error parsing admin data:', e);
+  }
+  return "System";
+}
+
+
+window.deleteExpense = async function(id) {
+  if (!id) {
+    showToast('Invalid expense ID', 'error');
+    return;
+  }
+  
+  if (!confirm("Are you sure you want to delete this expense? This action cannot be undone.")) {
+    return;
+  }
+  
+  try {
+    const res = await fetch(`http://localhost:3000/expense/${id}`, {
+      method: 'DELETE'
+    });
+    
+    const data = await res.json();
+    
+    if (data.message === 'Expense deleted') {
+      showToast('Expense deleted successfully', 'success');
+       setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } else {
+      throw new Error(data.error || 'Delete failed');
+    }
+  } catch (error) {
+    console.error('Error deleting expense:', error);
+    showToast('Failed to delete expense', 'error');
+  }
+};
+window.approveExpense = async function(id) {
+  if (!id) {
+    showToast('Invalid expense ID', 'error');
+    return;
+  }
+  
+  if (!confirm("Approve this expense?")) {
+    return;
+  }
+  
+  try {
+    const res = await fetch(`http://localhost:3000/expense/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        expense_status: 'approved',
+        approved_by: getApprovedBy()
+      })
+    });
+    
+    const data = await res.json();
+    
+    if (data.message === 'Expense updated') {
+      showToast('Expense approved successfully', 'success');
+     setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } else {
+      throw new Error(data.error || 'Approval failed');
+    }
+  } catch (error) {
+    console.error('Error approving expense:', error);
+    showToast('Failed to approve expense', 'error');
+  }
+};
+
+window.rejectExpense = async function(id) {
+  if (!id) {
+    showToast('Invalid expense ID', 'error');
+    return;
+  }
+  
+  if (!confirm("Reject this expense?")) {
+    return;
+  }
+  
+  try {
+    const res = await fetch(`http://localhost:3000/expense/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        expense_status: 'rejected',
+        approved_by: getApprovedBy()
+      })
+    });
+    
+    const data = await res.json();
+    
+    if (data.message === 'Expense updated') {
+      showToast('Expense rejected successfully', 'success');
+     setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } else {
+      throw new Error(data.error || 'Rejection failed');
+    }
+  } catch (error) {
+    console.error('Error rejecting expense:', error);
+    showToast('Failed to reject expense', 'error');
+  }
+};
+function showLoading(selector) {
+  const element = document.querySelector(selector);
+  if (element) {
+    element.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center py-3">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </td>
+      </tr>
+    `;
+  }
+}
+
+
+function showError(selector, message) {
+  const element = document.querySelector(selector);
+  if (element) {
+    element.innerHTML = `
+      <tr>
+        <td colspan="10" class="text-center text-danger py-3">
+          ${message}
+        </td>
+      </tr>
+    `;
+  }
+}
+
+</script>
+
+<script>
+            document.addEventListener('DOMContentLoaded', function () {
+          const fileInput = document.getElementById('recieptImageInput');
+            const imagePreview = document.getElementById('recieptImagePreview');
+          fileInput.addEventListener('change', function () {
+    const file = fileInput.files[0];
+    previewContainer.innerHTML = '';
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = 'Reciept';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '200px';
+        img.style.border = '1px solid #ccc';
+        img.style.padding = '4px';
+        previewContainer.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewContainer.innerHTML = '<span class="text-danger">No preview available.</span>';
+    }
+  });
+});
+</script>
+
+
+</body>
+
+</html>

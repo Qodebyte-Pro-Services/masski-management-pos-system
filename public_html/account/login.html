@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Login | Maskis Cooking Gas</title>
+
+		<!-- Meta -->
+		<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+		<meta name="author" content="Bootstrap Gallery" />
+		<link rel="shortcut icon" href="../assets/images/favicon.svg" />
+
+		<!-- *************
+			************ CSS Files *************
+		************* -->
+		<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+		<link rel="stylesheet" href="../assets/css/main.min.css" />
+		<Style>
+			.forminput input {height: 45px;}
+            	  .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    max-width: 300px;
+  }
+  
+  .toast.show {
+    opacity: 1;
+  }
+  
+  .toast.error {
+    background-color: #dc3545;
+  }
+  
+  .toast.success {
+    background-color: #28a745;
+  }
+  
+  .input-error {
+    border: 1px solid #dc3545 !important;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none;
+  }
+		</Style>
+	</head>
+
+	<body class="login-bg" style="
+	background: url('../assets/images/gastation.png');background-size: cover;
+	background-position: center center;">
+		<!-- Container start -->
+		<div class="container">
+            <div id="toast" class="toast"></div>
+			<div class="row justify-content-center">
+				<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+					<form action="/account/login-otp-verify" class="my-5">
+						<div class="login-form rounded-4 p-4 mt-5">
+							<a href="index.html" class="mb-4 d-flex">
+								<img src="../assets/images/maski.PNG" class="img-fluid login-logo" alt="Unity Admin Dashboard" />
+							</a>
+							<h2 class="fw-light mb-4">Login</h2>
+							<div class="mb-3 forminput">
+								<label class="form-label">Your Email</label>
+								<input type="text" class="form-control border-0" placeholder="Enter your email" />
+							</div>
+							<div class="mb-3 forminput">
+								<label class="form-label">Your Password</label>
+								<input type="password" class="form-control border-0" placeholder="Enter password" />
+							</div>
+							<div class="d-flex align-items-center justify-content-between">
+								<div class="form-check m-0">
+									<input class="form-check-input border-0" type="checkbox" value="" id="rememberPassword" />
+									<label class="form-check-label" for="rememberPassword">Remember</label>
+								</div>
+								<a href="/account/forgot-password" class="text-white text-decoration-underline">Lost password?</a>
+							</div>
+							<div class="d-grid py-3 mt-3">
+								<button type="submit" class="btn btn-lg btn-success">
+									Login
+								</button>
+							</div>
+							
+							
+							<div class="text-center pt-4">
+								<span>Not registered?</span>
+								<a href="/account/signup" class="text-white text-decoration-underline ms-2">
+									SignUp</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script>
+document.addEventListener('DOMContentLoaded', function() {
+  
+    function showToast(message, type = 'info', duration = 5000) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast show';
+        toast.classList.add(type);
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.classList.remove(type), 300);
+        }, duration);
+    }
+
+
+    const form = document.querySelector('form');
+    const emailInput = form.querySelector('input[type="text"]');
+    const passwordInput = form.querySelector('input[type="password"]');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+   
+    const emailError = document.createElement('div');
+    emailError.className = 'error-message';
+    emailInput.parentNode.appendChild(emailError);
+
+    const passwordError = document.createElement('div');
+    passwordError.className = 'error-message';
+    passwordInput.parentNode.appendChild(passwordError);
+
+    function clearErrors() {
+        emailInput.classList.remove('input-error');
+        passwordInput.classList.remove('input-error');
+        emailError.style.display = 'none';
+        passwordError.style.display = 'none';
+    }
+
+    function showError(inputElement, message) {
+        inputElement.classList.add('input-error');
+        const errorElement = inputElement.parentNode.querySelector('.error-message');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        inputElement.focus();
+    }
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        clearErrors();
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        
+        
+         let deviceId = localStorage.getItem('device_id');
+    if (!deviceId) {
+        deviceId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substr(2, 16);
+        localStorage.setItem('device_id', deviceId);
+    }
+
+     let lat = '', lon = '';
+if (navigator.geolocation) {
+  try {
+    const pos = await new Promise((resolve) => {
+     navigator.geolocation.getCurrentPosition(
+  resolve,
+  () => resolve(null),
+  { timeout: 3000, enableHighAccuracy: true }
+);
+    });
+    if (pos) {
+      lat = pos.coords.latitude;
+      lon = pos.coords.longitude;
+    }
+  } catch {}
+}
+
+      
+        if (!email) {
+            showError(emailInput, 'Email is required');
+            showToast('Please enter your email', 'error');
+            return;
+        }
+
+        if (!password) {
+            showError(passwordInput, 'Password is required');
+            showToast('Please enter your password', 'error');
+            return;
+        }
+
+
+        if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
+            showError(emailInput, 'Invalid email format');
+            showToast('Please enter a valid email', 'error');
+            return;
+        }
+
+        try {
+          
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging in...';
+
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+               body: JSON.stringify({ 
+  email, 
+  password, 
+  device_id: deviceId, 
+  latitude: lat, 
+  longitude: lon 
+})
+            });
+
+            const data = await response.json();
+
+             if (!response.ok) {
+    if (data.message === 'Invalid email or password') {
+        showError(emailInput, 'Invalid credentials');
+        showError(passwordInput, 'Invalid credentials');
+    }
+    
+    if (data.message && data.message.includes('Waiting for super_admin/manager/dev approval')) {
+        showToast(
+            'This is a new device. Please wait for approval from a super_admin or manager or dev before continuing login.',
+            'error',
+            8000
+        );
+        return;
+    }
+    showToast(data.message || data.error || 'Login failed', 'error');
+    return;
+}
+            
+             if (data.login_attempt_id) {
+                        sessionStorage.setItem('login_attempt_id', data.login_attempt_id);
+                    }
+            showToast('Login successful! Redirecting...', 'success');
+            window.location.href = `login-otp-verify.html?email=${encodeURIComponent(email)}`;
+
+        } catch (err) {
+            console.error('Login error:', err);
+            showToast('An error occurred. Please try again.', 'error');
+        } finally {
+           
+            submitButton.disabled = false;
+            submitButton.textContent = 'Login';
+        }
+    });
+
+    
+    emailInput.addEventListener('input', () => {
+        clearErrors();
+    });
+    passwordInput.addEventListener('input', () => {
+        clearErrors();
+    });
+});
+</script>
+		<!-- Container end -->
+	</body>
+
+</html>

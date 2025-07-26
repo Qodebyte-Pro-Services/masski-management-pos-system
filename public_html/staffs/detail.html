@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Staff Management | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .staff-img {
+  max-height: 100px;
+  object-fit: contain;
+}
+	@media print {
+   
+    #printBtn,nav[aria-label="Table pagination"],
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-size: 16px !important;
+        line-height: 1.5;
+    }
+
+    
+
+   @page {
+    size: A4 auto;
+    margin: 10mm;
+  }
+}
+
+    #salesTable {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    h4, h6, p {
+        font-size: 16px !important;
+        margin: 0 0 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse !important;
+        margin-top: 10px;
+    }
+
+    th, td {
+       
+        font-size: 14px !important;
+        padding: 10px !important;
+        text-align: left;
+    }
+
+    .badge {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .text-end {
+        text-align: right !important;
+    }
+
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/index.html">Home</a>
+</li>
+<li class="breadcrumb-item" ><a href="../staffs/">Staff</a> </li>
+<li class="breadcrumb-item" id="name5" aria-current="page">Samuel </li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+
+<div class="ms-auto d-lg-flex d-none flex-row">
+	<div class="d-flex flex-row gap-1" id="btnfilter">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmPaymentModal">
+      Comfirm payment
+     </button>
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#subChargeModal">
+      Sub Charge
+     </button>
+     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#employStatusModal">
+      Employment Status
+     </button>
+	  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditstaffModal">
+		 Edit Staff
+	  </button>
+      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staffPasswordModal">
+     Change Staff Password
+     </button>
+      <button type="button" data-bs-target="#EditShiftModal" data-bs-toggle="modal" class="btn btn-info">
+        Edit Staff Shift
+      </button>
+
+	  <button type="button" id="delete-staff" class="btn btn-danger">
+		 Delete Staff
+	  </button>
+	</div></div>
+  
+
+
+
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+<div class="col-xxl-4 col-xl-4 col-lg-3 col-md-6 col-sm-6 col-12">
+
+  <div class="card  mb-3" >
+    <div class="card-body">
+      <diV class="text-center mx-auto mb-1">
+        <img id="imgSrc" src="../assets/images/staff.png" 
+        class="rounded-circle mb-3 img-fluid" 
+        style="width: 120px; height: 120px; object-fit: cover;" 
+        alt="Staff Profile Picture">
+   
+   <h5 id="name4" class="card-title mb-1">Samuel Qodebyte</h5>
+   <p>
+    <small id="id_no" class="text-muted">ID/BVN: E4458SE</small></p>
+   <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#StaffdetailModal">
+    View Details
+   </button>
+      </diV>
+      
+      
+      
+    </div>
+  </div>
+
+</div>
+    <div class="col-xxl-2 col-xl-2 col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="card mb-3">
+    <div class="card-body">
+    <h6 class="mb-3">Salary</h6>
+    <div class="mb-2 d-flex align-items-center justify-content-between">
+    
+    <div>
+    
+    <div id="salary3" class=" text  overflow-hidden "
+    style="max-width: 130px;">
+   #100,000
+    </div>
+    
+    </div>
+    </div>
+    
+    </div>
+    </div>
+    </div>
+    <div class="col-xxl-2 col-xl-2 col-lg-6 col-md-6 col-sm-6 col-12">
+      <div class="card mb-3">
+      <div class="card-body">
+      <h6 class="mb-3">Sub Charge</h6>
+      <div class="mb-2 d-flex align-items-center justify-content-between">
+      
+      <div>
+      
+      <div id="sub-charge-info" class=" text  overflow-hidden "
+      style="max-width: 130px;">
+     #10,000
+      </div>
+      
+      </div>
+      </div>
+      
+      </div>
+      </div>
+      </div>
+    <div class="col-xxl-2 col-xl-2 col-lg-6 col-md-6 col-sm-6 col-12">
+        <div class="card mb-3">
+        <div class="card-body">
+        <h6 class="mb-3">Work Shift</h6>
+        <div class="mb-2 d-flex align-items-center justify-content-between">
+        
+        <div>
+        
+        <div class=" text  overflow-hidden "
+        style="max-width: 130px; ">
+       <span id="work-shif-hours" > 9.00am to 5:30pm</span>
+        <span id="work-days">monday, friday, saturday</span>
+        </div>
+        
+        </div>
+        </div>
+        
+        </div>
+        </div>
+        </div>
+        <div class="col-xxl-2 col-xl-2 col-lg-6 col-md-6 col-sm-6 col-12">
+            <div class="card mb-3">
+            <div class="card-body">
+            <h6 class="mb-3">Status</h6>
+            <div class="mb-2 d-flex align-items-center justify-content-between">
+            
+            <div>
+            
+            <div id="staff-status" class=" text  overflow-hidden "
+            style="max-width: 130px;">
+            On Leave
+            </div>
+            
+            </div>
+            </div>
+            
+            </div>
+            </div>
+            </div>
+
+           
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+    <div class="app-body">
+  <!-- Row start -->
+<div class="row gx-3" style="margin-top: 20px;">
+	<div class="col-xxl-12">
+		<div class="card mb-3 p-3" style="background-color: #f8f9fa;">
+			<div class="header mb-2" style="border-bottom: #555 dashed 1px;">
+			<div >
+			<h3>Documents</h3>
+			
+			<p style="color: gray;">All documents associated with this staff member</p>
+
+			</div>
+			<div class="dt-buttons btn-group">
+				
+				<button id="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadDocumentModal">Upload Document</button>
+			  </div>
+			  
+			</div>
+			
+			<div id="doc-section"  class="card-body d-flex flex-row gap-1" style="padding: 0px !important;">
+        <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="card mb-3">
+          <div class="card-body">
+         
+          <div class="mb-2  align-items-center justify-content-between text-center">
+            <a href="#">
+            <i class=" bi bi-file-earmark-fill " style="font-size: 100px; color: #28a745;"></i>
+            <h6 class="mb-3">Contract Agreement</h6>
+          </a>
+          </div>
+          </div>
+          
+          </div>
+          </div>
+          </div>
+			</div>
+			</div>
+	</div>
+	
+	<div class="row gx-3" style="margin-top: 20px;">
+	<div class="col-sm-12">
+		<div class="card mb-3 p-3" style="background-color: #f8f9fa;">
+			<div class="header">
+			<div >
+			<h3>Payment History</h3>
+			
+			<p style="color: gray;">All salary and payment records for <span id="staff-name">Samuel</span> since employment</p>
+			</div>
+			
+			  
+			</div>
+			
+			<div class="card-body" style="padding: 0px !important;">
+			<div>
+			
+			
+			</div>
+			
+			
+			<div class="table-responsive" id="salesTable">
+				<table id="transactions" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+				<thead>
+				<tr>
+					<th>Transaction ID</th>
+					<th>Date & Time</th>
+					<th>Salary (#)</th>
+					<th>Sub Charge (#)</th>
+					<th>Payment Method</th>
+					<th>Expense Status</th>
+        <th>Payment Status</th>
+          <th>Total(#)</th>
+        <th>Record By</th>
+        <th>Action</th>
+				</tr>
+				</thead>
+				<tbody id="payments-tbody">
+		
+				</tbody>
+				</table>
+				<nav aria-label="Table pagination">
+					<ul class="pagination justify-content-end" style="margin-top: 10px;">
+					  <li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					  </li>
+					  <li class="page-item"><a class="page-link" href="#">1</a></li>
+					  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+					  <li class="page-item"><a class="page-link" href="#">3</a></li>
+					  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				  </nav>
+				</div>
+			</div>
+			</div>
+	</div>
+	
+	<div class="col-sm-12">
+		<div class="card mb-3 p-3" style="background-color: #f8f9fa;">
+			<div class="header">
+			<div >
+			<h3>Activity History</h3>
+			
+			<p style="color: gray;">All the activity about Samuel</p>
+			</div>
+			
+			  
+			</div>
+			
+			<div class="card-body " style="padding: 0px !important;">
+			<div>
+			
+			
+			</div>
+			
+			
+			<div class="table-responsive" id="salesTable">
+				<table id="transactions" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+				<thead>
+				<tr>
+					<th>Date & Time</th>
+					<th>Activity</th>
+					<th>Reason</th>
+					<th>Recorded By</th>
+					
+					<th>Status </th>
+    
+				</tr>
+				</thead>
+				<tbody>
+				<tr class="grd-primary-light">
+				
+				</tbody>
+				</table>
+				<nav aria-label="Table pagination">
+					<ul class="pagination justify-content-end" style="margin-top: 10px;">
+					  <li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					  </li>
+					  <li class="page-item"><a class="page-link" href="#">1</a></li>
+					  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+					  <li class="page-item"><a class="page-link" href="#">3</a></li>
+					  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				  </nav>
+				</div>
+			</div>
+			</div>
+	</div>
+	</div>
+	</div>
+<!-- Row end -->
+<!-- Row start -->
+
+<!-- Row end -->
+
+<div class="modal fade" id="EditShiftModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+         <div class="modal-header">
+          <h5 class="modal-title">Edit Staff Shift</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        
+
+
+        <div class="modal-body">
+      <form id="EditShiftForm">
+        
+           <div class="mb-3">
+                <label class="form-label">Work Shifts</label>
+                <select name="working_hours" class="form-select select2-multiple" multiple="multiple" required>
+                <option value="morning">Morning (8am-4pm)</option>
+                <option value="afternoon">Afternoon (12pm-8pm)</option>
+                <option value="night">Night (8pm-8am)</option>
+                <option value="rotational">Rotational</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Work Days</label>
+                <div class="days-checkbox">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="work_days" id="monday" value="Monday">
+                    <label class="form-check-label" for="monday">Monday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="work_days" id="tuesday" value="Tuesday">
+                    <label class="form-check-label" for="tuesday">Tuesday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="work_days" id="wednesday" value="Wednesday">
+                    <label class="form-check-label" for="wednesday">Wednesday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="work_days" id="thursday" value="Thursday">
+                    <label class="form-check-label" for="thursday">Thursday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="work_days" id="friday" value="Friday">
+                    <label class="form-check-label" for="friday">Friday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="work_days" id="saturday" value="Saturday">
+                    <label class="form-check-label" for="saturday">Saturday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="work_days" id="sunday" value="Sunday">
+                    <label class="form-check-label" for="sunday">Sunday</label>
+                </div>
+                </div>
+            </div>
+
+         <button id="shiftBtn" type="button" class="btn btn-primary mt-3">Update Shift</button>
+      </form>
+        </div>
+
+    
+    </div>
+  </div>
+</div>
+ 
+<!----Model section -->
+<div class="modal fade" id="EditstaffModal" tabindex="-1" aria-labelledby="EditstaffModal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditstaffModal">
+                 Edits Staff
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+  <form id="EditStaffForm" enctype="multipart/form-data">
+
+  <h5 class="mb-3">Personal Information</h5>
+
+  <div class="mb-3">
+    <label class="form-label">Full Name</label>
+    <input type="text" name="full_name" placeholder="Please Provide Full Name" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Gender</label>
+    <select name="gender" class="form-select" required>
+      <option selected disabled>Select Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Date of Birth</label>
+    <input type="date" class="form-control" name="date_of_birth" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Phone Number</label>
+    <input name="contact_no" type="tel" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Email Address</label>
+    <input name="email" type="email" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Home Address</label>
+    <input name="address" type="text" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">State of Origin</label>
+    <input name="state_of_origin" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Emergency Contact</label>
+    <input name="emergency_contact" type="text" class="form-control" placeholder="Name & Phone Number" required>
+  </div>
+
+  <!-- Job Details -->
+  <h5 class="mt-4 mb-3">Job Details</h5>
+
+ <div class="mb-3">
+  <label class="form-label">Position</label>
+  <select name="position_name" id="positionSelect" class="form-select" required>
+    <option value="" disabled selected>Select Position</option>
+    
+  </select>
+</div>
+
+  <div class="mb-3">
+    <label class="form-label">Employment Type</label>
+    <select name="employment_type" class="form-select" required>
+      <option selected disabled>Select Type</option>
+      <option value="full_time">Full-Time</option>
+      <option value="part_time">Part-Time</option>
+      <option value="contract">Contract</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Start Date</label>
+    <input name="start_date" type="date" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Salary (₦)</label>
+    <input name="salary" type="number" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Bank Account Number</label>
+    <input name="bank_account_number" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Bank Name</label>
+    <input name="bank_name" type="text" class="form-control" required>
+  </div>
+
+  <!-- HR / Compliance -->
+  <h5 class="mt-4 mb-3">HR / Compliance</h5>
+
+  <div class="mb-3">
+    <label class="form-label">National ID / BVN</label>
+    <input name="national_id" type="text" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Guarantor Name</label>
+    <input name="guarantor_name" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Guarantor Contact</label>
+    <input name="guarantor_contact" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Relationship with Guarantor</label>
+    <input name="guarantor_relationship" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Guarantor Address</label>
+    <input name="guarantor_address" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Upload Staff Photo</label>
+    <input type="file" class="form-control" name="photo" accept="image/*">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Upload ID / Document</label>
+    <input type="file" class="form-control" name="document" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+  </div>
+
+  <!-- Submit -->
+  <button id="editBtn" type="submit" class="btn btn-primary mt-3">Update Staff</button>
+</form>
+
+
+        </div>
+    </div>
+</div>
+</div>
+
+<!----Vies Staff details Modal-->
+<div class="modal fade" id="StaffdetailModal" tabindex="-1" aria-labelledby="StaffdetailModal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="StaffdetailModal">
+                  Staff Detail
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="card p-3" style=" margin: auto;">
+              
+              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Email</span>
+                  <span id="email" class="text-end text-muted">example@gmail.com</span>
+                </div>
+              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Full Name</span>
+                  <span id="full-name" class="text-end text-muted">John Doe</span>
+                </div>
+              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Phone Number</span>
+                  <span id="contact-no" class="text-end text-muted">+234 812 345 6789</span>
+                </div>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Emergency  Number</span>
+                  <span id="emergency-no" class="text-end text-muted">+234 812 345 6789</span>
+                </div>
+              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Gender</span>
+                  <span id="gender" class="text-end text-muted">Male</span>
+                </div>
+              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Position</span>
+                  <span id="postion" class="text-end text-muted">Pump Attendant</span>
+                </div>
+              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Employment Type</span>
+                  <span id="employment-type" class="text-end text-muted">Full-Time</span>
+                </div>
+              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Start Date</span>
+                  <span id="start-date" class="text-end text-muted">2025-06-01</span>
+                </div>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>State Of Origin</span>
+                  <span id="state-of-origin" class="text-end text-muted"> Enugu State</span>
+                </div>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Home Address</span>
+                  <span id="address" class="text-end text-muted">23 Zik Avenue, Uwani, Enugu, Enugu State</span>
+                </div>
+
+                <h5 class=" mt-3 text-bg-success p-1">Guarantor Information</h5>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Name</span>
+                  <span id="gurrantor-name" class="text-end text-muted">James Odi</span>
+                </div>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Phone Number</span>
+                  <span id="gurrantor-phone" class="text-end text-muted">+234 812 345 6789</span>
+                </div>
+                              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Relationship</span>
+                  <span id="relationship-gurrantor" class="text-end text-muted">Job Agency</span>
+                </div>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Home Address</span>
+                  <span id="gurrantor-address" class="text-end text-muted">23 Zik Avenue, Uwani, Enugu, Enugu State</span>
+                </div>
+                <!----Bank details-->
+                <h5 class=" mt-3 text-bg-success p-1">Bank Details</h5>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Bank Name</span>
+                  <span id="bank-name" class="text-end text-muted">First Bank</span>
+                </div>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Account Number</span>
+                  <span id="bank-number" class="text-end text-muted"> 812 345 6789</span>
+                </div>
+                              
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Account Name</span>
+                  <span id="fullname2" class="text-end text-muted">Samuel Qodebyte</span>
+                </div>
+                
+              </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!---Confirm Payment Modal-->
+<div class="modal fade" id="confirmPaymentModal" tabindex="-1" aria-labelledby="confirmPaymentModal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmPaymentModal">
+                 Record <span id="name">Samuel</span> Payment
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="staff-payment" >
+                
+               <div class="mb-3">
+  <label for="paymentMethod" class="form-label">Expense Category</label>
+  <select name="expense_category_id" disabled class="form-select" id="expense-category" required>
+    <option  value="" selected >Salary</option>
+  </select>
+</div> 
+                
+<div class="mb-3">
+  <label for="paymentMethod" class="form-label">Payment Method</label>
+  <select class="form-select" id="paymentMethod" required>
+    <option selected disabled>Select Method</option>
+    <option value="bank_transfer">Bank Transfer</option>
+    <option value="cash">Cash</option>
+    <option value="cheque">Cheque</option>
+    <option value="mobile_money">Mobile Money</option>
+  </select>
+</div>
+
+
+<div class="mb-3">
+  <label for="paymentStatus" class="form-label">Payment Status</label>
+  <select class="form-select" id="paymentStatus" required>
+    <option selected disabled>Select Status</option>
+    <option value="paid">Paid</option>
+    <option value="paid_half">Paid Half</option>
+    <option value="un_paid">Unpaid</option>
+  </select>
+</div>
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">Sub Charge</label>
+                  <input type="number" name="subcharge" class="form-control" id="subCharge" value="0.00" readonly>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Amount Paid</label>
+                  <input name="amount_paid" type="number" class="form-control" placeholder="100000" id="amountPaid">
+                </div>
+          
+                
+                
+                <button id="payBtn" type="button" class="btn btn-success" >Save</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!----Subcharge-->
+<div class="modal fade" id="subChargeModal" tabindex="-1" aria-labelledby="subChargeModal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="subChargeModal">
+                Sub Charge
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="staff-sub-charge-form" >
+               
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">Sub Charge</label>
+                  <input type="number" class="form-control" id="subCharge" placeholder="200" required>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Reason</label>
+                 <textarea class="form-control"> Came Late for work</textarea>
+                </div>
+          
+                
+                
+                <button id="subchargeBtn" type="button" class="btn btn-success" >Save</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="staffPasswordModal" tabindex="-1" aria-labelledby="staffPasswordModal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staffPasswordModal">
+                Staff Password
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="staff-admin-password" >
+                
+                 <div class="mb-3">
+                  <label for="" class="form-label">Staff Default Password</label>
+                  <input disabled type="text" value="maskistaff1234" class="form-control" id="" placeholder="">
+                </div>
+
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">New Password</label>
+                  <input type="password" class="form-control" id="password" placeholder="Enter New Password" required>
+                </div>
+          
+                <div hidden class="mb-3">
+                <input type="email" name="adminEmail" class="form-control" id="adminEmail">
+                </div>
+          
+                
+                
+                <button id="passwordBtn" type="button" class="btn btn-success" >Save</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!----Subcharge-->
+<div class="modal fade" id="employStatusModal" tabindex="-1" aria-labelledby="employStatusModal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employStatusModal">
+                Employment Status
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="staff-status-update">
+  <div class="mb-3">
+    <label class="form-label">Employment Status</label>
+    <select class="form-select" id="staff_status" name="staff_status" required>
+  <option>Active</option>
+  <option>Suspended</option>
+  <option>On Leave</option>
+  <option>Sacked</option>
+</select>
+
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Reason</label>
+    <textarea name="staff_status_change_reason" placeholder="Attitude Of Being Late" class="form-control"></textarea>
+  </div>
+  <button type="button" class="btn btn-success" id="statusSaveBtn">Save</button>
+</form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="uploadDocumentModal" tabindex="-1" aria-labelledby="uploadDocumentModal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadDocumentModal">
+               Upload any Document here
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form enctype="multipart/form-data" id="add-staff-docs" >
+               
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">Document Name</label>
+                  <input type="text" class="form-control" id="subCharge" placeholder="eg. CV" required>
+                </div>
+          
+                <div class="mb-3">
+                  <label class="form-label">Upload Document</label>
+                  <div class="file-drop-area">
+                    <span class="text-muted">Drag & Drop file here or click to browse</span>
+                    <input type="file" name="design_file">
+                  </div>
+                </div>
+          
+                
+                
+                <button id="docsBtn" type="button" class="btn btn-success" >Save</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- <script src="../assets/js/qode.min1.js"></script> -->
+<script src="../assets/js/component.js"></script>
+<!-- <script src="../assets/js/dashbaoardchart.js"></script>
+<script src="../assets/js/donutChart.js"></script> -->
+<script src="../assets/js/form.js"></script>
+
+
+<script>
+	//function to hide overwiev matrice when click tabs
+	document.addEventListener("DOMContentLoaded", function () {
+	  const gxRow = document.getElementById("gxRow");
+	  const customTab = document.getElementById("customTab");
+  
+	  // Function to toggle visibility
+	  function toggleGxRow(activeTabId) {
+		if (activeTabId === "tab-one") {
+		  gxRow.style.setProperty("display", "flex", "important"); // for .row
+		} else {
+		  gxRow.style.setProperty("display", "none", "important");
+		}
+	  }
+  
+	  // Initial check on page load
+	  const activeTab = customTab.querySelector(".nav-link.active");
+	  toggleGxRow(activeTab?.id);
+  
+	  // Event listener for tab change
+	  customTab.querySelectorAll(".nav-link").forEach(link => {
+		link.addEventListener("shown.bs.tab", function (e) {
+		  toggleGxRow(e.target.id);
+		});
+	  });
+	});
+
+	
+	document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('salesTable').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    [ 'transactions'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("report");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+  
+
+
+  </script>
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script> -->
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<!-- <script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script> -->
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+<script>
+   	function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const staffId = new URLSearchParams(window.location.search).get('staff_id');
+  const passwordForm = document.getElementById('staff-admin-password');
+  const passwordBtn = document.getElementById('passwordBtn');
+  const passwordInput = document.getElementById('password');
+  const adminEmailInput = document.getElementById('adminEmail');
+
+ 
+  if (staffId) {
+    fetch(`http://localhost:3000/staff/${staffId}`)
+      .then(res => res.json())
+      .then(staff => {
+        if (staff && staff.email) {
+          adminEmailInput.value = staff.email;
+        }
+      })
+      .catch(() => {
+        showToast('Failed to fetch staff email', 'danger');
+      });
+  }
+
+  passwordBtn.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const newPassword = passwordInput.value.trim();
+    const adminEmail = adminEmailInput.value.trim();
+
+    if (!adminEmail) {
+      showToast('Staff email not found', 'danger');
+      return;
+    }
+    if (!newPassword || newPassword.length < 8) {
+      showToast('Password must be at least 8 characters', 'danger');
+      return;
+    }
+
+    passwordBtn.disabled = true;
+    passwordBtn.textContent = 'Processing...';
+
+    try {
+      const formData = new FormData();
+      formData.append('password', newPassword);
+
+      const res = await fetch(`http://localhost:3000/admin/email/${encodeURIComponent(adminEmail)}`, {
+        method: 'PATCH',
+        body: formData
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('Password updated successfully', 'success');
+        passwordForm.reset();
+        setTimeout(() => {
+          bootstrap.Modal.getInstance(document.getElementById('staffPasswordModal')).hide();
+        }, 1000);
+      } else {
+        showToast(data.error || 'Failed to update password', 'danger');
+      }
+    } catch (err) {
+      showToast('Network error', 'danger');
+    } finally {
+      passwordBtn.disabled = false;
+      passwordBtn.textContent = 'Save';
+    }
+  });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function getStaffIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('staff_id');
+  }
+
+  const staffId = getStaffIdFromUrl();
+  if (!staffId) {
+    console.error('No staff_id found in URL');
+    return;
+  }
+
+  // Fetch staff details
+  fetch(`http://localhost:3000/staff/${staffId}`)
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch staff details');
+      return res.json();
+    })
+    .then(staff => {
+      const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text || '';
+      };
+
+      // Staff details
+      setText('email', staff.email);
+      setText('full-name', staff.full_name);
+      setText('contact-no', staff.contact_no);
+      setText('emergency-no', staff.emergency_contact);
+      setText('gender', staff.gender);
+      setText('postion', staff.position_name); // Confirm ID spelling in HTML
+      setText('employment-type', staff.employment_type);
+      setText('start-date', staff.start_date);
+      setText('state-of-origin', staff.state_of_origin);
+      setText('address', staff.address);
+      setText('gurrantor-name', staff.guarantor_name); // Confirm ID spelling in HTML
+      setText('gurrantor-phone', staff.guarantor_contact);
+      setText('relationship-gurrantor', staff.guarantor_relationship);
+      setText('gurrantor-address', staff.guarantor_address);
+      setText('bank-name', staff.bank_name);
+      setText('bank-number', staff.bank_account_number);
+      setText('fullname2', staff.full_name);
+      setText('name', staff.full_name);
+      setText('name3', staff.full_name);
+      setText('name4', staff.full_name);
+      setText('name5', staff.full_name);
+      setText('id_no', staff.national_id); // Be consistent with ID (id-no vs id_no)
+      setText('salary3', staff.salary);
+      setText('staff-name', staff.full_name);
+      
+
+      const imgEl = document.getElementById('imgSrc');
+      if (imgEl) {
+        imgEl.src = staff.photo?.startsWith('http')
+          ? staff.photo
+          : (staff.photo ? `http://localhost:3000/uploads/${staff.photo}` : '../assets/images/staff.png');
+      }
+
+     
+
+      // Staff status logic
+      const statusText = staff.staff_status === 'on_job'
+        ? 'Active'
+        : (['suspended', 'terminated'].includes(staff.staff_status) ? 'Inactive' : staff.staff_status || '');
+
+      const statusElem = document.getElementById('staff-status');
+      if (statusElem) {
+        statusElem.textContent = statusText;
+      } else {
+        const statusCard = document.querySelectorAll('.card-body > .text.overflow-hidden');
+        if (statusCard?.[3]) {
+          statusCard[3].textContent = statusText;
+        }
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching staff:', err);
+    });
+
+  // Fetch staff documents
+  fetch(`http://localhost:3000/staff_docs/${staffId}`)
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch staff documents');
+      return res.json();
+    })
+    .then(docs => {
+      const docSection = document.getElementById('doc-section');
+      if (!docSection) return;
+
+      docSection.innerHTML = '';
+
+      if (Array.isArray(docs) && docs.length) {
+        docs.forEach(doc => {
+          const docUrl = doc.file 
+            ? `http://localhost:3000/uploads/${doc.file}`
+            : '#';
+
+          docSection.innerHTML += `
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="mb-2 align-items-center justify-content-between text-center">
+                  <a href="${docUrl}" target="_blank">
+                    <i class="bi bi-file-earmark-fill" style="font-size: 100px; color: #28a745;"></i>
+                    <h6 class="mb-3">${doc.document_name || 'Document'}</h6>
+                    <h6 class="text-muted mb-0">${new Date(doc.created_at).toLocaleDateString()}</h6>
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        docSection.innerHTML = '<div class="text-center text-muted">No documents found.</div>';
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching staff documents:', err);
+    });
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+ 
+  function getStaffIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('staff_id');
+  }
+  const staffId = getStaffIdFromUrl();
+
+ 
+  document.getElementById('docsBtn').addEventListener('click', function (e) {
+    e.preventDefault();
+    const form = document.getElementById('add-staff-docs');
+    const docName = form.querySelector('input[type="text"]').value;
+    const fileInput = form.querySelector('input[type="file"]');
+    const file = fileInput.files[0];
+    const docBtn = document.getElementById('docsBtn');
+    docBtn.disabled = true;
+    docBtn.textContent = 'Processing...';
+
+
+    if (!docName || !file) {
+      showToast('Please provide document name and file.', 'danger');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('staff_id', staffId);
+    formData.append('document_name', docName);
+    formData.append('file', file);
+
+    fetch('http://localhost:3000/staff_docs', {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.message === 'Document uploaded') {
+        showToast('Document uploaded successfully');
+        docBtn.disabled = false;
+        docBtn.textContent = 'Save';
+        form.reset();
+      setTimeout(() => {
+          location.reload();
+      }, 1000)
+      } else {
+        showToast(data.error || 'Failed to upload document', 'danger');
+      }
+    })
+    .catch(() => showToast('Network error', 'danger'));
+  });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const staffId = new URLSearchParams(window.location.search).get('staff_id');
+
+
+  document.getElementById('subchargeBtn').addEventListener('click', function (e) {
+    e.preventDefault();
+    const subBtn = document.getElementById('subchargeBtn');
+    subBtn.disabled = true;
+    subBtn.textContent = 'Processing...';
+
+    const form = document.getElementById('staff-sub-charge-form');
+    const amt = form.querySelector('input[type="number"]').value;
+    const reason = form.querySelector('textarea').value;
+
+    if (!amt) {
+      showToast('Please enter subcharge amount.', 'danger');
+      return;
+    }
+
+    fetch('http://localhost:3000/staff_subcharge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        staff_id: staffId,
+        sub_charge_amt: amt,
+        reason: reason
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.message === 'Subcharge added') {
+        showToast('Subcharge added successfully');
+        subBtn.disabled = false;
+        subBtn.textContent = 'Save';
+        form.reset();
+        loadSubchargeInfo(); 
+         setTimeout(() => {
+          location.reload();
+      }, 1000)
+      } else {
+        showToast(data.error || 'Failed to add subcharge', 'danger');
+      }
+    })
+    .catch(() => showToast('Network error', 'danger'));
+  });
+
+
+  
+  function loadSubchargeInfo() {
+    fetch(`http://localhost:3000/staff_subcharge/${staffId}`)
+      .then(res => res.json())
+      .then(data => {
+        const info = document.getElementById('sub-charge-info');
+        let val = Number(data.total_subcharge || 0);
+        info.textContent = val ? `#${val.toLocaleString()}` : '#0';
+      });
+  }
+
+  loadSubchargeInfo();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const staffId = new URLSearchParams(window.location.search).get('staff_id');
+  
+  document.getElementById('statusSaveBtn').addEventListener('click', function (e) {
+    e.preventDefault();
+    
+    const statusBtn = document.getElementById('statusSaveBtn');
+    statusBtn.disabled = true;
+    statusBtn.textContent = 'Processing...';
+
+    const select = document.getElementById('staff_status');
+    const reasonTextarea = document.querySelector('textarea[name="staff_status_change_reason"]');
+
+    let val = select.value.trim().toLowerCase();
+    let status = '';
+
+    if (val === 'active') status = 'on_job';
+    else if (val === 'suspended') status = 'suspended';
+    else if (val === 'on leave') status = 'suspended';
+    else if (val === 'sacked') status = 'terminated';
+    else status = val;
+
+    const reason = reasonTextarea.value.trim();
+
+    fetch(`http://localhost:3000/staff/${staffId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        staff_status: status,
+        staff_status_change_reason: reason || null
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.message === 'Staff updated') {
+        showToast('Status updated successfully');
+        statusBtn.disabled = false;
+        statusBtn.textContent = 'Save';
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        showToast(data.error || 'Failed to update status', 'danger');
+        statusBtn.disabled = false;
+        statusBtn.textContent = 'Save';
+      }
+    })
+    .catch(() => {
+      showToast('Network error', 'danger');
+      statusBtn.disabled = false;
+      statusBtn.textContent = 'Save';
+    });
+  });
+});
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const staffId = new URLSearchParams(window.location.search).get('staff_id');
+  const form = document.getElementById('EditStaffForm');
+  const editBtn = document.getElementById('editBtn');
+
+ 
+  document.getElementById('EditstaffModal').addEventListener('show.bs.modal', function() {
+    fetch(`http://localhost:3000/staff/${staffId}`)
+      .then(res => res.json())
+      .then(staff => {
+       
+        const fieldsToUpdate = [
+          'full_name', 'contact_no', 'email', 'address', 
+          'assigned_position', 'state_of_origin', 'emergency_contact',
+          'salary', 'bank_account_number', 'bank_name', 'national_id',
+          'guarantor_name', 'guarantor_contact', 'guarantor_relationship',
+          'guarantor_address'
+        ];
+        
+        fieldsToUpdate.forEach(field => {
+          if (staff[field]) {
+            form.elements[field].value = staff[field];
+          }
+        });
+
+      
+        if (staff.gender) {
+          const genderSelect = form.elements.gender;
+          for (let i = 0; i < genderSelect.options.length; i++) {
+            if (genderSelect.options[i].value === staff.gender) {
+              genderSelect.selectedIndex = i;
+              break;
+            }
+          }
+        }
+
+        if (staff.position_name) {
+          const positionSelect = form.elements.position_name;
+          for (let i = 0; i < positionSelect.options.length; i++) {
+            if (positionSelect.options[i].value === staff.position_name) {
+              positionSelect.selectedIndex = i;
+              break;
+            }
+          }
+        }
+        
+        if (staff.employment_type) {
+          const employmentSelect = form.elements.employment_type;
+          for (let i = 0; i < employmentSelect.options.length; i++) {
+            if (employmentSelect.options[i].value === staff.employment_type) {
+              employmentSelect.selectedIndex = i;
+              break;
+            }
+          }
+        }
+
+      
+        form.elements.date_of_birth.value = staff.date_of_birth ? formatDateForInput(staff.date_of_birth) : '';
+        form.elements.start_date.value = staff.start_date ? formatDateForInput(staff.start_date) : '';
+
+    
+        const photoContainer = form.elements.photo.parentNode;
+        const docContainer = form.elements.document.parentNode;
+        
+     
+        const existingPreviews = photoContainer.querySelectorAll('.file-preview');
+        existingPreviews.forEach(el => el.remove());
+        
+        if (staff.photo) {
+          const photoPreview = document.createElement('div');
+          photoPreview.className = 'file-preview mb-2';
+          photoPreview.innerHTML = `
+            <p class="mb-1">Current Photo:</p>
+            <img src="http://localhost:3000/uploads/${staff.photo}" alt="Staff Photo" 
+                 style="max-width: 200px; max-height: 200px;" class="img-thumbnail">
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" id="removePhoto" name="remove_photo">
+              <label class="form-check-label" for="removePhoto">Remove current photo</label>
+            </div>
+          `;
+          photoContainer.insertBefore(photoPreview, form.elements.photo);
+        }
+        
+        if (staff.document) {
+          const docPreview = document.createElement('div');
+          docPreview.className = 'file-preview mb-2';
+          docPreview.innerHTML = `
+            <p class="mb-1">Current Document:</p>
+            <a href="http://localhost:3000/uploads/${staff.document}" target="_blank" 
+               class="btn btn-sm btn-outline-primary me-2">View Document</a>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="removeDocument" name="remove_document">
+              <label class="form-check-label" for="removeDocument">Remove document</label>
+            </div>
+          `;
+          docContainer.insertBefore(docPreview, form.elements.document);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching staff:', err);
+        showToast('Failed to load staff details', 'danger');
+      });
+  });
+
+  function formatDateForInput(dateString) {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  }
+
+
+  editBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    editBtn.disabled = true;
+    editBtn.textContent = 'Processing...';
+    
+    const formData = new FormData(form);
+    const payload = {};
+    formData.forEach((value, key) => {
+      if (value) payload[key] = value;
+    });
+
+    fetch(`http://localhost:3000/staff/${staffId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.message === 'Staff updated') {
+        showToast('Staff updated successfully');
+        bootstrap.Modal.getInstance(document.getElementById('EditstaffModal')).hide();
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        showToast(data.error || 'Failed to update staff', 'danger');
+        editBtn.disabled = false;
+        editBtn.textContent = 'Update Staff';
+      }
+    })
+    .catch(() => {
+      showToast('Network error', 'danger');
+      editBtn.disabled = false;
+      editBtn.textContent = 'Update Staff';
+    });
+  });
+});
+</script>
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById('confirmPaymentModal');
+
+  if (!modal) {
+    console.warn('Modal not found');
+    return;
+  }
+
+  modal.addEventListener('show.bs.modal', async () => {
+    const staffId = new URLSearchParams(window.location.search).get('staff_id');
+    console.log('Modal opened. staffId:', staffId);
+
+    const paymentForm = document.getElementById('staff-payment');
+    const paymentMethod = document.getElementById('paymentMethod');
+    const paymentStatus = document.getElementById('paymentStatus');
+    const amountPaid = document.getElementById('amountPaid');
+    const subChargeInput = document.getElementById('subCharge');
+    const payBtn = document.getElementById('payBtn');
+    const expenseCategorySelect = document.getElementById('expense-category');
+
+    let fullName = '';
+
+    async function fetchStaffName() {
+      try {
+        const res = await fetch(`http://localhost:3000/staff/${staffId}`);
+        const data = await res.json();
+        fullName = data.full_name || 'Unknown';
+        console.log('Fetched full name:', fullName);
+      } catch (err) {
+        console.error('Failed to fetch staff full name:', err);
+        fullName = 'Unknown';
+      }
+    }
+
+    if (!staffId || !paymentForm || !paymentMethod || !paymentStatus || !amountPaid || !subChargeInput || !payBtn) {
+      console.error('Missing required elements or staffId');
+      return;
+    }
+
+    async function loadExpenseCategories() {
+      try {
+        const res = await fetch('http://localhost:3000/expense_category');
+        const categories = await res.json();
+
+        expenseCategorySelect.innerHTML = '';
+
+        if (!Array.isArray(categories) || categories.length === 0) {
+          expenseCategorySelect.innerHTML = `<option value="" disabled selected>No Data Available</option>`;
+          return;
+        }
+
+        let foundSalary = false;
+        categories.forEach(category => {
+          const isSalary = category.expense_category_name?.toLowerCase() === 'salary';
+          const option = document.createElement('option');
+          option.value = category.expense_category_id;
+          option.textContent = category.expense_category_name;
+          if (isSalary && !foundSalary) {
+            option.selected = true;
+            foundSalary = true;
+          }
+          expenseCategorySelect.appendChild(option);
+        });
+
+        if (!foundSalary) {
+          expenseCategorySelect.selectedIndex = 0;
+        }
+      } catch (err) {
+        console.error('Failed to load expense categories', err);
+        expenseCategorySelect.innerHTML = `<option value="" disabled selected>Failed to Load</option>`;
+      }
+    }
+
+    async function loadSubcharge() {
+      try {
+        const res = await fetch(`http://localhost:3000/staff_subcharge/${staffId}`);
+        console.log('Subcharge fetch status:', res.status);
+        const data = await res.json();
+        console.log('Subcharge data:', data);
+        const sub = parseFloat(data.total_subcharge);
+        subChargeInput.value = isNaN(sub) ? '0.00' : sub.toFixed(2);
+      } catch (err) {
+        console.error('Failed to fetch subcharge', err);
+        subChargeInput.value = '0.00';
+      }
+    }
+
+    payBtn.addEventListener('click', async () => {
+      if (!staffId) return showToast('Staff ID is missing in the URL', 'danger');
+
+      const payment_status = paymentStatus.value;
+      const payment_method = paymentMethod.value;
+      const amount_paid = amountPaid.value;
+      const subcharge = subChargeInput.value;
+      const expense_category_id = expenseCategorySelect.value;
+
+      if (!payment_status || !payment_method || !amount_paid) {
+        return showToast('Please fill all required fields', 'danger');
+      }
+
+      payBtn.disabled = true;
+      payBtn.textContent = 'Processing...';
+
+      try {
+        const res = await fetch(`http://localhost:3000/staff/${staffId}/payment`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            payment_status,
+            amount_paid,
+            full_name: fullName,
+            payment_method,
+            subcharge,
+            expense_category_id,
+          }),
+        });
+
+        const result = await res.json();
+        if (res.ok) {
+          showToast('Payment successful and subcharges cleared!', 'success');
+          paymentForm.reset();
+          setTimeout(() => location.reload(), 1000);
+          loadSubcharge();
+          loadExpenseCategories();
+        } else {
+          showToast('Error: ' + result.error);
+        }
+      } catch (err) {
+        console.error('Payment error:', err);
+        showToast('Something went wrong while processing the payment.');
+      } finally {
+        payBtn.disabled = false;
+        payBtn.textContent = 'Save';
+      }
+    });
+
+    await fetchStaffName();
+    loadExpenseCategories();
+    loadSubcharge();
+  });
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const deleteBtn = document.getElementById('delete-staff');
+  const staffId = new URLSearchParams(window.location.search).get('staff_id'); 
+
+  deleteBtn.addEventListener('click', async () => {
+    if (!staffId) {
+      showToast('Staff ID is missing in the URL', 'danger');
+      return;
+    }
+
+    const confirmDelete = confirm('Are you sure you want to delete this staff member? This action cannot be undone.');
+
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`/staff/${staffId}`, {
+        method: 'DELETE',
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showToast(`Success: ${result.message}`, 'success');
+       
+        window.location.href = '../staff'; 
+      } else {
+        showToast(`Error: ${result.error}`, 'danger');
+      }
+    } catch (err) {
+      console.error('Delete staff failed:', err);
+      showToast('Something went wrong while deleting the staff member.', 'danger');
+    }
+  });
+});
+</script>
+
+<script>
+  
+document.addEventListener('DOMContentLoaded', function() {
+  const staffId = new URLSearchParams(window.location.search).get('staff_id');
+  const workingHoursDiv = document.getElementById('work-shif-hours');
+  const workingDaysDiv = document.getElementById('work-days');
+
+  if (staffId && workingHoursDiv) {
+    fetch(`http://localhost:3000/staff_shifts/staff/${staffId}`)
+      .then(res => res.json())
+      .then(shifts => {
+        if (shifts && shifts.length > 0) {
+          const shift = shifts[0];
+          if (shift.working_hours) {
+            const hoursMap = {
+              'morning': 'Morning (8am-4pm)',
+              'afternoon': 'Afternoon (12pm-8pm)',
+              'night': 'Night (8pm-8am)',
+              'rotational': 'Rotational'
+            };
+            const shiftsArray = shift.working_hours.split(',').map(s => s.trim());
+            const daysArray = shift.work_days ? 
+              shift.work_days.split(',').map(d => d.trim()) : [];
+            const displayText = shiftsArray.map(s => hoursMap[s] || s).join(', ');
+            
+            workingHoursDiv.textContent = displayText;
+            workingDaysDiv.textContent = daysArray.length > 0 ? 
+              daysArray.join(', ') : 'No working days set';
+          }
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching shifts:', err);
+      });
+  }
+});
+</script>
+
+<script>
+    console.log('Shift script loaded!');
+document.addEventListener('DOMContentLoaded', function () {
+     console.log('DOM fully loaded!');
+    const urlParams = new URLSearchParams(window.location.search);
+    const staffId = urlParams.get('staff_id');
+    if (!staffId) {
+        console.error('Staff ID not found in URL');
+        showToast('Staff ID missing', 'danger');
+        return;
+    }
+
+    let shiftId = null;
+    const form = document.getElementById('EditShiftForm');
+    const shiftBtn = document.getElementById('shiftBtn');
+    const modal = document.getElementById('EditShiftModal');
+
+    document.getElementById('EditShiftModal').addEventListener('show.bs.modal', function () {
+        const select = form.querySelector('select[name="working_hours"]');
+     
+        if ($(select).data('select2')) {
+            $(select).select2('destroy');
+        }
+      console.log('Select2 available?', typeof $.fn.select2);
+     if (typeof $.fn.select2 !== 'undefined') {
+  $(select).select2({
+    placeholder: "Select shifts",
+    allowClear: true,
+    width: '100%'
+  });
+} else {
+  console.error('Select2 is not loaded');
+}
+
+        shiftBtn.disabled = true;
+        fetch(`http://localhost:3000/staff_shifts/staff/${staffId}`)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                 console.log('Fetching shifts for staff ID:', staffId);
+                return res.json();
+               
+            })
+            .then(shifts => {
+                  console.log('Received shifts:', shifts);
+                shiftBtn.disabled = false;
+                if (shifts?.length > 0 && shifts[0]) {
+                    const shift = shifts[0];
+                    shiftId = shift.shift_id;
+
+                 
+                    const workingHours = shift.working_hours || '';
+                    const shiftsArray = workingHours ? 
+                        workingHours.split(',').map(s => s.trim()) : [];
+                    $(select).val(shiftsArray).trigger('change');
+
+                    console.log('Working hours loaded:', shiftsArray);
+
+                 
+                    const days = shift.work_days ? 
+                        shift.work_days.split(',').map(d => d.trim()) : [];
+                    form.querySelectorAll('input[name="work_days"]').forEach(cb => {
+                        cb.checked = days.includes(cb.value);
+                    });
+
+                    console.log('Shift details loaded:', shift);
+
+                    showToast('Shift details loaded successfully');
+                } else {
+                     console.warn('No valid shift ID found in API response:', shifts);
+                    shiftId = null;
+                    $(select).val(null).trigger('change');
+                    form.querySelectorAll('input[name="work_days"]').forEach(cb => {
+                        cb.checked = false;
+                    });
+                }
+            })
+            .catch(err => {
+                shiftBtn.disabled = false;
+                console.error('Error fetching shifts:', err);
+                showToast('Failed to load shift details', 'danger');
+            });
+    });
+
+    shiftBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (!form.checkValidity()) {
+            e.stopPropagation();
+            form.classList.add('was-validated');
+            return;
+        }
+
+        shiftBtn.disabled = true;
+        shiftBtn.textContent = 'Processing...';
+
+        if (!shiftId) {
+            showToast('Shift ID not found. Cannot update.', 'danger');
+            resetButton();
+            return;
+        }
+
+        const workShifts = Array.from(form.querySelector('select[name="working_hours"]').selectedOptions)
+            .map(opt => opt.value)
+            .join(',');
+
+        const workDays = Array.from(form.querySelectorAll('input[name="work_days"]:checked'))
+            .map(cb => cb.value)
+            .join(',');
+
+        if (!workShifts && !workDays) {
+            showToast('Please select at least one shift or work day', 'danger');
+            resetButton();
+            return;
+        }
+
+        console.log('Updating shift with ID:', shiftId);
+
+        fetch(`http://localhost:3000/staff_shifts/${shiftId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                working_hours: workShifts,
+                work_days: workDays
+            })
+        })
+        .then(async res => {
+            if (!res.ok) {
+                const error = await res.json().catch(() => ({}));
+                throw new Error(error.message || `HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            showToast('Shift updated successfully');
+            const bsModal = bootstrap.Modal.getInstance(modal);
+            if (bsModal) bsModal.hide();
+            document.dispatchEvent(new Event('shiftUpdated'));
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        })
+        .catch(err => {
+            showToast(err.message || 'Failed to update shift', 'danger');
+        })
+        .finally(resetButton);
+    });
+
+    function resetButton() {
+        shiftBtn.disabled = false;
+        shiftBtn.textContent = 'Update Shift';
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const staffId = new URLSearchParams(window.location.search).get('staff_id');
+  const tbody = document.getElementById('payments-tbody');
+  const pagination = document.querySelector('nav[aria-label="Table pagination"] ul.pagination');
+  let allPayments = [];
+  let currentPage = 1;
+  const pageSize = 10;
+  let staffPaymentStatus = '';
+
+  // Fetch staff payment status first
+  function fetchStaffPaymentStatus() {
+    return fetch(`http://localhost:3000/staff/${staffId}`)
+      .then(res => res.json())
+      .then(staff => {
+        staffPaymentStatus = staff.payment_status || '';
+      })
+      .catch(() => {
+        staffPaymentStatus = '';
+      });
+  }
+
+  function fetchPayments() {
+    fetchStaffPaymentStatus().then(() => {
+      fetch(`http://localhost:3000/expense/staff/${staffId}`)
+        .then(res => res.json())
+        .then(data => {
+          allPayments = Array.isArray(data) ? data : [];
+          renderTable();
+          renderPagination();
+        })
+        .catch(() => {
+          tbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger">Failed to load payments</td></tr>`;
+        });
+    });
+  }
+
+  function renderTable() {
+    const start = (currentPage - 1) * pageSize;
+    const pageData = allPayments.slice(start, start + pageSize);
+    if (!pageData.length) {
+      tbody.innerHTML = `<tr><td colspan="10" class="text-center">No payments found.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = pageData.map(payment => {
+      const statusBadge = payment.expense_status === 'approved'
+        ? '<span class="badge bg-success">Paid</span>'
+        : payment.expense_status === 'pending'
+          ? '<span class="badge bg-warning">Not Approved</span>'
+          : `<span class="badge bg-secondary">${payment.expense_status}</span>`;
+
+      // Staff payment status badge
+      let payStatusText = '';
+      if (staffPaymentStatus === 'paid') payStatusText = '<span class="badge bg-success">Paid</span>';
+      else if (staffPaymentStatus === 'paid_half') payStatusText = '<span class="badge bg-warning text-dark">Paid Half</span>';
+      else if (staffPaymentStatus === 'un_paid') payStatusText = '<span class="badge bg-danger">Unpaid</span>';
+      else payStatusText = `<span class="badge bg-secondary">${staffPaymentStatus || ''}</span>`;
+
+      return `
+        <tr>
+          <td>${payment.expense_id}</td>
+          <td>${formatDate(payment.date)}</td>
+          <td>${formatAmount(payment.amount)}</td>
+          <td>${formatAmount(payment.subcharge)}</td>
+          <td>${capitalize(payment.payment_method)}</td>
+          <td>${statusBadge}</td>
+          <td>${payStatusText}</td>
+          <td>${formatAmount(Number(payment.amount) + Number(payment.subcharge || 0))}</td>
+          <td>${payment.full_name || ''}</td>
+          <td>
+            <div class="dropdown">
+              <i class="fs-3 bi bi-three-dots text-success dropdown-toggle" data-bs-toggle="dropdown" style="cursor:pointer;"></i>
+              <ul class="dropdown-menu">
+                ${payment.expense_status !== 'approved' ? `
+                  <li>
+                    <a href="#" class="dropdown-item approve-payment" data-id="${payment.expense_id}">Approve Payment</a>
+                  </li>` : ''}
+                <li>
+                  <a href="#" class="dropdown-item text-danger delete-payment" data-id="${payment.expense_id}">Delete</a>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(allPayments.length / pageSize);
+    let html = `
+      <li class="page-item${currentPage === 1 ? ' disabled' : ''}">
+        <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
+      </li>
+    `;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<li class="page-item${i === currentPage ? ' active' : ''}">
+        <a class="page-link" href="#" data-page="${i}">${i}</a>
+      </li>`;
+    }
+    html += `
+      <li class="page-item${currentPage === totalPages ? ' disabled' : ''}">
+        <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
+      </li>
+    `;
+    pagination.innerHTML = html;
+  }
+
+  pagination.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && e.target.dataset.page) {
+      e.preventDefault();
+      const page = Number(e.target.dataset.page);
+      if (page >= 1 && page <= Math.ceil(allPayments.length / pageSize)) {
+        currentPage = page;
+        renderTable();
+        renderPagination();
+      }
+    }
+  });
+
+  tbody.addEventListener('click', function (e) {
+    if (e.target.classList.contains('delete-payment')) {
+      e.preventDefault();
+      const expenseId = e.target.dataset.id;
+      if (confirm('Are you sure you want to delete this payment?')) {
+        fetch(`http://localhost:3000/expense/${expenseId}`, { method: 'DELETE' })
+          .then(res => res.json())
+          .then(data => {
+            if (data.message === 'Expense deleted') {
+              showToast('Payment deleted successfully');
+              fetchPayments();
+            } else {
+              showToast(data.error || 'Failed to delete payment', 'danger');
+            }
+          })
+          .catch(() => showToast('Network error', 'danger'));
+      }
+    }
+    if (e.target.classList.contains('approve-payment')) {
+      e.preventDefault();
+      const expenseId = e.target.dataset.id;
+      let admin = JSON.parse(sessionStorage.getItem('admin') || '{}');
+      let approved_by = admin.first_name && admin.last_name && admin.admin_role
+        ? `${admin.first_name} ${admin.last_name} (${admin.admin_role})`
+        : 'System';
+      fetch(`http://localhost:3000/expense/${expenseId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ expense_status: 'approved', approved_by })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.message === 'Expense updated') {
+            showToast('Payment marked as complete');
+            fetchPayments();
+          } else {
+            showToast(data.error || 'Failed to approve payment', 'danger');
+          }
+        })
+        .catch(() => showToast('Network error', 'danger'));
+    }
+  });
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  function formatAmount(val) {
+    return Number(val || 0).toLocaleString(undefined, { minimumFractionDigits: 2 });
+  }
+  function capitalize(str) {
+    return str ? str.charAt(0).toUpperCase() + str.slice(1).replace('_', ' ') : '';
+  }
+
+  fetchPayments();
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const staffId = new URLSearchParams(window.location.search).get('staff_id');
+  const activityTbody = document.querySelectorAll('table')[1].querySelector('tbody');
+  const activityPagination = document.querySelectorAll('nav[aria-label="Table pagination"] ul.pagination')[1];
+  let allActions = [];
+  let currentPage = 1;
+  const pageSize = 10;
+
+  function fetchActions() {
+    fetch(`http://localhost:3000/staff/${staffId}/actions`)
+      .then(res => res.json())
+      .then(data => {
+        allActions = Array.isArray(data) ? data : [];
+        renderActivityTable();
+        renderActivityPagination();
+      })
+      .catch(() => {
+        activityTbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Failed to load activity history</td></tr>`;
+      });
+  }
+
+  function renderActivityTable() {
+    const start = (currentPage - 1) * pageSize;
+    const pageData = allActions.slice(start, start + pageSize);
+    if (!pageData.length) {
+      activityTbody.innerHTML = `<tr><td colspan="5" class="text-center">No activity found.</td></tr>`;
+      return;
+    }
+    activityTbody.innerHTML = pageData.map(action => {
+      let activityText = '';
+      let statusBadge = '';
+      // Handle different action types
+      if (action.action_type === 'status_change') {
+        activityText = `Status Change: <b>${capitalize(action.action_value)}</b>`;
+        statusBadge = action.action_value === 'on_job'
+          ? '<span class="badge bg-success">Active</span>'
+          : action.action_value === 'suspended'
+            ? '<span class="badge bg-warning text-dark">Suspended</span>'
+            : action.action_value === 'terminated'
+              ? '<span class="badge bg-danger">Terminated</span>'
+              : `<span class="badge bg-secondary">${capitalize(action.action_value)}</span>`;
+      } else if (action.action_type === 'subcharge') {
+        activityText = `Subcharge${action.action_value ? `: ₦${Number(action.action_value).toLocaleString()}` : ''}`;
+        statusBadge = '<span class="badge bg-info text-dark">Subcharge</span>';
+      } else if (action.action_type === 'shift_change') {
+        activityText = `Shift Change: <b>${action.action_value || ''}</b>`;
+        statusBadge = '<span class="badge bg-primary">Shift</span>';
+      } else if (action.action_type === 'document_upload') {
+        activityText = `Document Upload: <b>${action.action_value || ''}</b>`;
+        statusBadge = '<span class="badge bg-secondary">Document</span>';
+      } else {
+        activityText = capitalize(action.action_type) + (action.action_value ? `: <b>${action.action_value}</b>` : '');
+        statusBadge = `<span class="badge bg-secondary">${capitalize(action.action_type)}</span>`;
+      }
+      return `
+        <tr>
+          <td>${formatDate(action.created_at)}</td>
+          <td>${activityText}</td>
+          <td>${action.reason || ''}</td>
+          <td>${action.performed_by ? `${action.performed_by}${action.performed_by_role ? ' (' + action.performed_by_role + ')' : ''}` : ''}</td>
+          <td>${statusBadge}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function renderActivityPagination() {
+    const totalPages = Math.ceil(allActions.length / pageSize);
+    let html = `
+      <li class="page-item${currentPage === 1 ? ' disabled' : ''}">
+        <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
+      </li>
+    `;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<li class="page-item${i === currentPage ? ' active' : ''}">
+        <a class="page-link" href="#" data-page="${i}">${i}</a>
+      </li>`;
+    }
+    html += `
+      <li class="page-item${currentPage === totalPages ? ' disabled' : ''}">
+        <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
+      </li>
+    `;
+    activityPagination.innerHTML = html;
+  }
+
+  activityPagination.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && e.target.dataset.page) {
+      e.preventDefault();
+      const page = Number(e.target.dataset.page);
+      if (page >= 1 && page <= Math.ceil(allActions.length / pageSize)) {
+        currentPage = page;
+        renderActivityTable();
+        renderActivityPagination();
+      }
+    }
+  });
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  function capitalize(str) {
+    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+  }
+
+  fetchActions();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('http://localhost:3000/roles')
+    .then(res => res.json())
+    .then(roles => {
+      const select = document.getElementById('positionSelect');
+      roles.forEach(role => {
+        const option = document.createElement('option');
+        option.value = role.role_name;
+        option.textContent = role.role_name;
+        select.appendChild(option);
+      });
+    })
+    .catch(() => {
+      showToast('Failed to load positions', 'danger');
+    });
+});
+</script>
+</body>
+
+</html>

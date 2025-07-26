@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Expenses Management | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+	
+	@media print {
+    /* Remove unwanted elements */
+    #printBtn,nav[aria-label="Table pagination"],
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-size: 16px !important;
+        line-height: 1.5;
+    }
+
+    
+
+   @page {
+    size: A4 auto;
+    margin: 10mm;
+  }
+}
+
+    #expenhold {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    h4, h6, p {
+        font-size: 16px !important;
+        margin: 0 0 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse !important;
+        margin-top: 10px;
+    }
+
+    th, td {
+       
+        font-size: 14px !important;
+        padding: 10px !important;
+        text-align: left;
+    }
+
+    .badge {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .text-end {
+        text-align: right !important;
+    }
+
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/">Home</a>
+</li>
+<li class="breadcrumb-item">
+
+<a href="../finance/">Finance</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Expenses</li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+
+<div class="ms-auto d-lg-flex d-none flex-row">
+   
+	<div class="d-flex flex-row gap-1" id="btnfilter">
+    
+	  <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addExpModel">
+		Create Budget Allocation
+	  </button>
+	 
+    <div class="">
+          <select id="main-filter" class="form-select">
+            <option value="today">Today</option>
+            <option value="today">Yesterday</option>
+            <option value="7days">Last 7 days</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly" selected>Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+	</div>
+    
+</div>
+  
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Total Budget</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-info grd-info-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-info"></i>
+	</div>
+	<div id="total-budget" class="h5 text-info  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Total Spent</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-danger"></i>
+	</div>
+	<div id="total-spent" class="h5 text-danger  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Remaining Budget</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-success grd-success-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-success"></i>
+	</div>
+	<div id="total-remaining" class="h5 text-success  overflow-hidden "
+	style="max-width: 130px;">
+	#400,000,000.00
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+
+</div>
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+    <div class="row g-4">
+  <!-- Left Chart Column -->
+  <div class="col-lg-6 mx-auto" style="background-color: #f8f9fa; height: 500px;">
+    <div class="chart-container">
+      <div class="header d-flex justify-content-between">
+        <div>
+          <h3>Budget Spending Trend</h3>
+          <p style="color: gray;">Spending Vs Actal Budget</p>
+        </div>
+        <div class="mt-3">
+          <select id="budgetTrendFilter" class="form-select">
+            <option value="today">Today</option>
+            <option value="weekly">Weekly</option>
+            <option selected value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+      </div>
+      <canvas id="budgetTrendChart" style="width: 100%; height: 100%;"></canvas>
+    </div>
+  </div>
+
+  <!-- Right Category Column -->
+  <div class="col-lg-5 mx-auto" style="background-color: #f8f9fa;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h3 class="mb-0">Budget Allocation </h3>
+        <div class="text-secondary mb-2">Breakdown of budget allocation by category</div>
+      </div>
+
+      <select id="budgetfilterdoghnut" class="form-select w-auto" style="font-size: 14px;">
+        <option value="Today">Today</option>
+        <option value="7days">Last 7 days</option>
+        <option selected value="Month">Month</option>
+        <option value="Year">Year</option>
+      </select>
+    </div>
+
+    <div class="row" id="salesCategories">
+      <!-- Left: Donut Chart -->
+      <div class="col-md-12">
+        <canvas id="budgetDonutChart" style="max-height: 200px;"></canvas>
+      </div>
+
+      <!-- Right: Revenue Breakdown -->
+      
+    </div>
+  </div>
+</div>
+
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: 30px;">
+	<div class="col-xxl-12">
+<div class="card mb-3 p-3" style="background-color: #f8f9fa;">
+<div class="header">
+<div >
+<h3>Track Monthly Allocation</h3>
+<p style="color: gray;">Manage all your business Budgets Allocation</p>
+</div>
+<div class="dt-buttons btn-group">
+					<button class="btn btn-info me-2" onclick="exportToExcel()"> Excel</button>
+					<button id="downloadBtn" class="btn btn-outline-success me-2" onclick="downloadPDF()"> PDF</button>
+					<button id="printBtn" class="btn btn-success">Print</button>
+				  </div>
+</div>
+
+<div class="card-body" style="padding: 0px !important;">
+<div>
+<div class="d-flex flex-wrap gap-2 mb-3"  id="categoryFilters" >
+
+  <button type="button" class="btn btn-sm btn-filter active" data-category="all">
+All
+</button>
+</div>
+
+</div>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+<!-- Search Input with Icon Button (Right-aligned) -->
+ <div class="input-group" style="width: 60%;">
+      <button class="btn btn-sm btn-outline-secondary" id="searchButton">
+        <i class="bi bi-search"></i>
+      </button>
+      <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Search by category or user">
+    </div>
+
+
+        <div class="dropdown">
+      <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="monthDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Select Month
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="monthDropdown" id="monthList">
+      </ul>
+    </div>
+
+</div>
+
+<div class="table-responsive" id="budgetTableContainer">
+ <table id="budgetTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+      <thead>
+        <tr>
+          <th scope="col">Allocation ID</th>
+          <th scope="col">Category</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Spent</th>
+          <th scope="col">Remain</th>
+          <th scope="col">Added By</th>
+          <th scope="col">Month</th>
+          <th scope="col">Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="budgetTableBody">
+      
+      </tbody>
+    </table>
+< <nav aria-label="Table pagination" id="paginationContainer">
+      <ul class="pagination justify-content-end" style="margin-top: 10px;">
+      
+      </ul>
+    </nav>
+</div>
+</div>
+</div>
+</div>
+	</div>
+<!-- Row end -->
+<!----Model section for adding expense-->
+<div class="modal fade" id="addExpModel" tabindex="-1" aria-labelledby="addExpModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addExpModel">
+                Add Budget Allocation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addBudgetForm" >
+                <div class="mb-3">
+                       
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          
+  
+                        
+                        
+                        <select class="form-select" id="expcategory" name="expcategory" required>
+                            <option disabled selected>Select Category</option>
+                        </select>
+                      </div>
+          
+                <div class="mb-3">
+                  <label for="supplierPhone" class="form-label">Month</label>
+                 <select class="form-select" id="monthSelect">
+  <option disabled selected>Select Month</option>
+  <option value="january">January</option>
+  <option value="febuary">February</option>
+  <option value="march">March</option>
+  <option value="april">April</option>
+  <option value="may">May</option>
+  <option value="june">June</option>
+  <option value="july">July</option>
+  <option value="august">August</option>
+  <option value="september">September</option>
+  <option value="october">October</option>
+  <option value="november">November</option>
+  <option value="december">December</option>
+</select>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="budget-date" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="budgetDate" name="date" required>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="supplierEmail" class="form-label">Amount</label>
+                  <input type="number" class="form-control" placeholder="3000" id="amount">
+                </div>
+          
+                
+                 
+        
+              
+                <button id="budBtn" type="button" class="btn btn-success" >Save Allocation</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!----Model section for adding expense end-->
+<!------Success message Div-------->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/form.js"></script>
+<!-- <script src="js/budgetchart.js"></script> -->
+<script>
+	//function to hide overwiev matrice when click tabs
+	document.addEventListener("DOMContentLoaded", function () {
+	  const gxRow = document.getElementById("gxRow");
+	  const customTab = document.getElementById("customTab");
+  
+	  // Function to toggle visibility
+	  function toggleGxRow(activeTabId) {
+		if (activeTabId === "tab-one") {
+		  gxRow.style.setProperty("display", "flex", "important"); // for .row
+		} else {
+		  gxRow.style.setProperty("display", "none", "important");
+		}
+	  }
+  
+	  // Initial check on page load
+	  const activeTab = customTab.querySelector(".nav-link.active");
+	  toggleGxRow(activeTab?.id);
+  
+	  // Event listener for tab change
+	  customTab.querySelectorAll(".nav-link").forEach(link => {
+		link.addEventListener("shown.bs.tab", function (e) {
+		  toggleGxRow(e.target.id);
+		});
+	  });
+	});
+
+	
+	document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('budgetTable').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    [ 'expensesTable'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("expensesTable");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+  
+
+
+  </script>
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+<script>
+async function loadBudgetCategories() {
+  const res = await fetch('http://localhost:3000/expense_category');
+  const cats = await res.json();
+  const select = document.getElementById('expcategory');
+  select.innerHTML = `<option disabled selected>Select Category</option>`;
+  cats.forEach(cat => {
+    select.innerHTML += `<option value="${cat.expense_category_id}" data-name="${cat.expense_category_name}">${cat.expense_category_name}</option>`;
+  });
+}
+
+
+function getAddedBy() {
+  try {
+    const adminStr = sessionStorage.getItem('admin');
+    if (adminStr) {
+      const admin = JSON.parse(adminStr);
+      const first = admin.first_name || '';
+      const last = admin.last_name || '';
+      const role = admin.admin_role || '';
+      if (first && last && role) {
+        return `${first} ${last}(${role})`;
+      }
+    }
+  } catch {}
+  return "System";
+}
+
+document.getElementById('budBtn').onclick = async function (e) {
+  e.preventDefault();
+
+  const catSelect = document.getElementById('expcategory');
+  const monthSelect = document.getElementById('monthSelect');
+  const dateInput = document.getElementById('budgetDate');
+  const amountInput = document.getElementById('amount');
+
+  const expense_category_id = catSelect.value;
+  const expense_category_name = catSelect.options[catSelect.selectedIndex]?.getAttribute('data-name');
+  const date = dateInput.value;
+  const amount = amountInput.value;
+  const monthName = monthSelect.value;
+
+  if (!expense_category_id || !expense_category_name || !monthName || !date || !amount) {
+    showToast('Please fill all fields', 'danger');
+    return;
+  }
+
+  const year = date.split('-')[0];
+  const month = `${year}-${monthName}`;
+  const added_by = getAddedBy();
+
+  try {
+    const res = await fetch('http://localhost:3000/budget', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        expense_category_id,
+        expense_category_name,
+        month,
+        amount,
+        date,
+        added_by
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showToast('Budget allocation saved!');
+      document.getElementById('addBudgetForm').reset();
+       setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+    } else {
+      showToast(data.error || 'Failed to save', 'danger');
+    }
+  } catch (err) {
+    showToast('Network error', 'danger');
+  }
+};
+
+document.addEventListener('DOMContentLoaded', loadBudgetCategories);
+</script>
+
+<script>
+    	function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+
+</script>
+
+<script>
+    async function loadBudgetSummary(period = "monthly") {
+
+     
+  try {
+    const res = await fetch(`http://localhost:3000/budget_summary?period=${period}`);
+    const data = await res.json();
+    document.getElementById("total-budget").textContent = "₦" + Number(data.total_budget).toLocaleString();
+    document.getElementById("total-spent").textContent = "₦" + Number(data.total_spent).toLocaleString();
+    document.getElementById("total-remaining").textContent = "₦" + Number(data.remaining_budget).toLocaleString();
+  } catch {
+    document.getElementById("total-budget").textContent = "₦0";
+    document.getElementById("total-spent").textContent = "₦0";
+    document.getElementById("total-remaining").textContent = "₦0";
+  }
+}
+
+// On filter change
+document.getElementById("main-filter").addEventListener("change", function() {
+  loadBudgetSummary(this.value);
+});
+
+// Initial load
+loadBudgetSummary("monthly");
+</script>
+
+<script>
+    let trendChart;
+async function loadBudgetTrend(period = "monthly") {
+ 
+  const res = await fetch(`http://localhost:3000/budget_vs_spending_graph?period=${period}`);
+  const data = await res.json();
+
+  const labels = data.map(d => d.label);
+  const actual = data.map(d => d.spent);
+  const planned = data.map(d => d.budget);
+
+  if (!trendChart) {
+    const trendCtx = document.getElementById("budgetTrendChart").getContext("2d");
+    trendChart = new Chart(trendCtx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Actual Spending",
+            data: actual,
+            borderColor: "rgba(255, 99, 132, 1)",
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: "Planned Budget",
+            data: planned,
+            borderColor: "rgba(54, 162, 235, 1)",
+            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: "top" } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { callback: value => "₦" + value.toLocaleString() }
+          }
+        }
+      }
+    });
+  } else {
+    trendChart.data.labels = labels;
+    trendChart.data.datasets[0].data = actual;
+    trendChart.data.datasets[1].data = planned;
+    trendChart.update();
+  }
+}
+
+document.getElementById("budgetTrendFilter").addEventListener("change", function() {
+  loadBudgetTrend(this.value);
+});
+loadBudgetTrend("monthly");
+</script>
+
+<script>
+    let donutChart;
+async function loadBudgetDoughnut(period = "monthly") {
+ 
+  const res = await fetch(`http://localhost:3000/budget_doughnut?period=${period}`);
+  const data = await res.json();
+
+  const labels = data.map(d => d.expense_category_name);
+  const values = data.map(d => d.budget);
+
+  if (!donutChart) {
+    const donutCtx = document.getElementById("budgetDonutChart").getContext("2d");
+    donutChart = new Chart(donutCtx, {
+      type: "doughnut",
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#e74a3b", "#8e44ad", "#2ecc71", "#e67e22", "#16a085", "#d35400"]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: "right" } }
+      }
+    });
+  } else {
+    donutChart.data.labels = labels;
+    donutChart.data.datasets[0].data = values;
+    donutChart.update();
+  }
+}
+
+document.getElementById("budgetfilterdoghnut").addEventListener("change", function () {
+  let val = this.value.toLowerCase();
+  if (val === "month") val = "monthly";
+  if (val === "year") val = "yearly";
+  if (val === "7days") val = "last7days";
+  if (val === "today") val = "today";
+  loadBudgetDoughnut(val);
+});
+
+loadBudgetDoughnut("monthly");
+</script>
+
+
+<script>
+$(document).ready(function() {
+ 
+  let currentPage = 1;
+  const limit = 10;
+  let totalPages = 1;
+  let currentCategory = 'all';
+  let currentMonth = '';
+  let currentSearch = '';
+  
+
+  fetchCategories();
+  fetchMonths();
+  fetchBudgets();
+
+
+  function fetchCategories() {
+    showLoading('#categoryFilters');
+    
+    fetch('http://localhost:3000/expense_category')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch categories');
+        return res.json();
+      })
+      .then(categories => {
+        const filterContainer = $('#categoryFilters');
+        filterContainer.empty();
+        
+       
+        filterContainer.append(`
+          <button type="button" class="btn btn-sm btn-filter active" data-category="all">
+            All
+          </button>
+        `);
+        
+      
+categories.forEach(cat => {
+  filterContainer.append(`
+    <button type="button" class="btn btn-sm btn-filter" data-category="${cat.expense_category_name}">
+      ${cat.expense_category_name}
+    </button>
+  `);
+});  
+     
+        $('.btn-filter').click(function() {
+          $('.btn-filter').removeClass('active');
+          $(this).addClass('active');
+          currentCategory = $(this).data('category');
+          currentPage = 1;
+          fetchBudgets();
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching categories:', err);
+        $('#categoryFilters').html('<div class="text-danger">Failed to load categories</div>');
+      });
+  }
+
+
+  function fetchMonths() {
+    showLoading('#monthList');
+    
+    fetch('http://localhost:3000/budget/months')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch months');
+        return res.json();
+      })
+      .then(months => {
+        const monthList = $('#monthList');
+        monthList.empty();
+        monthList.append('<li><a class="dropdown-item" href="#" data-month="">All Months</a></li>');
+        
+        months.forEach(month => {
+          monthList.append(`
+            <li><a class="dropdown-item" href="#" data-month="${month}">${month}</a></li>
+          `);
+        });
+        
+    
+        $('.dropdown-item[data-month]').click(function(e) {
+          e.preventDefault();
+          currentMonth = $(this).data('month');
+          $('#monthDropdown').text(currentMonth || 'Select Month');
+          currentPage = 1;
+          fetchBudgets();
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching months:', err);
+        $('#monthList').html('<li class="text-danger">Failed to load months</li>');
+      });
+  }
+
+
+  function fetchBudgets() {
+    showLoading('#budgetTableBody');
+    
+    const params = new URLSearchParams({
+      page: currentPage,
+      limit: limit,
+      category: currentCategory === 'all' ? '' : currentCategory,
+      month: currentMonth,
+      search: currentSearch
+    });
+    
+    fetch(`http://localhost:3000/budget?${params.toString()}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch budgets');
+        return res.json();
+      })
+      .then(response => {
+        renderBudgets(response.data);
+        renderPagination(response.pagination);
+      })
+      .catch(err => {
+        console.error('Error fetching budgets:', err);
+        $('#budgetTableBody').html(`
+          <tr>
+            <td colspan="9" class="text-center text-danger">
+              Failed to load budgets. Please try again.
+            </td>
+          </tr>
+        `);
+        $('#paginationContainer').hide();
+      });
+  }
+
+
+  function renderBudgets(budgets) {
+    const tbody = $('#budgetTableBody');
+    tbody.empty();
+    
+    if (!budgets || budgets.length === 0) {
+      tbody.append(`
+        <tr>
+          <td colspan="9" class="text-center">
+            No budgets found matching your criteria
+          </td>
+        </tr>
+      `);
+      return;
+    }
+    
+    budgets.forEach(budget => {
+     
+      const remain = budget.remain || 0;
+      const remainClass = remain >= 0 ? 'text-success' : 'text-danger';
+      const remainText = remain >= 0 ? 
+        `${formatNumber(remain)}` : 
+        `-${formatNumber(Math.abs(remain))}`;
+      
+      tbody.append(`
+        <tr>
+          <td>${budget.allocation_id || 'N/A'}</td>
+          <td>${budget.category || 'Uncategorized'}</td>
+          <td>${formatNumber(budget.amount || 0)}</td>
+          <td class="text-danger">${formatNumber(budget.spent || 0)}</td>
+          <td class="${remainClass}">${remainText}</td>
+          <td>${budget.added_by || 'Unknown'}</td>
+          <td>${budget.month || 'N/A'}</td>
+          <td>${formatDate(budget.date)}</td>
+          <td>
+            <span class="badge bg-danger delete-budget" 
+                  data-id="${budget.budget_id}" 
+                  style="cursor: pointer;">
+              Delete
+            </span>
+          </td>
+        </tr>
+      `);
+    });
+    
+    
+    $('.delete-budget').click(function() {
+      const budgetId = $(this).data('id');
+      deleteBudget(budgetId);
+    });
+  }
+
+  function renderPagination(pagination) {
+    const paginationContainer = $('#paginationContainer ul');
+    paginationContainer.empty();
+    
+    if (!pagination || pagination.totalPages <= 1) {
+      $('#paginationContainer').hide();
+      return;
+    }
+    
+    $('#paginationContainer').show();
+    totalPages = pagination.totalPages;
+    
+
+    const prevDisabled = currentPage <= 1 ? 'disabled' : '';
+    paginationContainer.append(`
+      <li class="page-item ${prevDisabled}">
+        <a class="page-link" href="#" tabindex="-1" data-page="${currentPage - 1}">
+          Previous
+        </a>
+      </li>
+    `);
+    
+   
+    const showEllipsisStart = currentPage > 3;
+    const showEllipsisEnd = currentPage < totalPages - 2;
+    
+    if (showEllipsisStart) {
+      paginationContainer.append(`
+        <li class="page-item ${1 === currentPage ? 'active' : ''}">
+          <a class="page-link" href="#" data-page="1">1</a>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+      `);
+    }
+    
+
+    const startPage = Math.max(1, currentPage - 1);
+    const endPage = Math.min(totalPages, currentPage + 1);
+    
+    for (let i = startPage; i <= endPage; i++) {
+      const active = i === currentPage ? 'active' : '';
+      paginationContainer.append(`
+        <li class="page-item ${active}">
+          <a class="page-link" href="#" data-page="${i}">${i}</a>
+        </li>
+      `);
+    }
+    
+ 
+    if (showEllipsisEnd) {
+      paginationContainer.append(`
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+        <li class="page-item ${totalPages === currentPage ? 'active' : ''}">
+          <a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>
+        </li>
+      `);
+    }
+    
+ 
+    const nextDisabled = currentPage >= totalPages ? 'disabled' : '';
+    paginationContainer.append(`
+      <li class="page-item ${nextDisabled}">
+        <a class="page-link" href="#" data-page="${currentPage + 1}">
+          Next
+        </a>
+      </li>
+    `);
+    
+
+    $('.page-link[data-page]').click(function(e) {
+      e.preventDefault();
+      const newPage = parseInt($(this).data('page'));
+      if (newPage !== currentPage && newPage >= 1 && newPage <= totalPages) {
+        currentPage = newPage;
+        fetchBudgets();
+      }
+    });
+  }
+
+  function deleteBudget(budgetId) {
+    if (!budgetId || !confirm('Are you sure you want to delete this budget? This action cannot be undone.')) {
+      return;
+    }
+    
+
+    $(`.delete-budget[data-id="${budgetId}"]`)
+      .html('<span class="spinner-border spinner-border-sm" role="status"></span>');
+    
+    $.ajax({
+      url: `http://localhost:3000/budget/${budgetId}`,
+      method: 'DELETE',
+      success: function() {
+        showToast('Budget deleted successfully', 'success');
+         setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        fetchBudgets();
+      },
+      error: function(xhr) {
+        console.error('Error deleting budget:', xhr.responseText);
+        showToast('Failed to delete budget', 'error');
+        $(`.delete-budget[data-id="${budgetId}"]`).text('Delete');
+      }
+    });
+  }
+
+
+  $('#searchButton').click(function() {
+    performSearch();
+  });
+  
+  $('#searchInput').keypress(function(e) {
+    if (e.which === 13) {
+      performSearch();
+    }
+  });
+  
+  function performSearch() {
+    const newSearch = $('#searchInput').val().trim();
+    if (newSearch !== currentSearch) {
+      currentSearch = newSearch;
+      currentPage = 1;
+      fetchBudgets();
+    }
+  }
+
+  function formatNumber(num) {
+    if (isNaN(num)) return '₦0';
+    return '₦' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  
+  function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (e) {
+      return dateString; 
+    }
+  }
+  
+  function showLoading(selector) {
+    $(selector).html(`
+      <div class="text-center py-3">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    `);
+  }
+  
+
+});
+</script>
+</body>
+
+</html>

@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Slaes Managentment | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+   
+	
+	@media print {
+    /* Remove unwanted elements */
+    #printBtn,nav[aria-label="Table pagination"],
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-size: 16px !important;
+        line-height: 1.5;
+    }
+
+    
+
+ @page {
+    size: A4 auto;
+    margin: 10mm;
+  }
+}
+
+    #salesTable {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    h4, h6, p {
+        font-size: 16px !important;
+        margin: 0 0 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse !important;
+        margin-top: 10px;
+    }
+
+    th, td {
+       
+        font-size: 14px !important;
+        padding: 10px !important;
+        text-align: left;
+    }
+
+    .badge {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .text-end {
+        text-align: right !important;
+    }
+
+
+    .folder-title {
+      background-color: #f1f1f1;
+      padding: 10px;
+      font-weight: bold;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    .permission-item {
+      padding-left: 20px;
+      padding-top: 5px;
+    }
+    .permission-group {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/ext-decoration-none">Home</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Setting</li>
+</ol>
+<!-- Breadcrumb end -->
+
+
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: -30px;">
+	<div class="col-xxl-12">
+	<div class="card mb-3">
+	<div class="card-body" style="background-color:#e4e9f0">
+	<div class="custom-tabs-container">
+	<ul class="nav nav-tabs" id="customTab" role="tablist" style="background-color: #f8f9fa;">
+	<li class="nav-item" role="presentation">
+	<a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#one" role="tab" aria-controls="one" aria-selected="true">Profile</a>
+	</li>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#two" role="tab" aria-controls="two" aria-selected="false" tabindex="-1">Role</a>
+		</li>
+		
+	
+	</ul>
+	<div class="tab-content" id="customTabContent" style="margin: 0 -20px;">
+	
+	
+	<!-- Tab one section -->
+	<div class="tab-pane fade show active" id="one" role="tabpanel" aria-labelledby="tab-one" >
+	<div class=" text-center">
+	
+		<div class="col-lg-12 mx-auto p-3" style="background-color: #f8f9fa;">
+			
+			<div class="row gx-3 justify-content-between">
+														<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+															<div class="card mb-3">
+																<div class="card-header">
+																	<h5 class="card-title">Personal Details</h5>
+																</div>
+																<div class="card-body">
+																	<!-- Row start -->
+																	<form enctype="multipart/form-data" class="row gx-3">
+																		
+																			<!-- Form Field Start -->
+																			<div class="mb-3 col-sm-6">
+																				<label for="fullName" class="form-label">First Name</label>
+																				<input type="text" class="form-control" name="first_name" id="firstName" value="">
+																			</div>
+																			<div class="mb-3 col-sm-6">
+																				<label for="fullName" class="form-label">Last Name</label>
+																				<input type="text" class="form-control" name="last_name" id="lastName" value="">
+																			</div>
+
+                                      <div class="mb-3 col-sm-6">
+																				<label for="companyName" class="form-label">Company Name</label>
+																				<input type="text" class="form-control" name="company_name" id="companyName" value="">
+																			</div>
+
+																			<!-- Form Field Start -->
+																			<div class="mb-3 col-sm-6">
+																				<label for="contactNumber" class="form-label">Phone</label>
+																				<input type="text" class="form-control" name="phone_number" id="contactNumber" Value="">
+																			</div>
+																		
+																			<!-- Form Field Start -->
+																			<div class="mb-3 col-sm-6">
+																				<label for="emailId" class="form-label">Email</label>
+																				<input type="email" class="form-control" name="email" id="emailId" placeholder="Email ID" value="">
+																			</div>
+
+                                      	<div class="mb-3 col-sm-6">
+																				<label for="companyemail" class="form-label">Company Email</label>
+																				<input type="email" name="company_email" class="form-control" id="companyemail" placeholder="CompanyEmail Optional" value="">
+																			</div>
+
+																			<!-- Form Field Start -->
+																			<div class="mb-3">
+																				<label for="address" class="form-label">Company Address</label>
+																				<div class="input-group">
+																					<input type="text" class="form-control" name="address" id="address" Value="">
+																				</div>
+																			</div>
+																		
+																		<div class="col-12">
+																			<!-- Form Field Start -->
+																			<div class="mb-3">
+																			 <label class="form-label">Upload company Logo</label>
+                      <div class="file-drop-area">
+                        <span class="text-muted">Drag & Drop file here or click to browse</span>
+                        <input type="file" name="company_logo" id="companyLogo" accept="image/*" />
+                      </div>
+																			</div>
+																		</div>
+
+                                    <button type="button" id="ceoBtn" class="btn btn-success">
+															Update
+														</button>
+																	</form>
+																	<!-- Row end -->
+																</div>
+															</div>
+															
+														</div>
+														<div  class="col-sm-4 col-12">
+															<div class="card mb-3">
+																<div class="card-header">
+																	<h5 class="card-title">Reset Password</h5>
+																</div>
+																<div class="card-body">
+																	<form id="passwordForm" class="row gx-3">
+																		<div class="col-12">
+																			<!-- Form Field Start -->
+																			<div class="mb-3">
+																				<label for="currentPassword" class="form-label">Current Password</label>
+																				<input type="text" class="form-control" name="old_password" id="currentPassword" placeholder="Enter Current Password">
+																			</div>
+																			<!-- Form Field Start -->
+																			<div class="mb-3">
+																				<label for="newPassword" class="form-label">New Password</label>
+																				<input type="text" class="form-control" name="password" id="newPassword" placeholder="Enter New Password">
+																			</div>
+																			<!-- Form Field Start -->
+																			<div class="mb-3">
+																				<label for="confirmNewPassword"  class="form-label">Confirm New Password</label>
+																				<input type="text" name="confirmPassword" class="form-control" id="confirmNewPassword" placeholder="Confirm New Password">
+																			</div>
+																		</div>
+
+                                    	<button id="passBtn" type="button" class="btn btn-outline-secondary">
+															Reset
+														</button>
+																	</form>
+																</div>
+															</div>
+														</div>
+														<div hidden class="d-flex gap-2 justify-content-end">
+													
+													</div>
+													</div>
+			</div>
+	
+	
+	</div>
+	</div>
+	<!-- end  -->
+	
+	
+	
+	<!------------------------------ Tab two sales history--------------------------------->
+	<div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+		<div class="container py-4">
+  <h2 class="mb-4">Role Permission Management</h2>
+
+  <!-- Create Role Form -->
+  <div class="card mb-4">
+    <div class="card-header">Create Role</div>
+    <div class="card-body">
+      <form id="createRole" class="row g-3">
+        <div class="col-md-6">
+          <input type="text" id="roleName" class="form-control" placeholder="Enter Role Name">
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-primary" type="submit">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Role Table -->
+  <table class="table table-bordered text-center">
+    <thead class="table-light">
+      <tr>
+        <th>Role Name</th>
+        <th>Permissions</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="roleTableBody"></tbody>
+  </table>
+</div>
+		
+		</div>
+	
+	
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	
+	</div>
+<!-- Row end -->
+<!----Model section -->
+<div class="modal fade" id="permissionModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assign Permissions</h5>
+        <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="selectAllGlobal" onchange="toggleAllPermissions(this.checked)">
+          <label class="form-check-label" for="selectAllGlobal">
+            Select All Permissions
+          </label>
+        </div>
+        <form id="permissionForm"></form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" onclick="savePermissions()">Save Permissions</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/dashbaoardchart.js"></script>
+<script src="../assets/js/donutChart.js"></script>
+<script src="../assets/js/form.js"></script>
+
+
+<script>
+function getAdminId() {
+    const adminStr = sessionStorage.getItem('admin');
+    if (!adminStr) return null;
+    try {
+        const admin = JSON.parse(adminStr);
+        return admin?.id || null;
+    } catch {
+        return null;
+    }
+}
+
+document.getElementById('passBtn').addEventListener('click', async function () {
+    const admin_id = getAdminId();
+    if (!admin_id) {
+        showToast('Admin not found in session', 'danger');
+        return;
+    }
+
+    const old_password = document.getElementById('currentPassword').value.trim();
+    const password = document.getElementById('newPassword').value.trim();
+    const confirmPassword = document.getElementById('confirmNewPassword').value.trim();
+
+    if (!old_password || !password || !confirmPassword) {
+        showToast('All fields are required', 'danger');
+        return;
+    }
+    if (password !== confirmPassword) {
+        showToast('Passwords do not match', 'danger');
+        return;
+    }
+    if (password.length < 8) {
+        showToast('Password must be at least 8 characters', 'danger');
+        return;
+    }
+
+    const passBtn = document.getElementById('passBtn');
+    passBtn.disabled = true;
+    passBtn.textContent = 'Processing...';
+
+    try {
+        const res = await fetch(`http://localhost:3000/admin/password/${admin_id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ old_password, password, confirmPassword })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            showToast('Password updated and sent to your email', 'success');
+            document.getElementById('passwordForm').reset();
+        } else {
+            showToast(data.error || 'Failed to update password', 'danger');
+        }
+    } catch (err) {
+        showToast('Network error', 'danger');
+    } finally {
+        passBtn.disabled = false;
+        passBtn.textContent = 'Reset';
+    }
+});
+</script>
+
+<script>
+document.getElementById('ceoBtn').addEventListener('click', async function() {
+    const admin_id = getAdminId();
+    if (!admin_id) return;
+
+   const form = document.getElementById('profileForm');
+    const formData = new FormData(form);
+    const ceoBtn = document.getElementById('ceoBtn');
+    ceoBtn.disabled = true;
+    ceoBtn.textContent = 'Updating...';
+
+  
+    formData.append('admin_id', admin_id);
+
+    try {
+        const res = await fetch(`http://localhost:3000/owner_info/${admin_id}`, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await res.json();
+        if (res.ok) {
+            showToast('Profile updated successfully');
+            loadOwnerInfo();
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            showToast(data.error || 'Failed to update profile', 'danger');
+        }
+    } catch (err) {
+        showToast('Failed to update profile', 'danger');
+    }
+    finally {
+        ceoBtn.disabled = false;
+        ceoBtn.textContent = 'Update';
+    }
+});
+</script>
+
+<!-- <script>
+function getAdminId() {
+    const adminStr = sessionStorage.getItem('admin');
+    if (!adminStr) return null;
+    try {
+        const admin = JSON.parse(adminStr);
+        return admin?.id || null;
+    } catch {
+        return null;
+    }
+}
+
+async function loadOwnerInfo() {
+    const admin_id = getAdminId();
+    if (!admin_id) return;
+
+    try {
+        const res = await fetch(`http://localhost:3000/owner_info/${admin_id}`);
+        if (!res.ok) return; 
+        const data = await res.json();
+
+        document.getElementById('firstName').value = data.first_name || '';
+        document.getElementById('lastName').value = data.last_name || '';
+        document.getElementById('contactNumber').value = data.phone_number || '';
+        document.getElementById('emailId').value = data.email || '';
+        document.getElementById('companyemail').value = data.company_email || '';
+        document.getElementById('address').value = data.address || '';
+        const logoInput = document.getElementById('companyLogo');
+        if (data.company_logo) {
+            logoInput.setAttribute('data-logo', data.company_logo);
+            logoInput.insertAdjacentHTML('afterend', `<img src="http://localhost:3000/uploads/${data.company_logo}" alt="Company Logo" style="max-width: 100px; margin-top: 10px;">`);
+        } else {
+            logoInput.removeAttribute('data-logo');
+        }
+    } catch (err) {
+        console.error('Failed to load owner info:', err);
+        showToast('Failed to load owner info', 'error');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadOwnerInfo);
+</script> -->
+<script>
+function getAdminId() {
+    const adminStr = sessionStorage.getItem('admin');
+    if (!adminStr) return null;
+    try {
+        const admin = JSON.parse(adminStr);
+        return admin?.id || null;
+    } catch {
+        return null;
+    }
+}
+
+async function loadOwnerInfo() {
+    const admin_id = getAdminId();
+    if (!admin_id) return;
+
+    try {
+        const res = await fetch(`http://localhost:3000/owner_info/${admin_id}`);
+        if (!res.ok) throw new Error('No owner_info');
+        const data = await res.json();
+
+        document.getElementById('firstName').value = data.first_name || '';
+        document.getElementById('lastName').value = data.last_name || '';
+        document.getElementById('contactNumber').value = data.phone_number || '';
+        document.getElementById('emailId').value = data.email || '';
+        document.getElementById('companyemail').value = data.company_email || '';
+        document.getElementById('companyName').value = data.company_name || '';
+        document.getElementById('address').value = data.address || '';
+        const logoInput = document.getElementById('companyLogo');
+        if (data.company_logo) {
+            logoInput.setAttribute('data-logo', data.company_logo);
+            logoInput.insertAdjacentHTML('afterend', `<img src="http://localhost:3000/uploads/${data.company_logo}" alt="Company Logo" style="max-width: 100px; margin-top: 10px;">`);
+        } else {
+            logoInput.removeAttribute('data-logo');
+        }
+    } catch (err) {
+       
+        fetchSuperAdminFallback();
+    }
+}
+
+async function fetchSuperAdminFallback() {
+    try {
+        const res = await fetch('http://localhost:3000/admin');
+        if (!res.ok) return;
+        const admins = await res.json();
+        const superAdmin = Array.isArray(admins) ? admins.find(a => a.admin_role === 'super_admin') : null;
+        if (superAdmin) {
+            document.getElementById('firstName').value = superAdmin.first_name || '';
+            document.getElementById('lastName').value = superAdmin.last_name || '';
+            document.getElementById('contactNumber').value = superAdmin.phone_number || '';
+            document.getElementById('emailId').value = superAdmin.email || '';
+            document.getElementById('companyemail').value = '';
+            document.getElementById('address').value = '';
+            const logoInput = document.getElementById('companyLogo');
+            logoInput.removeAttribute('data-logo');
+
+        }
+    } catch (err) {
+        showToast('Failed to load admin info', 'danger');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadOwnerInfo);
+</script>
+<script>
+
+
+  let roles = [];
+  let currentRoleIndex = null;
+
+  const folders = {
+    Account: ['All', 'Signup', 'Login', 'Forgot Password'],
+	 Dashboard: ['All', 'index'],
+    Inventory: ['All', 'index' ],
+    Sales: ['All', 'index', 'invoice', 'pos','sales-reports','reports'],
+    Finance: ['All', 'index', 'Expenses', 'Budgets','Tax'],
+    Staff: ['All', 'index', 'create', 'edit'],
+    Customer: ['All', 'index', 'detail', 'history'],
+    Supplier: ['All', 'index'],
+    Setting: ['All', 'index', ]
+  };
+
+ function getAdminId() {
+  const adminStr = sessionStorage.getItem('admin');
+  if (!adminStr) return null;
+
+  try {
+    const admin = JSON.parse(adminStr);
+    return admin?.id || null;
+  } catch (err) {
+    console.error("Failed to parse admin from sessionStorage", err);
+    return null;
+  }
+}
+
+     	function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+
+const admin_id = getAdminId();
+
+
+ async function fetchRoles() {
+  try {
+    const res = await fetch('http://localhost:3000/roles');
+    roles = await res.json();
+    renderRoles();
+  } catch (err) {
+    showToast('Failed to fetch roles');
+  }
+}
+
+async function createRole(event) {
+  event.preventDefault();
+  
+  const roleBtn = document.querySelector('#createRole button[type="submit"]');
+  roleBtn.disabled = true;
+
+  const roleName = document.getElementById('roleName').value.trim();
+  if (!roleName) return alert("Enter a role name");
+
+  const admin_id = getAdminId(); 
+  if (!admin_id) {
+    showToast('Admin not found in session', 'danger');
+    return;
+  }
+
+  const permissions = {};
+
+  try {
+    const res = await fetch('http://localhost:3000/roles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ admin_id, role_name: roleName, permissions })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error("Role creation failed", data);
+      return showToast(data.error || 'Failed to create role', 'danger');
+    }
+
+    document.getElementById('roleName').value = '';
+    showToast('Role created successfully');
+    fetchRoles();
+    setTimeout(() => window.location.reload(), 2000);
+  } catch (err) {
+    console.error("Role creation error", err);
+    showToast('Failed to create role', 'danger');
+  } finally {
+    roleBtn.disabled = false;
+  }
+}
+
+  function renderRoles() {
+  const tbody = document.getElementById('roleTableBody');
+  tbody.innerHTML = '';
+  roles.forEach((role, i) => {
+    const permCount = Object.values(role.permissions || {}).filter(Boolean).length;
+    const permLabel = permCount === 0 ? 'No permissions' : `${permCount} permission${permCount > 1 ? 's' : ''}`;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${role.role_name}</td>
+      <td>
+        <span class="badge bg-info">${permLabel}</span>
+        <button class="btn btn-sm btn-primary ms-2" onclick="openPermissionModal(${i})">Manage</button>
+      </td>
+      <td>
+        <button class="btn btn-danger btn-sm" onclick="deleteRole('${role.role_id}')">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+  async function deleteRole(role_id) {
+  if (!confirm("Are you sure?")) return;
+  try {
+    const res = await fetch(`http://localhost:3000/roles/${role_id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ admin_id })
+    });
+    if (!res.ok) {
+      const data = await res.json();
+      return showToast(data.error || 'Failed to delete role');
+
+    }
+    fetchRoles();
+    showToast('Role deleted successfully');
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  } catch (err) {
+    showToast('Failed to delete role');
+  }
+}
+
+function openPermissionModal(index) {
+  currentRoleIndex = index;
+  const role = roles[index];
+  const form = document.getElementById('permissionForm');
+  form.innerHTML = '';
+
+  Object.entries(folders).forEach(([folder, pages]) => {
+    const div = document.createElement('div');
+    div.classList.add('permission-group');
+    const folderTitle = document.createElement('div');
+    folderTitle.className = 'folder-title';
+    folderTitle.innerHTML = `📁 ${folder}`;
+    div.appendChild(folderTitle);
+
+    pages.forEach(page => {
+      const checkboxId = `${folder}_${page}`;
+      const isChecked = (role.permissions && role.permissions[checkboxId]) || false;
+      const item = document.createElement('div');
+      item.className = 'permission-item';
+      item.innerHTML = `
+        <input type="checkbox" class="permission-checkbox" data-folder="${folder}" data-page="${page}" id="${checkboxId}" ${isChecked ? 'checked' : ''} onchange="handleAllToggle('${folder}', '${page}')">
+        <label for="${checkboxId}">${page}</label>
+      `;
+      div.appendChild(item);
+    });
+
+    form.appendChild(div);
+  });
+
+   const saveBtn = document.querySelector('#permissionModal .btn-success');
+  saveBtn.setAttribute('data-role-id', role.role_id);
+
+  const modal = new bootstrap.Modal(document.getElementById('permissionModal'));
+  modal.show();
+}
+
+  function handleAllToggle(folder, page) {
+    if (page === 'All') {
+      const allChecked = document.getElementById(`${folder}_All`).checked;
+      document.querySelectorAll(`#permissionForm input[data-folder='${folder}']`).forEach(cb => {
+        cb.checked = allChecked;
+      });
+    }
+  }
+
+  function toggleAllPermissions(checked) {
+    const checkboxes = document.querySelectorAll('#permissionForm input[type=checkbox]');
+    checkboxes.forEach(cb => cb.checked = checked);
+  }
+
+async function savePermissions() {
+    const saveBtn = document.querySelector('#permissionModal .btn-success');
+    const role_id = saveBtn.getAttribute('data-role-id');
+    if (!role_id) return showToast('Missing role ID', 'danger');
+
+    saveBtn.disabled = true;
+
+    const checkboxes = document.querySelectorAll('#permissionForm input[type=checkbox]');
+    const newPermissions = {};
+    checkboxes.forEach(cb => {
+        newPermissions[cb.id] = cb.checked;
+    });
+
+    const role = roles[currentRoleIndex];
+    try {
+        const res = await fetch(`http://localhost:3000/roles/${role_id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                admin_id,
+                role_name: role.role_name,
+                permissions: newPermissions
+            })
+        });
+
+        if (!res.ok) {
+            const data = await res.json();
+            return showToast(data.error || 'Failed to update permissions');
+        }
+
+        fetchRoles();
+        showToast('Permissions saved');
+        const modal = bootstrap.Modal.getInstance(document.getElementById('permissionModal'));
+        modal.hide();
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
+    } catch (err) {
+        showToast('Failed to update permissions');
+    } finally {
+        saveBtn.disabled = false;
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  fetchRoles();
+  document.getElementById('createRole').addEventListener('submit', createRole);
+});
+</script>
+
+
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gas | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    @media print {
+    /* Remove unwanted elements */
+    #printBtn,
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-size: 16px !important;
+        line-height: 1.5;
+    }
+
+    @page {
+        size: A4 auto;
+        margin: 10mm; /* Adjust to reduce top/bottom white space */
+    }
+
+    #invoice {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    h4, h6, p {
+        font-size: 16px !important;
+        margin: 0 0 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse !important;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #444 !important;
+        font-size: 14px !important;
+        padding: 10px !important;
+        text-align: left;
+    }
+
+    .badge {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .text-end {
+        text-align: right !important;
+    }
+}
+
+
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body mt-4">
+
+
+
+
+
+
+    <div class="row gx-3">
+       <div class="col-xl-12" id="invoice" >
+        <div class="card">
+            <div class="card-header d-flex justify-content-center">
+                <img id="company-logo" src="../assets/images/IMG_4703.PNG" class="logo" alt="Bootstrap Gallery" style="max-height: 70px !important;">
+            </div>
+            <div class="card-body">
+                <!-- Header Row -->
+                <div class="row gx-3">
+                
+                    <div class="col-xxl-9  col-lg-9 col-md-9 col-sm-9 col-12 text-center" style="width: 100% !important;">
+                        <p id="company-name" class="fw-bold mb-0"><strong> Maski Cooking Gas</strong> </p>
+                        <p id="address" class="small mb-0">
+                             9990 St. 000 Church Street, Suite 550
+                            Huntsville, Alabama, 99990
+                        </p>
+                        <p id="phone-number" class="small">Tel: 08012345678 | Email: <span id="email">info@example.com</span></p>
+                    </div>
+                </div>
+      
+                <!-- Invoice Details -->
+                <div class="row gx-3" >
+                    <div class="col-sm-12 mt-2" style="border-top: 1px dashed #38393a;">
+                        <div class=" my-2">
+                          <h6 class="fw-bold d-flex justify-content-between m-0 mb-1 py-2"><span>Sales Invoice</span> <span class="badge bg-success">Paid</span></h6>
+                          <p class="d-flex justify-content-between m-0 mb-1 py-2" style="border-top: 1px dashed #38393a;">
+                            <span>Sales Point:</span>
+                            <span class="sales-point">Head Office</span>
+                          </p>
+                          <p class="d-flex justify-content-between m-0 mb-1 py-2" style="border-top: 1px dashed #38393a;">
+                            <span>Customer:</span>
+                            <span class="customer-name">Walk-in</span>
+                          </p>
+                          <p class="d-flex justify-content-between m-0 mb-1 py-2" style="border-top: 1px dashed #38393a;">
+                            <span>Sold By:</span>
+                            <span class="cashier-name">Samuel</span>
+                          </p>
+                          <p class="d-flex justify-content-between m-0 mb-1 py-2" style="border-top: 1px dashed #38393a;">
+                            <span>Payent:</span>
+                            <span class="payment-method">Transfer</span>
+                          </p>
+                              </p>
+                              <p class="d-flex justify-content-between m-0 mb-1 py-2" style="border-top: 1px dashed #38393a;">
+                                <span>Invoice No:</span>
+                                <span class="invoice-no">12334</span>
+                              </p>
+                              <p class="d-flex justify-content-between m-0 mb-1 py-2" style="border-top: 1px dashed #38393a;"d>
+                                <span>Invoice Date:</span>
+                                <span class="invoice-date">11/06/25 10:03:2025</span>
+                              </p>
+                            
+                        </div>
+                    </div>
+                </div>
+      
+                <!-- Table Section -->
+                <div class="row gx-3">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="transactions">
+                                <thead>
+                                    <tr>
+                                        <th>Items</th>
+                                        <th>Qty</th>
+                                        <th>Amount(#)</th>
+                                        
+                                    </tr>
+                                </thead>
+                              
+                                    <tbody>
+                                        <tr>
+                                           
+                                            <td><h6>Cooking Gas</h6></td>
+                                            <td><h6>20kg</h6></td>
+                                            <td><h6>35,000</h6></td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td><h6>Cooking Gas</h6></td>
+                                            <td><h6>20kg</h6></td>
+                                            <td><h6>35,000</h6></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1">&nbsp;</td>
+                                            <td>
+                                                <p>Subtotal</p>
+                                                <p>Discount</p>
+                                                <p>VAT</p>
+                                                <h4 class="mt-4 text-blue">Total (#)</h4>
+                                            </td>
+                                            <td>
+                                                <p>1000.00</p>
+                                                <p>00.00</p>
+                                                <p>00.00</p>
+                                                <h4 class="mt-4 text-blue">1,000.00</h4>
+                                            </td>
+                                        </tr>
+                                        
+                                    
+                                  </tbody>
+                            </table>
+                            <div class="mt-2 mb-2 p-2" style="background: #e7ebf0 !important;">
+                                <h6 class="text-danger">NOTES</h6>
+                                <small>
+                                    This invoice serves as an official record of the transaction between the customer and Masski Cooking Gas. Please retain this document for your records.
+                                    
+                                </small>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+      
+      
+                </div>
+            </div>
+        </div>
+        <div class="row gx-3 mt-4">
+            <div class="col-sm-12 text-end">
+              <button class="btn btn-info" onclick="exportToExcel()">📥 Excel</button>
+                <button id="downloadBtn" class="btn btn-outline-success" onclick="downloadPDF()">📄 PDF</button>
+                <button id="printBtn" class="btn btn-success ms-1">Print</button>
+                <button class="btn btn-secondary ms-1" onclick="history.back();">Close</button>
+            </div>
+        </div> 
+    </div>
+
+
+    <script>
+        document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('invoice').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    [ 'transactions'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("invoice");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+
+  
+</script>
+
+
+
+
+
+
+
+<!-- Row start -->
+
+<!-- Row end -->
+
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/barchart.js"></script>
+<script src="../assets/js/donutChart.js"></script>
+<script src="../assets/js/form.js"></script>
+<script src="../assets/js/order.js"></script>
+
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+
+<script>
+function getOrderIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('order_id');
+}
+
+function formatCurrency(num) {
+  if (num == null) return '0.00';
+  return Number(num).toLocaleString(undefined, { minimumFractionDigits: 2 });
+}
+
+async function loadInvoice() {
+  const orderId = getOrderIdFromUrl();
+  if (!orderId) return;
+
+  const orderRes = await fetch(`http://localhost:3000/order/${orderId}`);
+  if (!orderRes.ok) return alert('Order not found');
+  const order = await orderRes.json();
+
+
+  const detailsRes = await fetch(`http://localhost:3000/order/${orderId}/order_details`);
+  if (!detailsRes.ok) return alert('Order details not found');
+  const orderDetails = await detailsRes.json();
+
+ 
+let salesPoint = '';
+if (order.order_method === 'at_station_order') {
+  salesPoint = order.at_station_order || 'At Station';
+} else if (order.order_method === 'online_order') {
+  salesPoint = 'Ordered Online';
+} else {
+  salesPoint = order.order_method || '';
+}
+document.querySelector('.sales-point').textContent = salesPoint;
+
+document.querySelector('.customer-name').textContent = order.customer_fullname || '';
+document.querySelector('.cashier-name').textContent = order.cashier_name || '';
+let paymentMethod = order.payment_method || '';
+if (paymentMethod === 'credit_card') paymentMethod = 'Card';
+else if (paymentMethod === 'cash') paymentMethod = 'Cash';
+else if (paymentMethod === 'bank_transfer') paymentMethod = 'Transfer';
+else if (paymentMethod === 'split') return 'Split';
+document.querySelector('.payment-method').textContent = paymentMethod;
+  document.querySelector('.invoice-no').textContent = order.order_id || '';
+  document.querySelector('.invoice-date').textContent = new Date(order.created_at).toLocaleString();
+
+  const total_amount = order.total_order_amount || 0;
+
+  const tbody = document.querySelector('#transactions tbody');
+  tbody.innerHTML = '';
+  let subtotal = 0;
+  orderDetails.forEach(item => {
+    const amount = item.selling_price * item.quantity;
+    subtotal += amount;
+    tbody.innerHTML += `
+      <tr>
+        <td><h6>${item.product_name || ''}</h6></td>
+        <td><h6>${item.quantity}</h6></td>
+        <td><h6>${formatCurrency(amount)}</h6></td>
+      </tr>
+    `;
+  });
+
+
+  tbody.innerHTML += `
+    <tr>
+      <td colspan="1">&nbsp;</td>
+      <td>
+        <p>Subtotal</p>
+        <p>Discount</p>
+        <p>VAT</p>
+        <h4 class="mt-4 text-blue">Total (#)</h4>
+      </td>
+      <td>
+        <p>${formatCurrency(subtotal)}</p>
+        <p>${formatCurrency(order.discount || 0)}</p>
+        <p>${formatCurrency(order.tax || 0)}</p>
+        <h4 class="mt-4 text-blue">${formatCurrency(total_amount)}</h4>
+      </td>
+    </tr>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', loadInvoice);
+</script>
+
+<script>
+   
+
+async function loadCompanyHeader() {
+   
+    let admin_id = '1';
+    const adminStr = sessionStorage.getItem('admin');
+    if (adminStr) {
+        try {
+            const admin = JSON.parse(adminStr);
+            if (admin?.id) admin_id = admin.id;
+        } catch {}
+    }
+
+    
+    const logoElem = document.getElementById('company-logo');
+    const nameElem = document.getElementById('company-name');
+    const addressElem = document.getElementById('address');
+    const phoneElem = document.getElementById('phone-number');
+    const emailElem = document.getElementById('email');
+
+   
+    const defaultLogo = '../assets/images/IMG_4703.PNG';
+    const defaultName = 'Maski Cooking Gas';
+    const defaultAddress = `9990 St. 000 Church Street, Suite 550<br>Huntsville, Alabama, 99990`;
+    const defaultPhone = '08012345678';
+    const defaultEmail = 'info@example.com';
+
+    try {
+        const res = await fetch(`http://localhost:3000/owner_info/${admin_id}`);
+        if (!res.ok) throw new Error('No owner info');
+        const data = await res.json();
+
+       
+        if (logoElem) {
+            if (data.company_logo) {
+                logoElem.src = `http://localhost:3000/uploads/company_logo/${data.company_logo}`;
+            } else {
+                logoElem.src = defaultLogo;
+            }
+        }
+
+       
+        if (nameElem) {
+            nameElem.innerHTML = `<strong>${data.company_name || defaultName}</strong>`;
+        }
+
+     
+        if (addressElem) {
+            addressElem.innerHTML = data.address
+                ? data.address.replace(/\n/g, '<br>')
+                : defaultAddress;
+        }
+
+        
+        if (phoneElem) {
+            phoneElem.innerHTML = `Tel: ${data.phone_number || defaultPhone} | Email: <span id="email">${data.email || defaultEmail}</span>`;
+        }
+    } catch {
+        
+        if (logoElem) logoElem.src = defaultLogo;
+        if (nameElem) nameElem.innerHTML = `<strong>${defaultName}</strong>`;
+        if (addressElem) addressElem.innerHTML = defaultAddress;
+        if (phoneElem) phoneElem.innerHTML = `Tel: ${defaultPhone} | Email: <span id="email">${defaultEmail}</span>`;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadCompanyHeader);
+</script>
+</body>
+
+</html>

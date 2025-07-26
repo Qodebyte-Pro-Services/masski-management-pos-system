@@ -1,0 +1,4149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Inventory | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+      z-index: 100;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+.file-drop-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+  @media (max-width: 1024px) {
+      .drop {
+       display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/ext-decoration-none">Home</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Inventory</li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+<div class="ms-auto d-lg-flex d-none flex-row">
+<div class="d-flex flex-row gap-1" id="btnfilter">
+<button type="button" class="btn btn-sm btn-filter btn-range active">Today</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Yesterday</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Last 7 Days</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">This Month</button>
+<button type="button" class="btn btn-sm btn-filter btn-range" id="customRangeBtn" >Custom Range</button>
+</div>
+<!-- Custom Date Range Picker (Initially Hidden) -->
+<div id="customRangeContainer" class="mb-3" style="display: none;">
+<div class="d-flex gap-2 align-items-center">
+<input type="date" class="form-control form-control-sm" id="startDate" style="height: 10px;"/>
+<span>to</span>
+<input type="date" class="form-control form-control-sm" id="endDate" />
+<button class="btn btn-sm btn-success" onclick="applyCustomRange()">Apply</button>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 id="fuel-total-stock-name" class="mb-3">Total Fuel In Stock</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+	<i class="bi bi-bar-chart fs-4 lh-1 text-primary"></i>
+</div>
+<div class="h5 text-success  overflow-hidden "
+style="max-width: 130px;" id="total-fuel-stock-count">
+0KG
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 id="total-other-products" class="mb-3">Total Non-Fuel Stocks</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+<i class="bi bi-cart-check fs-4 lh-1 text-primary"></i>
+</div>
+
+<!-- Wrap the long number -->
+<div id="total-other-products-count" class="h5 text-success  overflow-hidden "
+style="max-width: 130px;">
+0pcs
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Low Stock</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-warning grd-warning-light rounded-5 d-flex">
+<i class="bi bi-bar-chart-steps fs-4 lh-1 text-warning"></i>
+
+</div>
+<h2  class="text-warning"> <span id="low-stock">0</span> Items Low</h2>
+</div>
+
+</div>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Out of Stock</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-danger grd-danger-light rounded-5 d-flex">
+	<i class=" bi bi-cart-x fs-4 lh-1 text-danger"></i>
+	</div>
+	<div class="h5 text-danger  overflow-hidden "
+	style="max-width: 130px;">
+ <span id="out_of_stock">0</span> Out of Stock
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+		<div class="card mb-3">
+		<div class="card-body">
+		<h6 class="mb-3">Inventory Value</h6>
+		<div class="mb-2 d-flex align-items-center justify-content-between">
+		<div class="p-3 border border-success grd-success-light rounded-5 d-flex">
+		
+		<i class="bi bi-wallet2 fs-4 lh-1 text-su"></i>
+		
+		</div>
+		<div id="inventory-value" class="h5 text-success  overflow-hidden "
+		style="max-width: 130px;">
+		₦0
+		</div>
+		
+		</div>
+		
+		</div>
+		</div>
+		</div>
+	<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Potential Sales Value</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+	<i class="bi bi-bar-chart-line fs-4 lh-1 text-primary"></i>
+	</div>
+	<h2 id="potential-sale-value" class="text-primary">₦0</h2>
+	</div>
+
+	</div>
+	</div>
+	</div>
+</div>
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: -30px;">
+	<div class="col-xxl-12">
+	<div class="card mb-3">
+	<div class="card-body" style="background-color:#e4e9f0">
+	<div class="custom-tabs-container">
+	<ul class="nav nav-tabs" id="customTab" role="tablist" style="background-color: #f8f9fa;">
+	<li class="nav-item" role="presentation">
+	<a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#one" role="tab" aria-controls="one" aria-selected="true">Overview</a>
+	</li>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#two" role="tab" aria-controls="two" aria-selected="false" tabindex="-1">All Stocks</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="tab-five" data-bs-toggle="tab" href="#five" role="tab" aria-controls="five" aria-selected="false" tabindex="-1">Stock Category</a>
+			</li>
+
+	<li class="nav-item" role="presentation">
+	<a class="nav-link" id="tab-four" data-bs-toggle="tab" href="#four" role="tab" aria-controls="four" aria-selected="false" tabindex="-1">Stock Movement</a>
+	</li>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" id="tab-three" data-bs-toggle="tab" href="#three" role="tab" aria-controls="three" aria-selected="false" tabindex="-1">Purchase Order</a>
+		</li>
+
+       <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab-six" data-bs-toggle="tab" href="#six" role="tab" aria-controls="six" aria-selected="false" tabindex="-1">View Attribute</a>
+		</li>
+
+	
+	
+	</ul>
+	<div class="tab-content" id="customTabContent" style="margin: 0 -20px;">
+	
+	
+	<!-- Tab one section -->
+	<div class="tab-pane fade show active" id="one" role="tabpanel" aria-labelledby="tab-one" >
+	<div class=" text-center">
+	
+	<div class="col-lg-12 mx-auto" style="background-color: #f8f9fa;height: 500px;">
+	<div class="chart-container">
+	<div class="header">
+	<div>
+	<h3>Stock level Overview</h3>
+	<p style="color: gray;">Gas and Accessories in stock</p>
+	</div>
+	
+	<div class="mt-3">
+		<select id="itemSelect" onchange="updateChart()">
+		</select>
+	  
+		<select id="timeFilter" onchange="updateChart()">
+		  <option value="today">Today</option>
+		    <option value="yesterday">Yesterday</option>
+		  <option value="weekly">Weekly</option>
+		  <option value="monthly">Monthly</option>
+		  <option value="yearly">Yearly</option>
+		</select>
+	  </div>
+	</div>
+	
+	<canvas id="stockChart" style="width: 100%; height: 100%;"></canvas>
+	
+	</div>
+	
+	</div>
+	<!---------donught section----------------->
+	<div class="row gx-3">
+	<div class="col-lg-6 mx-auto mt-4" style="background-color: #f8f9fa;  border-radius: 12px; padding: 20px;">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+	<div>
+	<h3 class="mb-0">Stock by Category</h3>
+<div class="text-secondary mb-2">Breakdown of stock by product category</div>
+	</div>
+    <select id="filterSelect" class="form-select w-auto" style="font-size: 14px;">
+  <option value="Today">Today</option>
+  <option value="Yesterday">Yesterday</option>
+  <option value="7days">Last 7 days</option>
+  <option value="Month">Month</option>
+<option id="customTrigger" value="custom">Custom Range</option>
+</select>
+
+	</div>
+		<div id="customRangeContainer2" style="display:none; margin:10px;">
+  <input type="date" id="startDatecat" />
+  <span>to</span>
+  <input type="date" id="endDatecat" />
+  <button class="btn btn-sm btn-success" id="applyCustomRangeBtn">Apply</button>
+    </div>
+	<div class="row" id="salesCategories">
+	<!-- Left: Chart -->
+	<div class="col-md-6">
+	<canvas id="donutChart2" style="max-height: 200px;"></canvas>
+	
+	</div>
+	
+	<!-- Right: Revenue Info -->
+	<div class="col-md-6">
+
+	
+	<div class="revenue mb-2">
+	
+	</div>
+	<div class="legend mt-4" id="category-legend">
+	<div class="legend-item d-flex justify-content-between mb-2">
+	<div class="d-flex align-items-center">
+	<span class="dot me-2" style="background:#f16565; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+	Gas 
+	</div>
+	<div><span id="cat1">0</span></div>
+	</div>
+	
+	<div class="legend-item d-flex justify-content-between">
+	<div class="d-flex align-items-center">
+	<span class="dot me-2" style="background:#3ed9a4; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+	Accessories
+	</div>
+	<div><span id="cat2">0</span></div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div >
+	<div class="col-lg-5 mx-auto mt-4" style="background-color: #f8f9fa; ">
+		<div class="card mb-3" style="background-color: #f8f9fa; ">
+			<div class=" justify-content-between align-items-center mb-3 p-2">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <div class="lowstock">
+        <h3 class="mb-0">Low Stock Alert</h3>
+    <p class="mb-0">Stock That have reach their Threshold</p>
+    </div>
+    <div class="lowstock" style="display:none">
+        <h3 class="mb-0">Out of Stock</h3>
+    <p class="mb-0">Stock That are out from stock</p>
+    </div>
+  </div>
+  <div>
+    <select id="filterS" class="form-select">
+    
+      <option value="low_stock">Low Stock</option>
+      <option value="out_of_stock">Out Of stock</option>
+    </select>
+  </div>
+</div>
+
+				
+				
+				
+			<div class="card-body">
+				<div class="scroll350 my-4 os-host os-theme-dark os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition"><div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px; width: 477px; height: 301px;"></div><div class="os-padding"><div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;"><div class="os-content" style="padding: 0px; height: 100%; width: 100%;">
+					<div class="d-grid gap-4" id="low-stock-grid">
+						<div class="d-flex align-items-center w-100">
+						  <img src="../assets/images/mobiles/mob1.jpg" alt="Apple iPhone 11" class="img-4x h-auto rounded-3">
+						  <div class="ms-3">
+							<h5>Bunner</h5>
+							<p class="m-0">10pcs</p>
+						  </div>
+						  <button type="button" class="btn btn-warning ms-auto"  data-bs-toggle="modal" data-bs-target="#orderModel">
+							Re Order
+						</button>
+						</div>
+					  
+						<div class="d-flex align-items-center w-100">
+						  <img src="../assets/images/mobiles/mob2.jpg" alt="Apple iPhone 11" class="img-4x h-auto rounded-3">
+						  <div class="ms-3">
+							<h5>Gas</h5>
+							<p class="m-0">200kg</p>
+						  </div>
+						  <button type="button" class="btn btn-warning ms-auto"  data-bs-toggle="modal" data-bs-target="#orderModel">
+							Re Order
+						</button>
+						</div>
+					  
+						<div class="d-flex align-items-center w-100">
+						  <img src="../assets/images/mobiles/mob3.jpg" alt="Apple iPhone 11" class="img-4x h-auto rounded-3">
+						  <div class="ms-3">
+							<h5>Regulator</h5>
+							<p class="m-0">10pcs</p>
+						  </div>
+						  <button type="button" class="btn btn-warning ms-auto"  data-bs-toggle="modal" data-bs-target="#orderModel">
+							Re Order
+						</button>
+						</div>
+					  
+						<div class="d-flex align-items-center w-100">
+						  <img src="../assets/images/mobiles/mob4.jpg" alt="Apple iPhone 11" class="img-4x h-auto rounded-3">
+						  <div class="ms-3">
+							<h5>12kg Cylinder</h5>
+							<p class="m-0">6pcs</p>
+						  </div>
+						  <button type="button" class="btn btn-warning ms-auto"  data-bs-toggle="modal" data-bs-target="#orderModel">
+							Re Order
+						</button>
+						</div>
+					  
+						<div class="d-flex align-items-center w-100">
+						  <img src="../assets/images/mobiles/mob5.jpg" alt="Apple iPhone 11" class="img-4x h-auto rounded-3">
+						  <div class="ms-3">
+							<h5>5kg Cylinder</h5>
+							<p class="m-0">2pcs</p>
+						  </div>
+						  <button type="button" class="btn btn-warning ms-auto"  data-bs-toggle="modal" data-bs-target="#orderModel">
+							Re Order
+						</button>
+						</div>
+					  </div>
+					  <div class="mt-4">
+					      <button type="button" id="view-more-stck" class="btn btn-success">
+				View More..
+			</button>
+					  </div>
+				</div></div></div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="height: 38.0849%; transform: translate(0px);"></div></div></div><div class="os-scrollbar-corner"></div></div>
+			</div>
+		</div>
+
+		</div>
+	</div>
+</div>
+	
+	</div>
+	</div>
+	<!-- end  -->
+	
+	
+	
+	<!------------------------------ Tab two section (Products)--------------------------------->
+	<div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+		<div class="col-xxl-12">
+		<div class="card mb-3" style="background-color: #f8f9fa;">
+		<div class="header">
+		<div >
+		<h3>All Products In Sctock</h3>
+		<p style="color: gray;">Manage all your Products</p>
+		</div>
+		<div class="dt-buttons btn-group">
+			<button type="button" class="btn btn-success">
+				
+			</button>
+			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenteredScrollable">
+				<i class=" bi bi-plus-lg"></i>Add New Product
+			</button>
+			
+		</div>
+		</div>
+		
+		<div class="card-body" style="padding: 0px !important;">
+		<div>
+		<div class="d-flex flex-wrap gap-2 mb-3" >
+		
+		<button type="button " class="btn  btn-sm btn-filter active">
+		All
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+		Gas
+		</button>
+		
+		<button type="button " class="btn  btn-sm btn-filter">
+		Cylinder
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+		Burner
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+		Regulator
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+		Host
+		</button>
+		</div>
+		
+		</div>
+		<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+		
+		<!-- Search Input with Icon Button (Right-aligned) -->
+		<div class="input-group" style="width: 60%;">
+		<button class="btn btn-sm btn-outline-secondary" type="button">
+		<i class="bi bi-search"></i>
+		</button>
+		<input type="text" class="form-control form-control-sm" placeholder="Search search By Product/ Category">
+		
+		
+		</div>
+		<div class="filter-wrapper">
+			
+
+			<select>
+			  <option value="">Filter by</option>
+			  <option value="date">Date</option>
+			  <option value="status">Status</option>
+			  <option value="amount">Amount</option>
+			</select>
+		  </div>
+		</div>
+		
+		<div class="table-responsive">
+		<table id="productTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+		<thead>
+		<tr>
+		<th scope="col">ID</th>
+		<th scope="col"> Name</th>
+		<th scope="col">Category</th>
+		<th scope="col">Quantity</th>
+		<th scope="col">Valued</th>
+
+		<th scope="col">Status</th>
+		<th scope="col">Created On</th>
+		<th scope="col">Actions</th>
+		</tr>
+		</thead>
+		<tbody>
+  <tr>
+    <td>#P001</td>
+    <td>Cooking Gas</td>
+    <td>Gas</td>
+    <td>200kg</td>
+    <td>₦5,000</td>
+    <td><span class="badge bg-warning text-dark">Low Stock</span></td>
+    <td>2025-06-01</td>
+    <td>
+      <i class="fs-3 bi bi-three-dots text-success"
+         data-bs-toggle="popover"
+         data-bs-placement="bottom"
+         data-bs-html="true"
+         data-bs-content='
+           <a href="detail.html" class="d-block text-success text-decoration-none mb-1">View</a>
+           <a href="#" class="d-block text-warning text-decoration-none mb-1">Reorder</a>
+           <a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+         style="cursor: pointer;"></i>
+    </td>
+  </tr>
+
+  <tr>
+    <td>#P002</td>
+    <td>Burna</td>
+    <td>Accessories</td>
+    <td>50pcs</td>
+    <td>#500,000</td>
+    <td><span class="badge bg-success">In Stock</span></td>
+    <td>2025-06-02</td>
+    <td>
+      <i class="fs-3 bi bi-three-dots text-success"
+         data-bs-toggle="popover"
+         data-bs-placement="bottom"
+         data-bs-html="true"
+         data-bs-content='
+           <a href="detail.html" class="d-block text-decoration-none mb-1">View</a>
+           <a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+         style="cursor: pointer;"></i>
+    </td>
+  </tr>
+
+  <tr>
+    <td>#P003</td>
+    <td>Cylinder</td>
+    <td>Accessories</td>
+    <td>0pcs</td>
+    <td>#0.00</td>
+    <td><span class="badge bg-danger">Out of Stock</span></td>
+    <td>2025-06-03</td>
+    <td>
+      <i class="fs-3 bi bi-three-dots text-success"
+         data-bs-toggle="popover"
+         data-bs-placement="bottom"
+         data-bs-html="true"
+         data-bs-content='
+           <a href="detail.html" class="d-block text-success text-decoration-none mb-1">View</a>
+           <a href="#" class="d-block text-warning text-decoration-none mb-1">Reorder</a>
+           <a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+         style="cursor: pointer;"></i>
+    </td>
+  </tr>
+</tbody>
+
+		</table>
+<!-- Pagination aligned to right -->
+<nav hidden aria-label="Table pagination">
+    <ul class="pagination justify-content-end" style="margin-top: 10px;">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Previous</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+  </nav>
+		</div>
+		</div>
+		</div>
+		</div>
+		
+		</div>
+	
+	
+	<!--end------Order Management-------------------------->
+	
+	<div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+	<div class="col-xxl-12">
+	<div class="card mb-3" style="background-color: #f8f9fa;">
+	<div class="header">
+	<div >
+	<h3>Purchase Order</h3>
+	
+	<p style="color: gray;">Track and manage all products purchase order</p>
+	</div>
+	<div class="dt-buttons btn-group">
+		<button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#orderModel">
+			Create Order
+		</button>
+	</div>
+	</div>
+	
+	<div class="card-body" style="padding: 0px !important;">
+	<div>
+	<div class="d-flex flex-wrap gap-2 mb-3" >
+	
+	<button type="button " class="btn  btn-sm btn-filter active">
+	All
+	</button>
+	<button type="button " class="btn  btn-sm btn-filter">
+Received	</button>
+	
+	<button type="button " class="btn  btn-sm btn-filter">
+	Pending
+	</button>
+	<button type="button " class="btn  btn-sm btn-filter">
+	Cancelled
+	</button>
+	</div>
+	
+	</div>
+	<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+	
+	<!-- Search Input with Icon Button (Right-aligned) -->
+	<div class="input-group" style="width: 60%;">
+	<button class="btn btn-sm btn-outline-secondary" type="button">
+	<i class="bi bi-search"></i>
+	</button>
+	<input type="text" class="form-control form-control-sm" placeholder="Search products...">
+	
+	
+	</div>
+	
+	</div>
+	
+	<div class="table-responsive">
+	<table id="product-order"  class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+	<thead>
+	<tr>
+	<th scope="col">PO Ref</th>
+	<th scope="col">Supplier</th>
+	<th scope="col">Order Date</th>
+	<th scope="col">Expected Delivery</th>
+	
+	<th scope="col">Total Amount(#)</th>
+	<th scope="col">Created By</th>
+	
+	<th scope="col">Payment Status</th>
+	<th scope="col">Status</th>
+	
+	<th scope="col">Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr class="grd-primary-light">
+	<td>Po-000123</td>
+	<td>LLPc Limited</td>
+	<td>12/06/2025</td>
+	<td>15/06/2025</td>
+	<td>30,000.00</td>
+	
+	<td>Samuel Qodebyte</td>
+	<td class="text-success">Paid</td>
+	
+	<td><span class="badge bg-success">Received</span></td>
+	<td>
+	<i class="fs-3 bi bi-three-dots text-success"
+	data-bs-toggle="popover"
+	data-bs-placement="bottom"
+	data-bs-html="true"
+	data-bs-content='
+	<a href="../inventory/po.html" class="d-block text-decoration-none mb-1">View</a>
+	
+		'
+	style="cursor: pointer;"></i>
+	</td>
+	</tr>
+	
+	<tr class="grd-primary-light">
+		<td>Po-000123</td>
+		<td>LLPc Limited</td>
+		<td>12/06/2025</td>
+		<td>15/06/2025</td>
+		<td>30,000.00</td>
+		
+		<td>Samuel Qodebyte</td>
+		<td class="text-success">Paid</td>
+		
+		<td><span class="badge bg-warning">Pending</span></td>
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="#" class="d-block text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-decoration-none mb-1">Edit</a>
+		<a href="#" class="d-block text-success text-decoration-none">Mark as Received</a>
+	
+		'
+		style="cursor: pointer;"></i>
+		</td>
+		</tr>
+		<tr class="grd-primary-light">
+			<td>Po-000123</td>
+			<td>LLPc Limited</td>
+			<td>12/06/2025</td>
+			<td>15/06/2025</td>
+			<td>30,000.00</td>
+			
+			<td>Samuel Qodebyte</td>
+			<td class="text-danger">Unpaid</td>
+			
+			<td><span class="badge bg-danger">Cancelled</span></td>
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="#" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>
+		
+			'
+			style="cursor: pointer;"></i>
+			</td>
+			</tr>
+	</tbody>
+	</table>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	</div>
+	
+	<!-----END----------------START OF Stock Movement ----------------------------------------->
+	<div class="tab-pane fade" id="four" role="tabpanel" aria-labelledby="tab-four" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+		<div class="col-xxl-12">
+			<div class="card mb-3" style="background-color: #f8f9fa;">
+			<div class="header">
+			<div >
+			<h3>Recent Stock Movement</h3>
+			<p style="color: gray;">Monitor the flow of inventory items in,out,adjust,damaed..</p>
+			</div>
+			<div class="dt-buttons btn-group">
+				<button id="print" type="button" class="btn btn-success">
+					<i class="bi bi-printer"></i> Print
+				</button>
+			</div>
+			</div>
+			
+			<div class="card-body" style="padding: 0px !important;">
+			<div>
+			<div class="d-flex flex-wrap gap-2 mb-3" >
+			
+			<button type="button " class="btn  btn-sm btn-filter active">
+			All
+			</button>
+			<button type="button " class="btn  btn-sm btn-filter">
+		Purchase
+			</button>
+			
+			<button type="button " class="btn  btn-sm btn-filter">
+			Sold
+			</button>
+			<button type="button " class="btn  btn-sm btn-filter">
+				Adjustment
+				</button>
+			</div>
+			
+			</div>
+			<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+			
+			<!-- Search Input with Icon Button (Right-aligned) -->
+			<div class="input-group" style="width: 60%;">
+			<button class="btn btn-sm btn-outline-secondary" type="button">
+			<i class="bi bi-search"></i>
+			</button>
+			<input type="text" class="form-control form-control-sm" placeholder="Search by ">
+			
+			
+			</div>
+			<select id="filterS">
+				<option value="All">All</option>
+				<option value="Today">Today</option>
+				<option value="7days">last 7 days</option>
+				
+				<option value="Month">This Month</option>
+				<option value="Year">This Year</option>
+				<option value="custome">Custom</option>
+				</select>
+			</div>
+			
+			<div class="table-responsive">
+				<table id="stockTable"   class="display nowrap table align-middle table-hover m-0" style="width:100%; background-color: #f8f9fa; border: 1px solid #dee2e6;">
+			<thead >
+			<tr>
+			<th scope="col">Date</th>
+			<th scope="col">Item</th>
+			<th scope="col">Types</th>
+			<th scope="col">Quantity</th>
+			<th scope="col">Reason</th>
+			<th scope="col">Added By </th>
+			<th scope="col">Status</th>
+			
+			<th scope="col">Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr class="grd-primary-light">
+			<td>28/10/2022</td>
+			<td>Gas</td>
+			<td>purchase</td>
+			<td>+2889Kg</td>
+			<td>Stock purcase</td>
+	
+			<td>Samuel Qodebyte</td>
+			<td>
+			<span class="badge rounded-pill bg-success">Increase</span>
+			</td>
+			
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="../inventory/detail" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+			style="cursor: pointer;"></i>
+			</td>
+			
+			
+			</tr>
+			<tr class="grd-primary-light">
+			<td>28/10/2022</td>
+			<td>6kg Cyllender</td>
+			<td>Adjustment</td>
+			<td>-1</td>
+			<td>Damaged</td>
+			<td>Samuel Qodebyte</td>
+			<td>
+			<span class="badge rounded-pill bg-danger">Decrease</span>
+			</td>
+			
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="#" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+			style="cursor: pointer;"></i>
+			</td>
+			
+			
+			</tr>
+			<tr class="grd-primary-light">
+			<td>28/10/2022</td>
+			<td>Host</td>
+			<td>Sold</td>
+			<td>-13</td>
+			<td>Pos Sales</td>
+			<td>Samuel Qodebyte</td>
+			
+			<td>
+			<span class="badge rounded-pill bg-danger">Decrease</span>
+			</td>
+			
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="#" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+			style="cursor: pointer;"></i>
+			</td>
+			
+			
+			</tr>
+			<tr class="grd-primary-light">
+			<td>28/10/2022</td>
+			<td>6kg Cyllender</td>
+			<td>Adjustment</td>
+			<td>-1</td>
+			<td>Transfer out</td>
+			
+			<td>Samuel Qodebyte</td>
+			<td>
+			<span class="badge rounded-pill bg-danger">Decrease</span>
+			</td>
+			
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="../inventory/detail" class="d-block text-decoration-none mb-1">View</a>
+			<a href="delete" class="d-block text-danger text-decoration-none">Delete</a>'
+			style="cursor: pointer;"></i>
+			</td>
+			
+			
+			</tr>
+			</tbody>
+			</table>
+			<nav hidden aria-label="Table pagination">
+				<ul class="pagination justify-content-end" style="margin-top: 10px;">
+				  <li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">Previous</a>
+				  </li>
+				  <li class="page-item"><a class="page-link" href="#">1</a></li>
+				  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+				  <li class="page-item"><a class="page-link" href="#">3</a></li>
+				  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
+			  </nav>
+			</div>
+			</div>
+			</div>
+			</div>
+		
+		</div>
+	
+	<!--END---------------------Stock Category--------------------------------------------------------------------------->
+	<div class="tab-pane fade" id="five" role="tabpanel" aria-labelledby="tab-five" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+	<div class="col-xxl-12">
+	<div class="card mb-3" style="background-color: #f8f9fa;">
+	<div class="header">
+	<div >
+	<h3>All Stock Category</h3>
+	<p style="color: gray;">Mange all Stock Categories </p>
+	</div>
+	<div class="dt-buttons btn-group">
+	<button class="btn btn-sm btn-success " onclick="openAddCategoryModal()">Create New Category</button>
+	</div>
+	</div>
+	
+	<div class="card-body" style="padding: 0px !important;">
+	
+	<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+	
+	<!-- Search Input with Icon Button (Right-aligned) -->
+	<div class="input-group" style="width: 60%;">
+	<button class="btn btn-sm btn-outline-secondary" type="button">
+	<i class="bi bi-search"></i>
+	</button>
+	<input type="text" class="form-control form-control-sm" placeholder="Search Stock Category...">
+	
+	
+	</div>
+	
+	</div>
+	
+	<div class="table-responsive">
+	<table id="category-table" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+	<thead>
+	<tr>
+	<th scope="col">ID</th>
+	<th scope="col">Category Name</th>
+	<th scope="col">Created On</th>
+	
+	<th scope="col">Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+	<td>Cat-1002</td>
+	<td>Accessories</td>
+	
+	
+	<td>04/06/2025</td>
+	<td>
+	<i class="fs-3 bi bi-three-dots text-success"
+	data-bs-toggle="popover"
+	data-bs-placement="bottom"
+	data-bs-html="true"
+	data-bs-content='
+	
+
+	<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+	style="cursor: pointer;"></i>
+	</td>
+	</tr>
+	<tr>
+		<td>Cat-1002</td>
+		
+		<td>Fuel</td>
+		
+		<td>04/06/2025</td>
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		
+	
+		<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		</tr>
+	</tbody>
+	</table>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	</div>
+
+<div class="tab-pane fade" id="six" role="tabpanel" aria-labelledby="tab-six" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+	<div class="col-xxl-12">
+		<div class="card mb-3" style="background-color: #f8f9fa;">
+			<div class="header drop mb-5">
+			<div >
+			<h3 style="text-align: left;">Variation Attributes</h3>
+			<p class="text-muted mb-4">
+				This table lists all the product attributes you have created.<br> Attributes define the different characteristics (like size, color, or type) that can be used to create product variations.
+			  </p>
+			</div>
+			<div class="dt-buttons btn-group">
+
+				<button type="button" class="btn btn-success" onclick="openAddAttribute()">
+					<i class=" bi bi-plus-lg"></i>Add Attributes
+				</button>
+
+
+				<button type="button" style="margin-left: 2px;" class="btn btn-success" onclick="openAddAttributeValue()">
+					<i class=" bi bi-plus-lg"></i>Add Attribute Value
+				</button>
+				
+			</div>
+			</div>
+			
+			<div class="card-body" style="padding: 0px !important;">
+			<div>
+			
+			
+			</div>
+			
+			
+			<div class="table-responsive">
+			<table id="attributeTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+			<thead>
+			<tr>
+			<th scope="col">Id</th>
+			<th scope="col">Attributes Name</th>
+			<th scope="col">Attributes value</th>
+
+			<th scope="col">Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>ATT001</td> <!-- SKU -->
+				<td>Size</td> <!-- Name -->
+				<td>5kg</td> <!-- Value -->
+				
+				<td>
+					<i class="fs-3 bi bi-three-dots text-success"
+					   data-bs-toggle="popover"
+					   data-bs-placement="bottom"
+					   data-bs-html="true"
+					   data-bs-content='
+               <a href="#" class="d-block text-primary text-decoration-none mb-1 open-edit-attribute">Edit Attribute Name</a>
+               <a href="#" class="d-block text-info text-decoration-none mb-1 open-edit-attribute-value">Edit Attribute Value</a>
+               <a href="#" class="d-block text-danger text-decoration-none mb-1 delete-attribute">Delete Attribute</a>
+               <a href="#" class="d-block text-danger text-decoration-none delete-attribute-value">Delete Attribute Value</a>'
+           style="cursor: pointer;"></i>
+				  </td>
+			</tr>
+			
+			
+			
+			</tbody>
+			</table>
+	<!-- Pagination aligned to right -->
+	<nav aria-label="Table pagination">
+		<ul class="pagination justify-content-end" style="margin-top: 10px;">
+		  <li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1">Previous</a>
+		  </li>
+		  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+		  <li class="page-item "><a class="page-link" href="#">2</a></li>
+		  <li class="page-item"><a class="page-link" href="#">3</a></li>
+		  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+		</ul>
+	  </nav>
+			</div>
+			</div>
+			</div>
+	</div>
+	
+	</div>
+
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	
+	</div>
+<!-- Row end -->
+<!----Model section -->
+<div id="model"></div>
+</div>
+
+<div class="modal fade" id="exampleModalCenteredScrollable" tabindex="-1" aria-labelledby="exampleModalCenteredScrollableTitle"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenteredScrollableTitle">
+                    Add Products
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> 
+            <form style="max-height: 500px; overflow-y: auto;" id="addProductForm" enctype="multipart/form-data">
+            <div class="modal-body">
+               
+                    <div class="row mb-3">
+                      <div class="col-md-12 mb-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="product_name" required>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Category</label>
+                          <span class="text-success" role="button" onclick="openAddCategoryModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Category</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="categorydropdown" name="category_id" required>
+                          <option selected disabled>Choose...</option>
+                         
+                        </select>
+                      </div>
+                    </div>
+
+                 <!-- <div hidden class="row mb-3">
+                       <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="supplier" class="form-label mb-0">Supplier</label>
+                          <span class="text-success" role="button" onclick="openAddSupplierModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Supplier</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="supplier" name="supplier" required>
+                          <option selected disabled>Choose...</option>
+     
+                          
+                         
+                        </select>
+                      </div>
+                    </div> -->
+              
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="brand" class="form-label">Brand</label>
+                        <input type="text" class="form-control" id="brand" name="brand" required>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="unit" class="form-label">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit_name" required>
+                      </div>
+                    </div>
+
+                      
+              
+                    <!-- <div hidden class="row mb-4">
+ <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="Unit" class="form-label mb-0">Unit</label>
+                          <span class="text-success" role="button" onclick="openAddUnitModal('exampleModalCenteredScrollable')" style="font-size: 0.9rem;">Add Unit</span>
+  
+                        </div>
+                        
+                        <select class="form-select" id="unit" name="unit" required>
+                          <option selected disabled>Choose...</option>
+                        
+                          
+                         
+                        </select>
+                      </div>
+                      </div> -->
+
+<!-- 
+                      <div class="row mb-4">
+                        <div class="form-check form-switch " style="padding-left:4em">
+                          <input class="form-check-input custom-toggle" type="checkbox" id="isTaxable"
+                           name="is_taxable" onchange="toggleTaxFields()" style="border:1px solid green">
+                          <label class="form-check-label fw-bold" for="isTaxable">Is Taxable?</label>
+                        </div>
+                        
+                        </div>
+                        <div id="taxFields" style="display: none;">
+                          <div class="mb-3">
+                            <label for="tax" class="form-label">Tax (%)</label>
+                            <input type="number" class="form-control" id="tax" name="tax" min="0" step="0.01">
+                          </div>
+                        
+                          <div class="mb-3">
+                            <label for="taxType" class="form-label">Tax Type</label>
+                            <select class="form-select" id="taxType" name="tax_type">
+                              <option selected disabled>Choose tax type</option>
+                              <option value="inclusive">Inclusive</option>
+                              <option value="exclusive">Exclusive</option>
+                            </select>
+                          </div>
+                        </div> -->
+
+                        <div class="row mb-3">
+  <!-- <div class="col-md-6">
+    <label for="currentStock" class="form-label">Current Stock Qty</label>
+    <input type="number" class="form-control" id="currentStock" name="current_product_stock_qty_number" min="0" value="0" required>
+  </div> -->
+  <div class="col-md-6">
+    <label for="alertLimit" class="form-label">Alert Limit</label>
+    <input type="number" class="form-control" id="alertLimit" name="product_alert_limit" min="0" value="0" required>
+  </div>
+</div>
+                        
+              
+                    <div class="mb-3">
+                      <label for="description" class="form-label">Description</label>
+                      <textarea class="form-control" id="description" name="product_description" rows="3"></textarea>
+                    </div>
+              
+                    <div class="mb-4">
+                <label for="productImageInputSection" class="form-label">Upload Design</label>
+                <div class="file-drop-area">
+                    
+                    <div id="productImagePreview" ></div>
+                    <input type="file" name="product_featured_image" id="productImageInputSection" accept="image/*">
+                </div>
+            </div>
+              
+                    
+                  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success"  id="saveProductBtn" onclick="addProduct()">
+                    Save Products
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="orderModel" tabindex="-1" aria-labelledby="orderModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="min-width: 650px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModel">
+                    Create Order
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                  <div class="row mb-3" >
+                    <div class="col-md-12 mt-4">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <label for="supplier" class="form-label mb-0">Supplier</label>
+                        <span class="text-success" role="button" onclick="openAddSupplierModal('orderModel')" style="font-size: 0.9rem;">Add supplier</span>
+
+                      </div>
+                      <select class="form-select mt-1" id="supplier" name="supplier"  >
+                        <option selected disabled>Choose...</option>
+                        
+                      </select>
+                    </div>
+                  </div>              
+                    <div class="row mb-3">
+                      <div class="col">
+                        <label for="orderDate" class="form-label">Order Date</label>
+                        <input type="date" id="orderDate" class="form-control" />
+                      </div>
+                      <div class="col">
+                        <label for="deliveryDate" class="form-label">Expected Delivery Date</label>
+                        <input type="date" id="deliveryDate" class="form-control" />
+                      </div>
+                    </div>
+              
+                    <div class="mb-3">
+                      <label class="form-label">Products</label>
+                      <div class="input-group">
+                        <select id="productSelect" class="form-select">
+                          <option value="">Select Product</option>
+                          
+                        </select>
+                        <select id="variationSelect" class="form-select">
+                          <option value="">Select Variation</option>
+                          
+                        </select>
+                       
+                      </div>
+                    </div>
+              
+                    <table class="table table-bordered mt-3">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Variation</th>
+                          <th>Quantity</th>
+                          <th>Unit Price</th>
+                          <th>Subtotal</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="productTableBody"></tbody>
+                    </table>
+              
+                    <div class="text-end mb-3">
+                      <strong>Total (₦): <span id="totalAmount">0.00</span></strong>
+                    </div>
+              
+                    <div class="d-flex justify-content-end gap-2">
+                      <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" id="saveOrderBtn" class="btn btn-success">Save Order</button>
+                    </div>
+                  </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addAttributeValue"
+     aria-labelledby="addSupplierModalLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="addSupplierModalLabel">Add  Attributs Value</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="addAttributeValueForm" >
+
+      <div class="mb-3">
+        <label for="attributeName" class="form-label">Attributs Name</label>
+        <select class="form-select" name="attribute_id" id="attributeName" required>
+          <option selected disabled>Choose...</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="supplierPhone" class="form-label">Attribute Value</label>
+        <input type="text" class="form-control" id="attValue" required placeholder="eg.red">
+      </div>
+
+
+       <div hidden class="mb-3">
+        <label for="supplierPhone" class="form-label">Attribute Value Display Order</label>
+        <input type="number" class="form-control" id="attValueOrder"  placeholder="1">
+      </div>
+      
+      
+      <button type="button" id="addValueBtn"  class="btn btn-success" onclick="addAttributsValue()">Add Attributs Value</button>
+    </form>
+  </div>
+</div>
+
+<div  class="modal fade" id="EditattributsModel" tabindex="-1" aria-labelledby="EditattributsModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditattributsModel">
+                  Edit  Attributs
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="editAttributename" >
+                <div class="mb-3">
+                  <label for="supplierName" class="form-label">Attributs Name</label>
+                  <input type="text" class="form-control" id="attName" required value="color">
+                </div>
+                <button type="button" class="btn btn-success" >Edit Attributs</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="EditattributsValueModel" tabindex="-1" aria-labelledby="EditattributsValueModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditattributsValueModel">
+                  Edit  Attributs
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="editAttributeValue" >
+                <div hidden class="mb-3">
+                  <label for="supplierName" class="form-label">Attributs Name</label>
+                  <select name="attribute_name" class="form-select" id="edit-attribute-value-dropdown">
+                    <option selected value="#">choose attribute</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="editattributsValue" class="form-label">Attributs Value</label>  
+                  <input type="text" class="form-control" name="attribute_value" id="editattributsValue"  value="">
+                 
+                </div>
+
+                <div class="mb-3">
+                  <label for="editattributsValueOrder" class="form-label">Attributs Value Display Order</label>
+                  <input type="number" class="form-control" name="attribute_value_order" id="editattributsValueOrder" value="">
+
+                </div>
+
+
+                <button type="button" class="btn btn-success" >Edit Attributs</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/barchart.js"></script>
+<!--<script src="../assets/js/donutChart.js"></script>-->
+<script src="../assets/js/form.js"></script>
+<script>
+	//function to hide overwiev matrice when click tabs
+	document.addEventListener("DOMContentLoaded", function () {
+	  const gxRow = document.getElementById("gxRow");
+	  const customTab = document.getElementById("customTab");
+  
+	  // Function to toggle visibility
+	  function toggleGxRow(activeTabId) {
+		if (activeTabId === "tab-one") {
+		  gxRow.style.setProperty("display", "flex", "important"); // for .row
+		} else {
+		  gxRow.style.setProperty("display", "none", "important");
+		}
+	  }
+  
+	  // Initial check on page load
+	  const activeTab = customTab.querySelector(".nav-link.active");
+	  toggleGxRow(activeTab?.id);
+  
+	  // Event listener for tab change
+	  customTab.querySelectorAll(".nav-link").forEach(link => {
+		link.addEventListener("shown.bs.tab", function (e) {
+		  toggleGxRow(e.target.id);
+		});
+	  });
+	});
+
+	
+	
+  
+
+
+  </script>
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">-->
+<!--<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>-->
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<!--<script src="../assets/vendor/apex/apexcharts.min.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/dash1/source.js"></script>-->
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const printBtn = document.getElementById('print');
+    if (printBtn) {
+        printBtn.addEventListener('click', function () {
+          
+        
+
+
+             const table = document.getElementById('stockTable');
+            if (table) {
+                const printWindow = window.open('', '', 'height=600,width=900');
+                printWindow.document.write('<html><head><title>Print Stock Movement</title>');
+                printWindow.document.write('<link rel="stylesheet" href="../assets/css/main.min.css" />');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write('<h2>Stock Movement</h2>');
+                printWindow.document.write(table.outerHTML);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.focus();
+                setTimeout(() => printWindow.print(), 500);
+            }
+          
+        });
+    }
+});
+</script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+<script>
+// Toast utility
+function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+
+// Format date as dd/mm/yyyy
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('en-GB');
+}
+
+let allCategories = [];
+let filteredCategories = [];
+let currentPage = 1;
+const pageSize = 10;
+
+async function fetchCategories() {
+    try {
+        const res = await fetch('http://localhost:3000/product_category');
+        if (!res.ok) throw new Error("Failed to fetch categories");
+        let data = await res.json();
+        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        return data;
+    } catch (err) {
+        showToast("Error loading categories", "danger");
+        return [];
+    }
+}
+
+async function deleteCategory(category_id) {
+    try {
+        const res = await fetch(`http://localhost:3000/product_category/${category_id}`, {
+            method: "DELETE"
+        });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || "Delete failed");
+        }
+        showToast("Category deleted successfully", "success");
+        await loadCategoryTable();
+    } catch (err) {
+        showToast(err.message, "danger");
+    }
+}
+
+function renderCategoryTable(page = 1) {
+    const tbody = document.querySelector("#category-table tbody");
+    if (!filteredCategories || filteredCategories.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">No category made yet</td></tr>`;
+        renderPagination(1, 1);
+        return;
+    }
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const pageData = filteredCategories.slice(start, end);
+
+    tbody.innerHTML = "";
+    pageData.forEach(cat => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${cat.category_id}</td>
+            <td>${cat.category_name}</td>
+            <td>${formatDate(cat.created_at)}</td>
+            <td>
+                <i class="fs-3 bi bi-three-dots text-success"
+                    style="cursor: pointer;"
+                    data-category-id="${cat.category_id}">
+                </i>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    // Attach popover and delete handler
+    document.querySelectorAll('#category-table .bi-three-dots').forEach(icon => {
+        icon.addEventListener('click', function (e) {
+            document.querySelectorAll('.popover-menu').forEach(p => p.remove());
+            const pop = document.createElement('div');
+            pop.className = 'popover-menu position-absolute bg-white border rounded shadow-sm p-2';
+            pop.style.minWidth = '120px';
+            pop.style.top = (icon.getBoundingClientRect().bottom + window.scrollY) + 'px';
+            pop.style.left = (icon.getBoundingClientRect().left + window.scrollX - 60) + 'px';
+            pop.innerHTML = `<a href="#" class="d-block text-danger text-decoration-none delete-cat">Delete</a>`;
+            document.body.appendChild(pop);
+
+            function closePop(e) {
+                if (!pop.contains(e.target) && e.target !== icon) {
+                    pop.remove();
+                    document.removeEventListener('mousedown', closePop);
+                }
+            }
+            document.addEventListener('mousedown', closePop);
+
+            pop.querySelector('.delete-cat').onclick = (ev) => {
+                ev.preventDefault();
+                if (confirm("Are you sure you want to delete this category?")) {
+                    deleteCategory(icon.getAttribute('data-category-id'));
+                }
+                pop.remove();
+            };
+        });
+    });
+
+    renderPagination(page, Math.ceil(filteredCategories.length / pageSize));
+}
+
+function renderPagination(current, total) {
+    let pagination = document.getElementById('category-pagination');
+    if (!pagination) {
+        pagination = document.createElement('nav');
+        pagination.id = 'category-pagination';
+        pagination.setAttribute('aria-label', 'Table pagination');
+        pagination.innerHTML = `<ul class="pagination justify-content-end" style="margin-top: 10px;"></ul>`;
+        document.querySelector("#category-table").parentElement.appendChild(pagination);
+    }
+    const ul = pagination.querySelector('ul');
+    ul.innerHTML = '';
+
+    // Previous
+    ul.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+        <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+    </li>`;
+
+    // Page numbers
+    for (let i = 1; i <= total; i++) {
+        ul.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+            <a class="page-link" href="#" data-page="${i}">${i}</a>
+        </li>`;
+    }
+
+    // Next
+    ul.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+        <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+    </li>`;
+
+    // Click handler
+    ul.querySelectorAll('a.page-link').forEach(link => {
+        link.onclick = function (e) {
+            e.preventDefault();
+            const page = Number(this.getAttribute('data-page'));
+            if (page >= 1 && page <= total && page !== currentPage) {
+                currentPage = page;
+                renderCategoryTable(currentPage);
+            }
+        };
+    });
+}
+
+function filterCategories(searchTerm) {
+    if (!searchTerm) {
+        filteredCategories = [...allCategories];
+    } else {
+        const term = searchTerm.toLowerCase();
+        filteredCategories = allCategories.filter(cat =>
+            (cat.category_id && cat.category_id.toLowerCase().includes(term)) ||
+            (cat.category_name && cat.category_name.toLowerCase().includes(term))
+        );
+    }
+    currentPage = 1;
+    renderCategoryTable(currentPage);
+}
+
+async function loadCategoryTable() {
+    const tbody = document.querySelector("#category-table tbody");
+    tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Loading...</td></tr>`;
+    allCategories = await fetchCategories();
+    filterCategories(document.querySelector('.input-group input[placeholder="Search Stock Category..."]').value);
+}
+
+// Attach search event
+document.addEventListener('DOMContentLoaded', function () {
+    loadCategoryTable();
+    const searchInput = document.querySelector('.input-group input[placeholder="Search Stock Category..."]');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            filterCategories(this.value);
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+   
+    const attNameSelect = document.getElementById('attributeName');
+    const attValueInput = document.getElementById('attValue');
+   // const attValueOrderInput = document.getElementById('attValueOrder');
+    const addAttributeValueForm = document.getElementById('addAttributeValueForm');
+    const attributsValueSelect = document.getElementById('attributsValue');
+
+      if (!attNameSelect || !attValueInput ||  !addAttributeValueForm) return;
+
+ 
+    async function loadAttributeNames() {
+        attNameSelect.innerHTML = '<option selected disabled>Loading...</option>';
+        try {
+            const res = await fetch('http://localhost:3000/attributes');
+            const attributes = await res.json();
+            attNameSelect.innerHTML = '<option selected disabled>Choose...</option>';
+            if (Array.isArray(attributes) && attributes.length > 0) {
+                attributes.forEach(att => {
+                    const opt = document.createElement('option');
+                    opt.value = att.attribute_id;
+                    opt.textContent = att.attribute_name;
+                    attNameSelect.appendChild(opt);
+                });
+            } else {
+                attNameSelect.innerHTML = '<option value="">No attributes available</option>';
+            }
+        } catch {
+            attNameSelect.innerHTML = '<option value="">Failed to load attributes</option>';
+        }
+    }
+
+   
+    window.addAttributsValue = async function () {
+         const addValueBtn = document.getElementById('addValueBtn');
+    setButtonLoading(addValueBtn, true, "Adding...");
+        const attribute_id = attNameSelect.value;
+        const value = attValueInput.value.trim();
+      //  const display_order = attValueOrderInput.value.trim();
+
+        if (!attribute_id || !value) {
+            showToast("Please fill in all required fields.", "danger");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:3000/attributes/${attribute_id}/values`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ value })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to add attribute value');
+            showToast('Attribute value added successfully', 'success');
+            addAttributeValueForm.reset();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (err) {
+            showToast(err.message || 'Network error', 'danger');
+        }finally {
+        setButtonLoading(addValueBtn, false);
+    }
+    };
+
+    const attributeValueOffcanvas = document.getElementById('addAttributeValue');
+    if (attributeValueOffcanvas) {
+        attributeValueOffcanvas.addEventListener('show.bs.offcanvas', loadAttributeNames);
+    } else {
+        loadAttributeNames();
+    }
+});
+</script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const pageSize = 8;
+    let allAttributes = [];
+    let currentPage = 1;
+
+ async function fetchAllAttributesAndValues() {
+        try {
+            const attrRes = await fetch('http://localhost:3000/attributes');
+            const attributes = await attrRes.json();
+            let rows = [];
+            for (const attr of attributes) {
+                const valRes = await fetch(`http://localhost:3000/attributes/${attr.attribute_id}/values`);
+                const values = await valRes.json();
+                if (Array.isArray(values) && values.length > 0) {
+                    values.forEach(val => {
+                        rows.push({
+                            attribute_id: attr.attribute_id,
+                            attribute_name: attr.attribute_name,
+                            value_id: val.value_id,
+                            attribute_value: val.value,
+                            display_order: val.display_order
+                        });
+                    });
+                } else {
+                    // Attribute with no values
+                    rows.push({
+                        attribute_id: attr.attribute_id,
+                        attribute_name: attr.attribute_name,
+                        value_id: '',
+                        attribute_value: '',
+                        display_order: ''
+                    });
+                }
+            }
+            return rows;
+        } catch {
+            return [];
+        }
+    }
+   function renderAttributeTable(page = 1) {
+        const tbody = document.querySelector('#attributeTable tbody');
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Loading...</td></tr>`;
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = allAttributeRows.slice(start, end);
+
+        if (pageData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">No attributes found</td></tr>`;
+            renderPagination(1, 1);
+            return;
+        }
+
+        tbody.innerHTML = pageData.map(row => `
+            <tr>
+                <td>${row.attribute_id}</td>
+                <td>${row.attribute_name}</td>
+                <td>${row.attribute_value}</td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                       data-attribute-id="${row.attribute_id}"
+                       data-value-id="${row.value_id}"
+                       style="cursor: pointer;"
+                       data-bs-toggle="popover"
+                       data-bs-placement="bottom"
+                       data-bs-html="true"
+                       data-bs-content='
+                        <a href="#" class="d-block text-info text-decoration-none mb-1 open-edit-attribute-value">Edit Attribute Value</a>
+                        <a href="#" class="d-block text-danger text-decoration-none delete-attribute-value">Delete Attribute Value</a>
+                        <a href="#" class="d-block text-primary text-decoration-none mb-1 open-edit-attribute">Edit Attribute Name</a>
+                        <a href="#" class="d-block text-danger text-decoration-none mb-1 delete-attribute">Delete Attribute</a>
+                       '>
+                    </i>
+                </td>
+            </tr>
+        `).join('');
+
+        // Initialize Bootstrap popovers and attach action handlers
+        const popoverTriggerList = [].slice.call(tbody.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.forEach(function (popoverTriggerEl) {
+            new bootstrap.Popover(popoverTriggerEl, { html: true });
+
+            popoverTriggerEl.addEventListener('shown.bs.popover', function () {
+                // Find the popover element
+                const popoverId = popoverTriggerEl.getAttribute('aria-describedby');
+                if (!popoverId) return;
+                const popover = document.getElementById(popoverId);
+                if (!popover) return;
+
+                const row = popoverTriggerEl.closest('tr');
+const attrId = row.querySelector('td:nth-child(1)').textContent;
+const attrName = row.querySelector('td:nth-child(2)').textContent;
+const attrValue = row.querySelector('td:nth-child(3)').textContent;
+const attrObj = allAttributes.find(a => a.variation_attribute_id == attrId);
+
+
+       
+    const deleteAttrBtn = popover.querySelector('.delete-attribute');
+if (deleteAttrBtn) {
+    deleteAttrBtn.onclick = async function (e) {
+        e.preventDefault();
+        if (!attrObj?.attribute_id) {
+            showToast('Attribute ID not found', 'danger');
+            return;
+        }
+        if (!confirm('Delete this attribute and all its values?')) return;
+        try {
+            const res = await fetch(`http://localhost:3000/attributes/${attrObj.attribute_id}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Delete failed');
+            showToast('Attribute deleted', 'success');
+            allAttributes = allAttributes.filter(a => a.attribute_id !== attrObj.attribute_id);
+            renderAttributeTable(currentPage);
+        } catch (err) {
+            showToast(err.message || 'Delete failed', 'danger');
+        }
+    };
+}
+
+const deleteAttrValueBtn = popover.querySelector('.delete-attribute-value');
+if (deleteAttrValueBtn) {
+    deleteAttrValueBtn.onclick = async function (e) {
+        e.preventDefault();
+        if (!attrObj?.value_id) {
+            showToast('Attribute Value ID not found', 'danger');
+            return;
+        }
+        if (!confirm('Delete this attribute value?')) return;
+        try {
+            const res = await fetch(`http://localhost:3000/attributes/values/${attrObj.value_id}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Delete failed');
+            showToast('Attribute value deleted', 'success');
+            allAttributes = allAttributes.filter(a => a.value_id !== attrObj.value_id);
+            renderAttributeTable(currentPage);
+        } catch (err) {
+            showToast(err.message || 'Delete failed', 'danger');
+        }
+    };
+}
+
+
+               
+             const editAttrBtn = popover.querySelector('.open-edit-attribute');
+if (editAttrBtn) {
+    editAttrBtn.onclick = function (e) {
+        e.preventDefault();
+     
+        const modal = new bootstrap.Modal(document.getElementById('EditattributsModel'));
+        document.querySelector('#EditattributsModel #attName').value = attrObj.attribute_name;
+        modal.show();
+
+      
+        document.querySelector('#editAttributename .btn-success').onclick = async function () {
+            const newName = document.querySelector('#EditattributsModel #attName').value.trim();
+            if (!newName) {
+                showToast('Name required', 'danger');
+                return;
+            }
+            try {
+                const res = await fetch(`http://localhost:3000/attributes/${attrObj.attribute_id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ attribute_name: newName })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Update failed');
+                showToast('Attribute updated', 'success');
+                modal.hide();
+                loadAttributes();
+            } catch (err) {
+                showToast(err.message || 'Update failed', 'danger');
+            }
+        };
+    };
+}
+            
+const editValueBtn = popover.querySelector('.open-edit-attribute-value');
+if (editValueBtn) {
+    editValueBtn.onclick = async function (e) {
+        e.preventDefault();
+        const modal = new bootstrap.Modal(document.getElementById('EditattributsValueModel'));
+        // Populate attribute dropdown
+        const attDropdown = document.getElementById('edit-attribute-value-dropdown');
+        attDropdown.innerHTML = '';
+        const attributes = await getAttributesList();
+        attributes.forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a.attribute_id;
+            opt.textContent = a.attribute_name;
+            if (a.attribute_id === attrObj.attribute_id) opt.selected = true;
+            attDropdown.appendChild(opt);
+        });
+
+        // Set value and order
+        document.getElementById('editattributsValue').value = attrObj.attribute_value;
+        document.getElementById('editattributsValueOrder').value = attrObj.display_order || '';
+
+        modal.show();
+
+        // Submit handler
+        document.querySelector('#editAttributeValue .btn-success').onclick = async function () {
+            const value = document.getElementById('editattributsValue').value.trim();
+            const display_order = document.getElementById('editattributsValueOrder').value.trim();
+            if (!attrObj.value_id || !value) {
+                showToast('Value required', 'danger');
+                return;
+            }
+            try {
+                const res = await fetch(`http://localhost:3000/attributes/values/${attrObj.value_id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ value, display_order })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Update failed');
+                showToast('Attribute value updated', 'success');
+                modal.hide();
+                loadAttributes();
+            } catch (err) {
+                showToast(err.message || 'Update failed', 'danger');
+            }
+        };
+    };
+}
+
+});
+        });
+
+        renderPagination(page, Math.ceil(allAttributes.length / pageSize));
+    }
+
+    // Render pagination
+    function renderPagination(current, total) {
+        const nav = document.querySelector('#attributeTable').parentElement.querySelector('nav ul.pagination');
+        if (!nav) return;
+        nav.innerHTML = '';
+
+        nav.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+            <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+        </li>`;
+
+        for (let i = 1; i <= total; i++) {
+            nav.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+        }
+
+        nav.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+            <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+        </li>`;
+
+        nav.querySelectorAll('a.page-link').forEach(link => {
+            link.onclick = function (e) {
+                e.preventDefault();
+                const page = Number(this.getAttribute('data-page'));
+                if (page >= 1 && page <= total && page !== currentPage) {
+                    currentPage = page;
+                    renderAttributeTable(currentPage);
+                }
+            };
+        });
+    }
+
+   async function loadAttributes() {
+        allAttributeRows = await fetchAllAttributesAndValues();
+        renderAttributeTable(1);
+    }
+
+    loadAttributes();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  
+    const pageSize = 10;
+    let allProducts = [];
+    let filteredProducts = [];
+    let currentPage = 1;
+    let allCategories = [];
+    let valuedCache = {}; 
+    
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return '';
+        return d.toLocaleDateString('en-GB');
+    }
+    function formatCurrency(val) {
+        if (!val || isNaN(val)) return '₦0.00';
+        return '₦' + Number(val).toLocaleString();
+    }
+    function getStatusBadge(product) {
+        if (product.current_product_stock_qty_number === 0) {
+            return `<span class="badge bg-danger">Out of Stock</span>`;
+        } else if (product.current_product_stock_qty_number <= (product.product_alert_limit || 0)) {
+            return `<span class="badge bg-warning text-dark">Low Stock</span>`;
+        } else {
+            return `<span class="badge bg-success">In Stock</span>`;
+        }
+    }
+
+        function uniqueByProductId(products) {
+    const seen = new Set();
+    return products.filter(p => {
+        if (seen.has(p.product_id)) return false;
+        seen.add(p.product_id);
+        return true;
+    });
+}
+
+
+    async function fetchCategories() {
+        try {
+            const res = await fetch('http://localhost:3000/product_category');
+            if (!res.ok) throw new Error("Failed to fetch categories");
+            return await res.json();
+        } catch (err) {
+            showToast("Error loading categories", "danger");
+            return [];
+        }
+    }
+
+   
+    async function fetchProducts() {
+        try {
+            const res = await fetch('http://localhost:3000/product');
+            if (!res.ok) throw new Error("Failed to fetch products");
+            return await res.json();
+        } catch (err) {
+            showToast("Error loading products", "danger");
+            return [];
+        }
+    }
+
+   
+    async function fetchProductValued(product_id) {
+        if (valuedCache[product_id]) return valuedCache[product_id];
+        try {
+            const res = await fetch(`http://localhost:3000/product_variations/product/${product_id}`);
+            if (!res.ok) return 0;
+            const variations = await res.json();
+          
+            let total = 0;
+            if (Array.isArray(variations)) {
+                variations.forEach(v => {
+                    total += (Number(v.current_variations_stock_qty_number) || 0) * (Number(v.cost_price) || 0);
+                });
+            }
+            valuedCache[product_id] = total;
+            return total;
+        } catch {
+            return 0;
+        }
+    }
+
+    
+
+ 
+    async function renderProductTable(page = 1) {
+        const tbody = document.querySelector("#productTable tbody");
+		    if (!tbody) {
+        console.error("Table body not found");
+        return;
+    	}
+        if (!filteredProducts || filteredProducts.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">No products found</td></tr>`;
+            renderPagination(1, 1);
+            return;
+        }
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = filteredProducts.slice(start, end);
+
+        tbody.innerHTML = "";
+        for (const product of pageData) {
+           
+            let valued = await fetchProductValued(product.product_id);
+            let valuedDisplay = formatCurrency(valued);
+
+           
+            let qtyDisplay = product.unit_name
+                ? `${product.current_product_stock_qty_number || 0}${product.unit_name}`
+                : product.current_product_stock_qty_number || 0;
+
+          
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${product.product_id}</td>
+                <td>${product.product_name}</td>
+                <td>${product.category_name}</td>
+                <td>${qtyDisplay}</td>
+                <td>${valuedDisplay}</td>
+                <td>${getStatusBadge(product)}</td>
+                <td>${formatDate(product.created_at)}</td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                        style="cursor: pointer;"
+                        data-product-id="${product.product_id}">
+                    </i>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        document.querySelectorAll('#productTable .bi-three-dots').forEach(icon => {
+            icon.addEventListener('click', function (e) {
+                document.querySelectorAll('.popover-menu').forEach(p => p.remove());
+                const pop = document.createElement('div');
+                pop.className = 'popover-menu position-absolute bg-white border rounded shadow-sm p-2';
+                pop.style.minWidth = '140px';
+                pop.style.top = (icon.getBoundingClientRect().bottom + window.scrollY) + 'px';
+                pop.style.left = (icon.getBoundingClientRect().left + window.scrollX - 60) + 'px';
+                pop.innerHTML = `
+                    <a href="detail.html?product_id=${icon.getAttribute('data-product-id')}" class="d-block text-success text-decoration-none mb-1">View</a>
+                    <a href="#"  class="d-block reorder-prod text-warning text-decoration-none mb-1">Reorder</a>
+                    <a href="#" class="d-block text-danger text-decoration-none delete-prod">Delete</a>
+                `;
+                document.body.appendChild(pop);
+
+                function closePop(e) {
+                    if (!pop.contains(e.target) && e.target !== icon) {
+                        pop.remove();
+                        document.removeEventListener('mousedown', closePop);
+                    }
+                }
+                document.addEventListener('mousedown', closePop);
+
+                pop.querySelector('.delete-prod').onclick = (ev) => {
+                    ev.preventDefault();
+                    if (confirm("Are you sure you want to delete this product?")) {
+                        deleteProduct(icon.getAttribute('data-product-id'));
+                    }
+                    pop.remove();
+                };
+
+                const reorderBtn = pop.querySelector('.reorder-prod');
+                if (reorderBtn) {
+                    reorderBtn.onclick = (ev) => {
+                        ev.preventDefault();
+                        const productId = icon.getAttribute('data-product-id');
+                     
+                        const orderModal = document.getElementById('orderModel');
+                        if (orderModal) {
+                         
+                            const modal = new bootstrap.Modal(orderModal);
+                            modal.show();
+
+                            
+                            const productSelect = document.getElementById('productSelect');
+                            if (productSelect) {
+                                productSelect.value = productId;
+                             
+                                productSelect.dispatchEvent(new Event('change'));
+                            }
+                        }
+                        pop.remove();
+                    };
+                }
+            });
+        });
+
+        renderPagination(page, Math.ceil(filteredProducts.length / pageSize));
+    }
+
+    function renderPagination(current, total) {
+        let pagination = document.getElementById('product-pagination');
+        if (!pagination) {
+            pagination = document.createElement('nav');
+            pagination.id = 'product-pagination';
+            pagination.setAttribute('aria-label', 'Table pagination');
+            pagination.innerHTML = `<ul class="pagination justify-content-end" style="margin-top: 10px;"></ul>`;
+            document.querySelector("#productTable").parentElement.appendChild(pagination);
+        }
+        const ul = pagination.querySelector('ul');
+        ul.innerHTML = '';
+
+      
+        ul.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+            <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+        </li>`;
+
+       
+        for (let i = 1; i <= total; i++) {
+            ul.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+        }
+
+        
+        ul.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+            <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+        </li>`;
+
+      
+        ul.querySelectorAll('a.page-link').forEach(link => {
+            link.onclick = function (e) {
+                e.preventDefault();
+                const page = Number(this.getAttribute('data-page'));
+                if (page >= 1 && page <= total && page !== currentPage) {
+                    currentPage = page;
+                    renderProductTable(currentPage);
+                }
+            };
+        });
+    }
+
+   
+  function filterProductsByCategory(category_id) {
+    if (!category_id || category_id === 'all') {
+        filteredProducts = uniqueByProductId([...allProducts]);
+    } else {
+        filteredProducts = uniqueByProductId(allProducts.filter(p => p.category_id === category_id));
+    }
+    currentPage = 1;
+    renderProductTable(currentPage);
+}
+
+function filterProductsBySearch(term) {
+    if (!term) {
+        filteredProducts = uniqueByProductId([...allProducts]);
+    } else {
+        const t = term.toLowerCase();
+        filteredProducts = uniqueByProductId(allProducts.filter(p =>
+            (p.product_name && p.product_name.toLowerCase().includes(t)) ||
+            (p.category_name && p.category_name.toLowerCase().includes(t))
+        ));
+    }
+    currentPage = 1;
+    renderProductTable(currentPage);
+}
+
+function filterProductsByStatus(status) {
+    if (!status) {
+        filteredProducts = uniqueByProductId([...allProducts]);
+    } else {
+        filteredProducts = uniqueByProductId(allProducts.filter(p => {
+            if (status === 'status') return true;
+            if (status === 'amount') return (p.current_product_stock_qty_number || 0) > 0;
+            if (status === 'date') return true; 
+            return true;
+        }));
+    }
+    currentPage = 1;
+    renderProductTable(currentPage);
+}
+
+   
+    async function deleteProduct(product_id) {
+        try {
+            const res = await fetch(`http://localhost:3000/product/${product_id}`, { method: "DELETE" });
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || "Delete failed");
+            }
+            showToast("Product deleted successfully", "success");
+            await loadProductTable();
+        } catch (err) {
+            showToast(err.message, "danger");
+        }
+    }
+
+   
+    async function loadProductTable() {
+        valuedCache = {};
+        allProducts = await fetchProducts();
+        filteredProducts = [...allProducts];
+        renderProductTable(1);
+    }
+
+
+    
+async function renderCategoryFilterButtons() {
+    const filterDiv = document.querySelector('.d-flex.flex-wrap.gap-2.mb-3');
+    if (!filterDiv) return;
+    filterDiv.innerHTML = '';
+
+   
+    const [categories, products] = await Promise.all([fetchCategories(), fetchProducts()]);
+
+   
+    const catTotals = {};
+    products.forEach(p => {
+        if (!catTotals[p.category_id]) catTotals[p.category_id] = 0;
+        catTotals[p.category_id] += Number(p.current_product_stock_qty_number) || 0;
+    });
+
+    
+    const categoriesWithProducts = categories.filter(cat => catTotals[cat.category_id] > 0);
+
+
+    categoriesWithProducts.sort((a, b) => (catTotals[b.category_id] || 0) - (catTotals[a.category_id] || 0));
+
+    
+    const topCategories = categoriesWithProducts.slice(0, 5);
+
+   
+    let extraCategories = [];
+
+    
+    function renderButtons() {
+        filterDiv.innerHTML = '';
+
+ 
+        const allBtn = document.createElement('button');
+        allBtn.type = "button";
+        allBtn.className = "btn btn-sm btn-filter active";
+        allBtn.textContent = "All";
+        allBtn.setAttribute('data-category', 'all');
+        filterDiv.appendChild(allBtn);
+
+    
+        topCategories.forEach(cat => {
+            const btn = document.createElement('button');
+            btn.type = "button";
+            btn.className = "btn btn-sm btn-filter";
+            btn.textContent = cat.category_name;
+            btn.setAttribute('data-category', cat.category_id);
+            filterDiv.appendChild(btn);
+        });
+
+     
+        extraCategories.forEach(cat => {
+            const btn = document.createElement('button');
+            btn.type = "button";
+            btn.className = "btn btn-sm btn-filter position-relative";
+            btn.textContent = cat.category_name;
+            btn.setAttribute('data-category', cat.category_id);
+     
+            const removeBtn = document.createElement('span');
+            removeBtn.textContent = '×';
+            removeBtn.style.cssText = 'position:absolute;top:2px;right:4px;cursor:pointer;color:red;font-weight:bold;';
+            removeBtn.onclick = (e) => {
+                e.stopPropagation();
+                extraCategories = extraCategories.filter(c => c.category_id !== cat.category_id);
+                renderButtons();
+            };
+            btn.appendChild(removeBtn);
+            filterDiv.appendChild(btn);
+        });
+
+   
+        const addCatBtn = document.createElement('button');
+        addCatBtn.type = "button";
+        addCatBtn.className = "btn btn-sm btn-outline-primary";
+        addCatBtn.textContent = "+ Category";
+        addCatBtn.onclick = () => {
+
+            const available = categoriesWithProducts.filter(
+                c => !topCategories.some(tc => tc.category_id === c.category_id) &&
+                     !extraCategories.some(ec => ec.category_id === c.category_id)
+            );
+            if (available.length === 0) {
+                showToast("No more categories to add", "info");
+                return;
+            }
+            const select = document.createElement('select');
+            select.className = "form-select form-select-sm d-inline-block w-auto ms-2";
+            select.innerHTML = `<option value="">Select Category</option>` +
+                available.map(c => `<option value="${c.category_id}">${c.category_name}</option>`).join('');
+            select.onchange = function() {
+                const cat = available.find(c => c.category_id === this.value);
+                if (cat) {
+                    extraCategories.push(cat);
+                    renderButtons();
+                }
+            };
+            addCatBtn.after(select);
+        };
+        filterDiv.appendChild(addCatBtn);
+
+      
+        filterDiv.querySelectorAll('.btn-filter').forEach(btn => {
+            btn.onclick = async function () {
+                filterDiv.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const categoryId = btn.getAttribute('data-category');
+                if (categoryId === 'all') {
+                    filteredProducts = uniqueByProductId(products);
+                } else {
+                    filteredProducts = uniqueByProductId(products.filter(p => p.category_id === categoryId));
+                }
+                currentPage = 1;
+                renderProductTable(currentPage);
+            };
+        });
+    }
+
+    renderButtons();
+}  function setupSearchFilter() {
+        const searchInput = document.querySelector('.input-group input[placeholder*="Product/ Category"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                filterProductsBySearch(this.value);
+            });
+        }
+    }
+
+  
+    function setupDropdownFilter() {
+        const filterSelect = document.querySelector('.filter-wrapper select');
+        if (filterSelect) {
+            filterSelect.addEventListener('change', function () {
+                filterProductsByStatus(this.value);
+            });
+        }
+    }
+async function safeLoadProductTable() {
+    const tableContainer = document.querySelector("#productTable");
+    if (!tableContainer) {
+        console.log("Product table not found, waiting...");
+        setTimeout(safeLoadProductTable, 100);
+        return;
+    }
+    
+    loadProductTable();
+    renderCategoryFilterButtons();
+    setupSearchFilter();
+    setupDropdownFilter();
+}
+
+	 const tab = document.querySelector('a#tab-two');
+    if (tab) {
+        tab.addEventListener('shown.bs.tab', function (e) {
+            safeLoadProductTable();
+        });
+    }
+
+  
+    
+
+    
+    setTimeout(() => {
+        loadProductTable();
+        renderCategoryFilterButtons();
+        setupSearchFilter();
+        setupDropdownFilter();
+    }, 100);
+	if (document.querySelector('#two').classList.contains('active')) {
+        safeLoadProductTable();
+    }
+});
+</script>
+
+<script>
+	let allOrders = [];
+let filteredOrders = [];
+let orderCurrentPage = 1;
+const orderPageSize = 10;
+
+async function fetchOrders() {
+    try {
+        const res = await fetch('http://localhost:3000/product_order');
+        if (!res.ok) throw new Error("Failed to fetch orders");
+        return await res.json();
+    } catch (err) {
+        showToast("Error loading orders", "danger");
+        return [];
+    }
+}
+
+function groupOrdersByOrderId(orders) {
+    const grouped = {};
+    for (const order of orders) {
+        if (!grouped[order.order_id]) {
+            grouped[order.order_id] = {
+                ...order,
+                items: [],
+                total_amount: 0
+            };
+        }
+        grouped[order.order_id].items.push(order);
+        grouped[order.order_id].total_amount += Number(order.order_amount) || 0;
+    }
+    return Object.values(grouped);
+}
+
+function renderOrderTable(page = 1) {
+    const tbody = document.querySelector('.tab-pane#three tbody');
+    if (!filteredOrders || filteredOrders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">No orders found</td></tr>`;
+        renderOrderPagination(1, 1);
+        return;
+    }
+    const start = (page - 1) * orderPageSize;
+    const end = start + orderPageSize;
+    const pageData = filteredOrders.slice(start, end);
+
+    tbody.innerHTML = "";
+    for (const order of pageData) {
+          let paymentStatus = "Awaiting Payment Confirmation";
+        let paymentClass = "text-warning";
+        if (order.has_payment_confirmed === "confirmed") {
+            paymentStatus = "Paid";
+            paymentClass = "text-success";
+        } else if (order.has_payment_confirmed === "awaiting") {
+            paymentStatus = "Awaiting Payment Confirmation";
+            paymentClass = "text-warning";
+        }
+        tbody.innerHTML += `
+        <tr>
+            <td>${order.order_id}</td>
+            <td>${order.supplier_name}</td>
+            <td>${formatDate(order.order_date)}</td>
+            <td>${formatDate(order.expected_delivery_date)}</td>
+            <td>${Number(order.total_amount).toLocaleString()}</td>
+            <td>${order.created_by || ''}</td>
+            <td class="${paymentClass}">${paymentStatus}</td>
+            <td>
+                <span class="badge bg-${order.order_status === 'received' ? 'success' : order.order_status === 'pending' ? 'warning' : 'danger'}">
+                    ${order.order_status.charAt(0).toUpperCase() + order.order_status.slice(1)}
+                </span>
+            </td>
+            <td>
+                <i class="fs-3 bi bi-three-dots text-success"
+                   style="cursor: pointer;"
+                   data-order-id="${order.order_id}">
+                </i>
+            </td>
+        </tr>`;
+    }
+
+  document.querySelectorAll('.tab-pane#three .bi-three-dots').forEach((icon, idx) => {
+    icon.addEventListener('click', function (e) {
+        document.querySelectorAll('.popover-menu').forEach(p => p.remove());
+        const pop = document.createElement('div');
+        pop.className = 'popover-menu position-absolute bg-white border rounded shadow-sm p-2';
+        pop.style.minWidth = '120px';
+        pop.style.top = (icon.getBoundingClientRect().bottom + window.scrollY) + 'px';
+        pop.style.left = (icon.getBoundingClientRect().left + window.scrollX - 60) + 'px';
+
+       
+        const order = filteredOrders[(orderCurrentPage - 1) * orderPageSize + idx];
+
+         let actions = `
+                <a href="../inventory/po.html?order_id=${icon.getAttribute('data-order-id')}" class="d-block text-decoration-none mb-1">View</a>
+                <a href="#" class="d-block text-danger text-decoration-none delete-order">Delete</a>
+            `;
+            if (order.has_payment_confirmed === "confirmed" && order.order_status !== 'received') {
+                actions += `<a href="#" class="d-block text-success text-decoration-none mark-received">Mark as Received</a>`;
+            } else if (order.has_payment_confirmed === "awaiting") {
+                actions += `<a href="#" class="d-block text-primary text-decoration-none paid-for">Mark As Paid</a>`;
+            }
+
+            pop.innerHTML = actions;
+            document.body.appendChild(pop);
+
+        function closePop(e) {
+            if (!pop.contains(e.target) && e.target !== icon) {
+                pop.remove();
+                document.removeEventListener('mousedown', closePop);
+            }
+        }
+        document.addEventListener('mousedown', closePop);
+
+        pop.querySelector('.delete-order').onclick = (ev) => {
+            ev.preventDefault();
+            if (confirm("Are you sure you want to delete this order?")) {
+                deleteOrder(icon.getAttribute('data-order-id'));
+            }
+            pop.remove();
+        };
+
+          const paidForBtn = pop.querySelector('.paid-for');
+            if (paidForBtn) {
+                paidForBtn.onclick = async (ev) => {
+                    ev.preventDefault();
+                    paidForBtn.textContent = "Confirming...";
+                    paidForBtn.disabled = true;
+                    try {
+                        const orderId = icon.getAttribute('data-order-id');
+                        const res = await fetch(`http://localhost:3000/product_order/${orderId}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ has_payment_confirmed: "confirmed" })
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.error || "Failed to confirm payment");
+                        showToast("Payment confirmed", "success");
+                        await loadOrderTable();
+                    } catch (err) {
+                        showToast(err.message, "danger");
+                    }
+                    pop.remove();
+                };
+            }
+          const markReceivedBtn = pop.querySelector('.mark-received');
+if (markReceivedBtn && !markReceivedBtn.classList.contains('disabled')) {
+    markReceivedBtn.onclick = async (ev) => {
+        ev.preventDefault();
+        markReceivedBtn.textContent = "Marking...";
+        markReceivedBtn.disabled = true;
+        try {
+            const orderId = icon.getAttribute('data-order-id');
+            const orderRes = await fetch(`http://localhost:3000/product_order/${orderId}`);
+            if (!orderRes.ok) throw new Error("Failed to fetch order items");
+            const orderItems = await orderRes.json();
+
+            for (const item of Array.isArray(orderItems) ? orderItems : [orderItems]) {
+                const variations_id = item.variations_id;
+                const order_quantity = Number(item.order_quantity) || 0;
+                if (!variations_id || !order_quantity) continue;
+
+                const varRes = await fetch(`http://localhost:3000/product_variations/${variations_id}`);
+                if (!varRes.ok) continue;
+                const variation = await varRes.json();
+                const currentQty = Number(variation.current_variations_stock_qty_number) || 0;
+                const newQty = currentQty + order_quantity;
+
+                await fetch(`http://localhost:3000/product_variations/${variations_id}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ current_variations_stock_qty_number: newQty })
+                });
+
+                let performed_by = "System";
+                try {
+                    const adminStr = sessionStorage.getItem('admin');
+                    if (adminStr) {
+                        const admin = JSON.parse(adminStr);
+                        if (admin.first_name || admin.last_name) {
+                            performed_by = `${admin.first_name || ''} ${admin.last_name || ''}`.trim();
+                        }
+                    }
+                } catch {
+                    performed_by = "System";
+                }
+                await fetch('http://localhost:3000/stock_modify', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        adjustment_type: "Purchase",
+                        product_name: item.product_name || "",
+                        product_id: item.product_id || "",
+                        variations_id: item.variations_id || "",
+                        size: order_quantity,
+                        adjustment_action: "increase",
+                        adjustment_reason: "Product was Purchased to add to stock",
+                        notes: "Product was Purchased to add to stock",
+                        date: new Date(),
+                        performed_by
+                    })
+                });
+            }
+
+            const res = await fetch(`http://localhost:3000/product_order/${orderId}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ order_status: "received" })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Failed to mark as received");
+            showToast("Order marked as received", "success");
+             setTimeout(() => {
+                window.location.reload();
+            }, 1200);
+            await loadOrderTable();
+        } catch (err) {
+            showToast(err.message, "danger");
+        }
+        pop.remove();
+    };
+}
+        });
+    });
+    renderOrderPagination(page, Math.ceil(filteredOrders.length / orderPageSize));
+}
+
+function renderOrderPagination(current, total) {
+    let pagination = document.getElementById('order-pagination');
+    if (!pagination) {
+        pagination = document.createElement('nav');
+        pagination.id = 'order-pagination';
+        pagination.setAttribute('aria-label', 'Table pagination');
+        pagination.innerHTML = `<ul class="pagination justify-content-end" style="margin-top: 10px;"></ul>`;
+        document.querySelector('.tab-pane#three .table-responsive').appendChild(pagination);
+    }
+    const ul = pagination.querySelector('ul');
+    ul.innerHTML = '';
+
+    ul.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+        <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+    </li>`;
+
+    for (let i = 1; i <= total; i++) {
+        ul.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+            <a class="page-link" href="#" data-page="${i}">${i}</a>
+        </li>`;
+    }
+
+    ul.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+        <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+    </li>`;
+
+    ul.querySelectorAll('a.page-link').forEach(link => {
+        link.onclick = function (e) {
+            e.preventDefault();
+            const page = Number(this.getAttribute('data-page'));
+            if (page >= 1 && page <= total && page !== orderCurrentPage) {
+                orderCurrentPage = page;
+                renderOrderTable(orderCurrentPage);
+            }
+        };
+    });
+}
+
+function filterOrdersByStatus(status) {
+    if (!status || status === 'All') {
+        filteredOrders = [...allOrders];
+    } else {
+        filteredOrders = allOrders.filter(o => o.order_status && o.order_status.toLowerCase() === status.toLowerCase());
+    }
+    orderCurrentPage = 1;
+    renderOrderTable(orderCurrentPage);
+}
+
+function filterOrdersBySearch(term) {
+    if (!term) {
+        filteredOrders = [...allOrders];
+    } else {
+        const t = term.toLowerCase();
+        filteredOrders = allOrders.filter(o =>
+            (o.supplier_name && o.supplier_name.toLowerCase().includes(t)) ||
+            (o.product_name && o.product_name.toLowerCase().includes(t)) ||
+            (o.order_id && o.order_id.toLowerCase().includes(t))
+        );
+    }
+    orderCurrentPage = 1;
+    renderOrderTable(orderCurrentPage);
+}
+
+async function deleteOrder(order_id) {
+    try {
+        const res = await fetch(`http://localhost:3000/product_order/${order_id}`, { method: "DELETE" });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || "Delete failed");
+        }
+        showToast("Order deleted successfully", "success");
+        await loadOrderTable();
+    } catch (err) {
+        showToast(err.message, "danger");
+    }
+}
+
+async function loadOrderTable() {
+    const tbody = document.querySelector('.tab-pane#three tbody');
+    tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">Loading...</td></tr>`;
+    const orders = await fetchOrders();
+      allOrders = groupOrdersByOrderId(orders);
+    filteredOrders = [...allOrders];
+    renderOrderTable(orderCurrentPage);
+}
+
+// Attach filter and search events
+document.addEventListener('DOMContentLoaded', function () {
+    // Status filter
+    document.querySelectorAll('.tab-pane#three .btn-filter').forEach(btn => {
+        btn.onclick = function () {
+            document.querySelectorAll('.tab-pane#three .btn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterOrdersByStatus(btn.textContent.trim());
+        };
+    });
+    // Search input
+    const searchInput = document.querySelector('.tab-pane#three input[placeholder="Search products..."]');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            filterOrdersBySearch(this.value);
+        });
+    }
+    // Initial load
+    loadOrderTable();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Helpers
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleDateString('en-GB');
+    }
+    function badgeClass(action) {
+        return action === 'increase' ? 'bg-success' : 'bg-danger';
+    }
+    function badgeText(action) {
+        return action === 'increase' ? 'Increase' : 'Decrease';
+    }
+    function prefixQty(action, qty) {
+        return (action === 'increase' ? '+' : '-') + (qty || 0);
+    }
+
+   
+    const pageSize = 8;
+    let allMods = [];
+    let filteredMods = [];
+    let currentPage = 1;
+
+ 
+    async function loadStockMods() {
+        try {
+const res = await fetch('http://localhost:3000/stock_modify');
+if (!res.ok) throw new Error();
+const mods = await res.json(); 
+
+const allModsMerged = mods;
+
+const uniqueMods = [];
+const seenIds = new Set();
+for (const mod of mods) {
+    if (!seenIds.has(mod.stock_modify_id)) {
+        uniqueMods.push(mod);
+        seenIds.add(mod.stock_modify_id);
+    }
+}
+
+       
+
+         await Promise.all(uniqueMods.map(async mod => {
+            if (mod.variations_id) {
+                try {
+                    const vres = await fetch(`http://localhost:3000/product_variations/${mod.variations_id}/with_attributes`);
+                    if (vres.ok) {
+                        const vdata = await vres.json();
+                        console.log(`Fetched variations for ${mod.variations_id}`);
+                        const attrValues = Array.isArray(vdata.attributes)
+                            ? vdata.attributes.map(a => a.value).join('-')
+                            : '';
+                        mod.mashup_name = (attrValues ? attrValues + '-' : '') + vdata.product_name;
+                    } else {
+                        mod.mashup_name = mod.product_name || '--';
+                    }
+                } catch {
+                    mod.mashup_name = mod.product_name || '--';
+                }
+            } else {
+                mod.mashup_name = mod.product_name || '--';
+            }
+        }));
+
+uniqueMods.sort((a, b) => new Date(b.date) - new Date(a.date));
+allMods = uniqueMods;
+filteredMods = uniqueMods;
+renderTable(1);
+        } catch {
+            document.querySelector('#stockTable tbody').innerHTML = `<tr><td colspan="8" class="text-center text-muted">Failed to load stock movement</td></tr>`;
+            renderPagination(1, 1);
+        }
+    }
+
+    // Filtering logic
+    function applyFilters() {
+        let mods = [...allMods];
+        // Type filter (All, Purchase, Sold, Adjustment)
+        const typeBtns = document.querySelectorAll('.tab-pane#four .btn-filter');
+        let type = 'All';
+        typeBtns.forEach(btn => {
+            if (btn.classList.contains('active')) type = btn.textContent.trim();
+        });
+        if (type !== 'All') {
+            mods = mods.filter(m => (m.adjustment_type || '').toLowerCase() === type.toLowerCase());
+        }
+        // Date filter
+        const dateFilter = document.getElementById('filterS').value;
+        if (dateFilter && dateFilter !== 'All') {
+            const now = new Date();
+            mods = mods.filter(m => {
+                const d = new Date(m.date);
+                if (dateFilter === 'Today') {
+                    return d.toDateString() === now.toDateString();
+                } else if (dateFilter === '7days') {
+                    const diff = (now - d) / (1000 * 60 * 60 * 24);
+                    return diff <= 7;
+                } else if (dateFilter === 'Month') {
+                    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                } else if (dateFilter === 'Year') {
+                    return d.getFullYear() === now.getFullYear();
+                }
+                // Custom: skip for now
+                return true;
+            });
+        }
+        // Search filter
+        const searchVal = document.querySelector('.tab-pane#four .input-group input[type="text"]').value.trim().toLowerCase();
+        if (searchVal) {
+            mods = mods.filter(m =>
+                (m.product_name || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_type || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_action || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_reason || '').toLowerCase().includes(searchVal) ||
+                (m.notes || '').toLowerCase().includes(searchVal) ||
+                (m.performed_by || '').toLowerCase().includes(searchVal)
+            );
+        }
+        filteredMods = mods;
+        renderTable(1);
+    }
+
+    // Render table
+    function renderTable(page = 1) {
+        const tbody = document.querySelector('#stockTable tbody');
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Loading...</td></tr>`;
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = filteredMods.slice(start, end);
+
+        if (pageData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">No stock movement found</td></tr>`;
+            renderPagination(1, 1);
+            return;
+        }
+
+        tbody.innerHTML = pageData.map(mod => `
+            <tr class="grd-primary-light">
+                <td>${formatDate(mod.date)}</td>
+               <td>${mod.mashup_name || '--'}</td>
+                <td>${mod.adjustment_type || '--'}</td>
+                <td>${mod.adjustment_action === 'increase' ? '+' : '-'}${mod.size || 0}</td>
+                <td>${mod.adjustment_reason || mod.notes || '--'}</td>
+                <td>${mod.performed_by || '--'}</td>
+                <td>
+                    <span class="badge rounded-pill ${badgeClass(mod.adjustment_action)}">${badgeText(mod.adjustment_action)}</span>
+                </td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                        data-stock-modify-id="${mod.stock_modify_id}"
+                        style="cursor: pointer;"
+                        data-bs-toggle="popover"
+                        data-bs-placement="bottom"
+                        data-bs-html="true"
+                        data-bs-content='
+                            <a href="#" class="d-block text-decoration-none mb-1">View</a>
+                            <a href="#" class="d-block text-danger text-decoration-none delete-stock-mod">Delete</a>'
+                    ></i>
+                </td>
+            </tr>
+        `).join('');
+
+          const popoverTriggerList = [].slice.call(tbody.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.forEach(function (popoverTriggerEl) {
+        new bootstrap.Popover(popoverTriggerEl, { html: true, container: 'body' });
+
+        popoverTriggerEl.addEventListener('shown.bs.popover', function () {
+                const popoverId = popoverTriggerEl.getAttribute('aria-describedby');
+        if (!popoverId) return;
+        const popover = document.getElementById(popoverId);
+        if (!popover) return;
+
+         const deleteBtn = popover.querySelector('.delete-stock-mod');
+        if (deleteBtn) {
+            deleteBtn.onclick = async function (e) {
+                e.preventDefault();
+                const stock_modify_id = popoverTriggerEl.getAttribute('data-stock-modify-id');
+                if (!stock_modify_id) return;
+                if (!confirm('Delete this stock modification?')) return;
+                try {
+                    const res = await fetch(`http://localhost:3000/stock_modify/${stock_modify_id}`, { method: 'DELETE' });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error || 'Delete failed');
+                    showToast('Stock modification deleted', 'success');
+                    // Remove from your data arrays and re-render table as needed
+                } catch (err) {
+                    showToast(err.message || 'Delete failed', 'danger');
+                }
+            };
+        }
+
+         const viewBtn = popover.querySelector('a:not(.delete-stock-mod)');
+        if (viewBtn) {
+            viewBtn.onclick = function (e) {
+                e.preventDefault();
+                showToast('View clicked', 'success');
+            };
+        }
+        });
+    });
+
+            
+        renderPagination(page, Math.ceil(filteredMods.length / pageSize));
+    }
+
+    // Pagination
+    function renderPagination(current, total) {
+        let pagination = document.getElementById('stock-pagination');
+        if (!pagination) {
+            pagination = document.createElement('nav');
+            pagination.id = 'stock-pagination';
+            pagination.setAttribute('aria-label', 'Table pagination');
+            pagination.innerHTML = `<ul class="pagination justify-content-end" style="margin-top: 10px;"></ul>`;
+            document.querySelector("#stockTable").parentElement.appendChild(pagination);
+        }
+        const ul = pagination.querySelector('ul');
+        ul.innerHTML = '';
+
+        ul.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+            <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+        </li>`;
+        for (let i = 1; i <= total; i++) {
+            ul.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+        }
+        ul.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+            <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+        </li>`;
+
+        ul.querySelectorAll('a.page-link').forEach(link => {
+            link.onclick = function (e) {
+                e.preventDefault();
+                const page = Number(this.getAttribute('data-page'));
+                if (page >= 1 && page <= total && page !== currentPage) {
+                    currentPage = page;
+                    renderTable(currentPage);
+                }
+            };
+        });
+    }
+
+    // Filter button logic
+    document.querySelectorAll('.tab-pane#four .btn-filter').forEach(btn => {
+        btn.onclick = function () {
+            document.querySelectorAll('.tab-pane#four .btn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        };
+    });
+
+    // Date filter logic
+    document.getElementById('filterS').onchange = applyFilters;
+
+    // Search logic
+    document.querySelector('.tab-pane#four .input-group input[type="text"]').oninput = function () {
+        applyFilters();
+    };
+
+    // Initial load
+    loadStockMods();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const API_URL = 'http://localhost:3000/product-data';
+    let currentRange = 'today';
+    let customStart = '';
+    let customEnd = '';
+
+    function formatCurrency(val) {
+        if (!val || isNaN(val)) return '₦0.00';
+        return '₦' + Number(val).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    function fetchAndUpdateDashboard() {
+        let url = API_URL;
+        if (currentRange === 'custom' && customStart && customEnd) {
+            url += `?range=custom&start=${customStart}&end=${customEnd}`;
+        } else {
+            url += `?range=${encodeURIComponent(currentRange)}`;
+        }
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                const lowStock = document.getElementById('low-stock');
+                if (lowStock) lowStock.textContent = data.low_stock_count || 0;
+
+                const outOfStock = document.getElementById('out_of_stock');
+                if (outOfStock) outOfStock.textContent = data.out_of_stock_count || 0;
+
+                const inventoryValue = document.getElementById('inventory-value');
+                if (inventoryValue) inventoryValue.textContent = formatCurrency(data.inventory_value) || '₦0.00';
+
+                const potentialSaleValue = document.getElementById('potential-sale-value');
+                if (potentialSaleValue) potentialSaleValue.textContent = formatCurrency(data.potential_sales_value) || '₦0.00';
+            })
+            .catch(() => {
+                const lowStock = document.getElementById('low-stock');
+                if (lowStock) lowStock.textContent = '0';
+
+                const outOfStock = document.getElementById('out_of_stock');
+                if (outOfStock) outOfStock.textContent = '0';
+
+                const inventoryValue = document.getElementById('inventory-value');
+                if (inventoryValue) inventoryValue.textContent = '₦0.00';
+
+                const potentialSaleValue = document.getElementById('potential-sale-value');
+                if (potentialSaleValue) potentialSaleValue.textContent = '₦0.00';
+            });
+    }
+
+function updateFuelAndOtherStock() {
+    let url;
+    if (currentRange === 'today') {
+        url = 'http://localhost:3000/fuel_vs_other_stock/current';
+    } else if (currentRange === 'yesterday' || currentRange === 'last7days') {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        url = `http://localhost:3000/fuel_vs_other_stock/as_of?as_of=${yesterday.toISOString().slice(0,10)}`;
+    } else if (currentRange === 'thismonth') {
+        url = 'http://localhost:3000/fuel_vs_other_stock/current';
+    } else if (currentRange === 'custom' && customEnd) {
+        url = `http://localhost:3000/fuel_vs_other_stock/as_of?as_of=${customEnd}`;
+    } else {
+        url = 'http://localhost:3000/fuel_vs_other_stock/current';
+    }
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            const fuelElem = document.getElementById('total-fuel-stock-count');
+            if (fuelElem) {
+                fuelElem.textContent = (data.total_fuel_product_count || 0) + 'KG';
+            }
+            const otherElem = document.getElementById('total-other-products-count');
+            if (otherElem) {
+                otherElem.textContent = (data.total_other_product_count || 0) + 'pcs';
+            }
+        })
+        .catch(() => {
+            const fuelElem = document.getElementById('total-fuel-stock-count');
+            if (fuelElem) fuelElem.textContent = '0KG';
+            const otherElem = document.getElementById('total-other-products-count');
+            if (otherElem) otherElem.textContent = '0pcs';
+        });
+}
+ 
+    function updateAllDashboard() {
+        fetchAndUpdateDashboard();
+        updateFuelAndOtherStock();
+    }
+
+    document.querySelectorAll('#btnfilter .btn-range').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('#btnfilter .btn-range').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const val = btn.textContent.trim().toLowerCase();
+            if (val === 'custom range') {
+                document.getElementById('customRangeContainer').style.display = '';
+                currentRange = 'custom';
+            } else {
+                document.getElementById('customRangeContainer').style.display = 'none';
+                if (val === 'today') currentRange = 'today';
+                else if (val === 'yesterday') currentRange = 'yesterday';
+                else if (val === 'last 7 days') currentRange = 'last7days';
+                else if (val === 'this month') currentRange = 'thismonth';
+                else currentRange = val.replace(/\s+/g, '');
+                updateAllDashboard();
+            }
+        });
+    });
+
+    window.applyCustomRange = function () {
+        customStart = document.getElementById('startDate').value;
+        customEnd = document.getElementById('endDate').value;
+        if (customStart && customEnd) {
+            updateAllDashboard();
+        }
+    };
+
+    // Initial load
+    updateAllDashboard();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const donutCtx = document.getElementById('donutChart2').getContext('2d');
+    let donutChart;
+
+    function getColor(idx) {
+        const palette = ['#f16565', '#3ed9a4', '#f1c40f', '#3498db', '#9b59b6', '#e67e22', '#34495e', '#1abc9c', '#e74c3c', '#95a5a6'];
+        return palette[idx] || ('#' + Math.floor(Math.random()*16777215).toString(16));
+    }
+
+    function renderLegend(data, colors) {
+        const legend = document.getElementById('category-legend');
+        legend.innerHTML = '';
+        data.forEach((cat, idx) => {
+            const color = colors[idx];
+            const qty = Number(cat.total_stock) || 0;
+            const unit = cat.unit_names || cat.unit_name || 'kg';
+            const div = document.createElement('div');
+            div.className = 'legend-item d-flex justify-content-between mb-2 align-items-center';
+            div.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <span class="dot me-2" style="background:${color}; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+                    ${cat.category_name}
+                </div>
+                <div>${qty}${unit}</div>
+            `;
+            legend.appendChild(div);
+        });
+    }
+
+    function loadStockByCategory() {
+        const filter = document.getElementById('filterSelect').value.toLowerCase();
+        let url = 'http://localhost:3000/stock_data_category';
+
+        if (filter === 'yesterday') {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            url += `?as_of=${yesterday.toISOString().slice(0, 10)}`;
+        } else if (filter === '7days' || filter === 'last 7 days') {
+            const end = new Date();
+            end.setDate(end.getDate() - 1);
+            const start = new Date();
+            start.setDate(start.getDate() - 7);
+            url += `?start=${start.toISOString().slice(0, 10)}&end=${end.toISOString().slice(0, 10)}`;
+        } else if (filter === 'month' || filter === 'this month') {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), now.getMonth(), 1);
+            const end = now;
+            url += `?start=${start.toISOString().slice(0, 10)}&end=${end.toISOString().slice(0, 10)}`;
+        } else if (filter === 'custom') {
+            const start = document.getElementById('startDate').value;
+            const end = document.getElementById('endDate').value;
+            if (start && end) {
+                url += `?start=${start}&end=${end}`;
+            } else if (end) {
+            url += `?as_of=${end}`;
+            } else {
+                return
+            }
+        }
+        console.log("Filter value:", filter);
+        console.log("Fetching URL:", url);
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if (!Array.isArray(data) || data.length === 0) {
+                    throw new Error('No stock data');
+                }
+
+                const labels = data.map(cat => cat.category_name);
+                const values = data.map(cat => Number(cat.total_stock) || 0);
+                const colors = labels.map((_, idx) => getColor(idx));
+
+                if (donutChart) donutChart.destroy();
+
+                donutChart = new Chart(donutCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: colors,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        cutout: '70%'
+                    }
+                });
+
+                renderLegend(data, colors);
+            })
+            .catch(err => {
+                console.error("Error loading stock data:", err);
+                if (donutChart) donutChart.destroy();
+                donutChart = new Chart(donutCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['No Data'],
+                        datasets: [{ data: [1], backgroundColor: ['#999'] }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } }
+                    }
+                });
+                document.getElementById('category-legend').innerHTML = `<div class="text-muted">No data</div>`;
+            });
+    }
+
+document.getElementById('filterSelect').addEventListener('change', function () {
+    const customRangeDiv = document.getElementById('customRangeContainer2');
+    const selectedValue = this.value.toLowerCase();
+
+    if (selectedValue === 'custom') {
+        customRangeDiv.style.display = 'block';
+    } else {
+        customRangeDiv.style.display = 'none';
+        loadStockByCategory();
+    }
+});
+
+document.getElementById('applyCustomRangeBtn').addEventListener('click', function () {
+    const start = document.getElementById('startDatecat').value;
+    const end = document.getElementById('endDatecat').value;
+    
+    console.log("Start Date:", start);
+console.log("End Date:", end);
+
+    if (!start || !end) {
+        alert("Please select both start and end dates.");
+        return;
+    }
+
+
+    const url = `http://localhost:3000/stock_data_category?start=${start}&end=${end}`;
+    console.log("Fetching URL (custom):", url);
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) {
+                throw new Error('No stock data');
+            }
+
+            const labels = data.map(cat => cat.category_name);
+            const values = data.map(cat => Number(cat.total_stock) || 0);
+            const colors = labels.map((_, idx) => getColor(idx));
+
+            if (donutChart) donutChart.destroy();
+
+            donutChart = new Chart(donutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            renderLegend(data, colors);
+        })
+        .catch(err => {
+            console.error("Error loading custom stock data:", err);
+            if (donutChart) donutChart.destroy();
+            donutChart = new Chart(donutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['No Data'],
+                    datasets: [{ data: [1], backgroundColor: ['#999'] }]
+                },
+                options: {
+                    plugins: { legend: { display: false } }
+                }
+            });
+            document.getElementById('category-legend').innerHTML = `<div class="text-muted">No data</div>`;
+        });
+});
+
+
+
+    loadStockByCategory();
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    let allVariations = [];
+    let shownCount = 4;
+    let currentFilter = 'low_stock';
+
+   
+    async function fetchVariations(filter = 'low_stock') {
+        const res = await fetch(`http://localhost:3000/product_red?filter=${filter}`);
+        if (!res.ok) return [];
+        const variations = await res.json();
+        if (!Array.isArray(variations) || variations.length === 0) return [];
+
+      
+        const ids = variations.map(v => v.variations_id);
+        if (!ids.length) return [];
+        const attrRes = await fetch('http://localhost:3000/product_variations_with_attributes');
+        if (!attrRes.ok) return [];
+        const allWithAttrs = await attrRes.json();
+
+       
+        const attrMap = {};
+        allWithAttrs.forEach(v => { attrMap[v.variations_id] = v; });
+
+      
+        return variations.map(v => ({
+            ...v,
+            attributes: attrMap[v.variations_id]?.attributes || [],
+            product_name: attrMap[v.variations_id]?.product_name || v.product_name,
+            unit_name: attrMap[v.variations_id]?.unit_name || v.unit_name,
+            variation_image: v.variation_image 
+        }));
+    }
+
+    function getProductImage(variation) {
+        if (variation.variation_image) {
+            return variation.variation_image.startsWith('http')
+                ? variation.variation_image
+                : `http://localhost:3000/uploads/${variation.variation_image}`;
+        }
+        return '../assets/images/mobiles/mob1.jpg';
+    }
+
+    function getQtyDisplay(variation) {
+        let qty = variation.current_variations_stock_qty_number || 0;
+        let unit = variation.unit_name || '';
+        return `${qty}${unit}`;
+    }
+
+    function getVariationName(variation) {
+        const attrVals = (variation.attributes || []).map(a => a.value).join('-');
+        return attrVals ? `${attrVals} - ${variation.product_name}` : variation.product_name;
+    }
+
+    function renderLowStockGrid(variations) {
+        const grid = document.getElementById('low-stock-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        if (!variations || variations.length === 0) {
+            grid.innerHTML = `<div class="text-center text-muted">No products found</div>`;
+            return;
+        }
+        const toShow = variations.slice(0, shownCount);
+        toShow.forEach(variation => {
+            const imgSrc = getProductImage(variation);
+            grid.innerHTML += `
+                <div class="d-flex align-items-center w-100">
+                    <img src="${imgSrc}" alt="${variation.product_name}" class="img-4x h-auto rounded-3"
+                        onerror="this.onerror=null;this.src='../assets/images/mobiles/mob1.jpg';">
+                    <div class="ms-3">
+                        <h5>${getVariationName(variation)}</h5>
+                        <p class="m-0">${getQtyDisplay(variation)}</p>
+                    </div>
+                    <button type="button" class="btn btn-warning ms-auto" data-bs-toggle="modal" data-bs-target="#orderModel">
+                        Re Order
+                    </button>
+                </div>
+            `;
+        });
+
+        const viewMoreBtn = document.getElementById('view-more-stck');
+        if (viewMoreBtn) {
+            if (variations.length > shownCount) {
+                viewMoreBtn.style.display = '';
+            } else {
+                viewMoreBtn.style.display = 'none';
+            }
+        }
+    }
+
+    async function loadLowStockGrid(filter = currentFilter) {
+        shownCount = 4;
+        allVariations = await fetchVariations(filter);
+        renderLowStockGrid(allVariations);
+    }
+
+  
+    const filterSelect = document.getElementById('filterS');
+    if (filterSelect) {
+        filterSelect.addEventListener('change', function () {
+            currentFilter = this.value;
+            loadLowStockGrid(currentFilter);
+        });
+    }
+
+   
+    const viewMoreBtn = document.getElementById('view-more-stck');
+    if (viewMoreBtn) {
+        viewMoreBtn.onclick = function () {
+            shownCount += 4;
+            renderLowStockGrid(allVariations);
+        };
+    }
+
+   
+    loadLowStockGrid(currentFilter);
+});
+</script>
+
+<script>
+  function loadCategories() {
+    const select = document.getElementById('categorydropdown');
+    if (!select) {
+        console.error('No element with id categorydropdown found!');
+        showToast('No category dropdown found', 'danger');
+        return;
+    }
+    select.innerHTML = '<option selected disabled>Loading...</option>';
+    fetch('http://localhost:3000/product_category')
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to fetch categories');
+            return res.json();
+            
+        })
+        .then(data => {
+            select.innerHTML = '<option selected disabled>Choose...</option>';
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat.category_id;
+                    opt.textContent = cat.category_name;
+                    select.appendChild(opt);
+                });
+                console.log('Categories loaded successfully');
+            } else {
+                select.innerHTML = '<option selected disabled>No categories found</option>';
+                console.log('No categories found');
+            }
+        })
+        .catch(err => {
+            select.innerHTML = '<option selected disabled>Failed to load categories</option>';
+            showToast('Failed to load categories', 'danger');
+            console.error(err);
+        });
+}
+
+function addProduct() {
+    const form = document.getElementById('addProductForm');
+     const saveBtn = document.getElementById('saveProductBtn');
+    const formData = new FormData(form);
+
+        setButtonLoading(saveBtn, true, "Saving...");
+
+    if (!form.product_name.value.trim()) {
+        showToast('Product name is required', 'danger');
+        return;
+    }
+    if (form.category_id.selectedIndex <= 0) {
+        showToast('Please select a category', 'danger');
+        return;
+    }
+    if (!form.brand.value.trim()) {
+        showToast('Brand is required', 'danger');
+        return;
+    }
+    if (!form.unit_name.value.trim()) {
+        showToast('Unit is required', 'danger');
+        return;
+    }
+    if (!form.product_alert_limit.value.trim()) {
+        showToast('Alert limit is required', 'danger');
+        return;
+    }
+    if (!form.product_description.value.trim()) {
+        showToast('Description is required', 'danger');
+        return;
+    }
+    if (!form.product_featured_image.value) {
+        showToast('Product image is required', 'danger');
+        return;
+    }
+
+    const catSelect = form.category_id;
+    formData.append('category_name', catSelect.options[catSelect.selectedIndex].text);
+
+    fetch('http://localhost:3000/product', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json().then(data => ({ ok: res.ok, data })))
+    .then(({ ok, data }) => {
+        if (!ok) throw new Error(data.error || 'Failed to create product');
+        showToast('Product created successfully', 'success');
+        form.reset();
+        setTimeout(() => window.location.reload(), 1200);
+    })
+    .catch(err => {
+        showToast(err.message || 'Network error. Please try again.', 'danger');
+    })
+     .finally(() => {
+        setButtonLoading(saveBtn, false);
+    });
+    
+}
+
+loadCategories();
+</script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const fileInput = document.getElementById('productImageInputSection');
+            const imagePreview = document.getElementById('productImagePreview');
+          fileInput.addEventListener('change', function () {
+    const file = fileInput.files[0];
+    previewContainer.innerHTML = '';
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = 'Design Preview';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '200px';
+        img.style.border = '1px solid #ccc';
+        img.style.padding = '4px';
+        previewContainer.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewContainer.innerHTML = '<span class="text-danger">No preview available for non-image file.</span>';
+    }
+  });
+});
+    </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+ 
+    const supplierSelect = document.querySelector('#orderForm #supplier');
+    const productSelect = document.getElementById('productSelect');
+    const variationSelect = document.getElementById('variationSelect');
+    const productTableBody = document.getElementById('productTableBody');
+    const totalAmountSpan = document.getElementById('totalAmount');
+    const orderForm = document.getElementById('orderForm');
+
+    let orderItems = [];
+
+  
+    async function loadSuppliers() {
+        supplierSelect.innerHTML = '<option selected disabled>Loading...</option>';
+        try {
+            const res = await fetch('http://localhost:3000/product_supplier');
+            const data = await res.json();
+            supplierSelect.innerHTML = '';
+            if (Array.isArray(data) && data.length > 0) {
+                supplierSelect.innerHTML = '<option selected disabled>Choose...</option>';
+                data.forEach(sup => {
+                    const opt = document.createElement('option');
+                    opt.value = sup.supplier_id;
+                    opt.textContent = sup.supplier_name;
+                    supplierSelect.appendChild(opt);
+                });
+            } else {
+                supplierSelect.innerHTML = '<option selected disabled>No data yet</option>';
+            }
+        } catch {
+            supplierSelect.innerHTML = '<option selected disabled>Failed to load</option>';
+        }
+    }
+
+
+    async function loadProducts() {
+        productSelect.innerHTML = '<option value="">Loading...</option>';
+        try {
+            const res = await fetch('http://localhost:3000/product');
+            const data = await res.json();
+            productSelect.innerHTML = '<option value="">Select Product</option>';
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(prod => {
+                    const opt = document.createElement('option');
+                    opt.value = prod.product_id;
+                    opt.textContent = prod.product_name;
+                    opt.dataset.productName = prod.product_name;
+                    productSelect.appendChild(opt);
+                });
+            } else {
+                productSelect.innerHTML = '<option value="">No data yet</option>';
+            }
+        } catch {
+            productSelect.innerHTML = '<option value="">Failed to load</option>';
+        }
+    }
+
+     async function getVariationName(variations_id) {
+        try {
+            const res = await fetch(`http://localhost:3000/product_variations/${variations_id}/with_attributes`);
+            if (!res.ok) return '';
+            const data = await res.json();
+            if (Array.isArray(data.attributes) && data.attributes.length > 0) {
+                return data.attributes.map(a => a.value).join('-');
+            }
+            return '';
+        } catch {
+            return '';
+        }
+    }
+
+   
+    async function loadVariations(product_id) {
+        variationSelect.innerHTML = '<option value="">Loading...</option>';
+        if (!product_id) {
+            variationSelect.innerHTML = '<option value="">Select Variation</option>';
+            return;
+        }
+        try {
+            const res = await fetch(`http://localhost:3000/product_variations/product/${product_id}`);
+            const data = await res.json();
+            variationSelect.innerHTML = '<option value="">Select Variation</option>';
+            if (Array.isArray(data) && data.length > 0) {
+for (const variation of data) {
+                   
+                    const variationName = await getVariationName(variation.variations_id);
+                    const opt = document.createElement('option');
+                    opt.value = variation.variations_id;
+                    opt.textContent = variationName ? variationName : (variation.sku || variation.variations_id);
+                    opt.dataset.variationName = variationName;
+                    opt.dataset.costPrice = variation.cost_price;
+                    variationSelect.appendChild(opt);
+                }
+            } else {
+                variationSelect.innerHTML = '<option value="">No data yet</option>';
+            }
+        } catch {
+            variationSelect.innerHTML = '<option value="">Failed to load</option>';
+        }
+    }
+
+    
+    function addProductToOrderTable() {
+        const product_id = productSelect.value;
+        const product_name = productSelect.options[productSelect.selectedIndex]?.text || '';
+        const variations_id = variationSelect.value;
+        const variation_name = variationSelect.options[variationSelect.selectedIndex]?.text || '';
+        const unit_price = parseFloat(variationSelect.options[variationSelect.selectedIndex]?.dataset.costPrice) || 0;
+
+        if (!product_id || !variations_id) {
+            showToast('Select product and variation', 'danger');
+            return;
+        }
+
+      
+        let quantity = prompt('Enter quantity:', '1');
+        quantity = parseInt(quantity, 10);
+        if (isNaN(quantity) || quantity <= 0) {
+            showToast('Invalid quantity', 'danger');
+            return;
+        }
+
+       
+       if (orderItems.some(item => item.product_id === product_id && item.variations_id === variations_id)) {
+            showToast('This product/variation is already added', 'danger');
+            return;
+        }
+
+        const subtotal = unit_price * quantity;
+
+        orderItems.push({
+            product_id,
+            product_name,
+            variations_id,
+            variation_name,
+            quantity,
+            unit_price,
+            subtotal
+        });
+
+        renderOrderTable();
+    }
+
+  
+    function renderOrderTable() {
+        productTableBody.innerHTML = '';
+        let total = 0;
+        if (orderItems.length === 0) {
+            productTableBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">No products added</td></tr>`;
+        } else {
+            orderItems.forEach((item, idx) => {
+                total += item.subtotal;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.product_name}</td>
+                    <td>${item.variation_name}</td>
+                     <td>
+                        <input type="number" min="1" class="form-control form-control-sm order-qty-input" data-idx="${idx}" value="${item.quantity}">
+                    </td>
+                    <td>
+                        <input type="number" min="0" step="0.01" class="form-control form-control-sm order-unit-price-input" data-idx="${idx}" value="${item.unit_price}">
+                    </td>
+                    <td>${item.subtotal.toLocaleString()}</td>
+                    <td><button type="button" class="btn btn-danger btn-sm" data-idx="${idx}">Remove</button></td>
+                `;
+                productTableBody.appendChild(tr);
+            });
+        }
+        totalAmountSpan.textContent = total.toLocaleString(undefined, {minimumFractionDigits: 2});
+   
+    productTableBody.querySelectorAll('button[data-idx]').forEach(btn => {
+            btn.onclick = function() {
+                const idx = parseInt(this.dataset.idx, 10);
+                orderItems.splice(idx, 1);
+                renderOrderTable();
+            };
+        });
+
+       
+        productTableBody.querySelectorAll('.order-qty-input').forEach(input => {
+            input.onchange = function() {
+                const idx = parseInt(this.dataset.idx, 10);
+                let qty = parseInt(this.value, 10);
+                if (isNaN(qty) || qty <= 0) qty = 1;
+                orderItems[idx].quantity = qty;
+                orderItems[idx].subtotal = orderItems[idx].unit_price * qty;
+                renderOrderTable();
+            };
+        });
+
+       
+        productTableBody.querySelectorAll('.order-unit-price-input').forEach(input => {
+            input.onchange = function() {
+                const idx = parseInt(this.dataset.idx, 10);
+                let price = parseFloat(this.value);
+                if (isNaN(price) || price < 0) price = 0;
+                orderItems[idx].unit_price = price;
+                orderItems[idx].subtotal = price * orderItems[idx].quantity;
+                renderOrderTable();
+            };
+        });
+    }
+
+    
+    variationSelect.addEventListener('change', addProductToOrderTable);
+    productSelect.addEventListener('change', function () {
+        loadVariations(this.value);
+    });
+   
+    document.getElementById('orderModel').addEventListener('show.bs.modal', function () {
+        loadSuppliers();
+        loadProducts();
+        variationSelect.innerHTML = '<option value="">Select Variation</option>';
+        orderItems = [];
+        renderOrderTable();
+        totalAmountSpan.textContent = '0.00';
+    });
+
+    
+    orderForm.addEventListener('submit', async function (e) {
+
+ 
+    
+        e.preventDefault();
+         const orderSavebtn = document.getElementById('saveOrderBtn');
+          setButtonLoading(orderSavebtn, true, "Saving...");
+        if (orderItems.length === 0) {
+            showToast('Add at least one product to the order', 'danger');
+            return;
+        }
+        const supplier_id = supplierSelect.value;
+        const supplier_name = supplierSelect.options[supplierSelect.selectedIndex]?.text || '';
+        const order_date = document.getElementById('orderDate').value;
+        const expected_delivery_date = document.getElementById('deliveryDate').value;
+
+           let created_by = "System";
+    try {
+        const adminStr = sessionStorage.getItem('admin');
+        if (adminStr) {
+            const admin = JSON.parse(adminStr);
+            if (admin.first_name || admin.last_name) {
+                created_by = `${admin.first_name || ''} ${admin.last_name || ''}`.trim();
+            }
+        }
+    } catch {
+        created_by = "System";
+    }
+
+        if (!supplier_id || !order_date) {
+            showToast('Supplier and order date are required', 'danger');
+            return;
+        }
+
+       
+        try {
+             for (const item of orderItems) {
+            await fetch(`http://localhost:3000/product_variations/${item.variations_id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cost_price: item.unit_price })
+            });
+        }
+
+                  const payload = {
+            supplier_id,
+            supplier_name,
+            order_date,
+            expected_delivery_date,
+            created_by,
+            items: orderItems.map(item => ({
+                product_id: item.product_id,
+                product_name: item.product_name,
+                variations_id: item.variations_id,
+                variation_name: item.variation_name,
+                order_quantity: item.quantity,
+                order_amount: item.subtotal,
+                unit_price: item.unit_price
+            }))
+        };
+        const res = await fetch('http://localhost:3000/product_order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to create order');
+
+        showToast('Order(s) created successfully', 'success');
+        setTimeout(() => window.location.reload(), 1200);
+        orderForm.reset();
+        orderItems = [];
+        renderOrderTable();
+        totalAmountSpan.textContent = '0.00';
+        bootstrap.Modal.getInstance(document.getElementById('orderModel')).hide();
+    } catch (err) {
+        showToast(err.message || 'Failed to create order', 'danger');
+    }finally {
+        setButtonLoading(orderSavebtn, false);
+    }
+});
+
+   
+});
+</script>
+
+<script>
+    function setButtonLoading(btn, isLoading, loadingText = "Processing...") {
+    if (!btn) return;
+    if (isLoading) {
+        btn.disabled = true;
+        btn.dataset.originalText = btn.textContent;
+        btn.textContent = loadingText;
+    } else {
+        btn.disabled = false;
+        btn.textContent = btn.dataset.originalText || "Submit";
+    }
+}
+</script>
+</body>
+
+</html>

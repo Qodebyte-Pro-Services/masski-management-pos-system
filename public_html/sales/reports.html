@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gas | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    @media print {
+    /* Remove unwanted elements */
+    #printBtn,
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-size: 16px !important;
+        line-height: 1.5;
+    }
+
+    @media print {
+      #invoice @page {
+    size: 80mm auto;
+    margin: 5mm;
+  }
+
+  #report @page {
+    size: A4 auto;
+    margin: 10mm;
+  }
+}
+
+    #report,#invoice {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    h4, h6, p {
+        font-size: 16px !important;
+        margin: 0 0 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse !important;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #444 !important;
+        font-size: 14px !important;
+        padding: 10px !important;
+        text-align: left;
+    }
+
+    .badge {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .text-end {
+        text-align: right !important;
+    }
+}
+
+#invoice{width: 370px;margin: 0 auto}
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main" style="background-color: #fff !important;">
+
+
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body mt-4 mx-auto" style="width: 80%;">
+
+
+
+
+
+
+    <div class="row gx-3">
+        <div class="col-xl-12" id="report">
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center mb-4">
+                        <h3 class="fw-bold">Daily Sales Report</h3>
+                        <p>
+                          Cashier: <strong id="reportCashier">John Doe</strong> |
+                          Date: <strong id="reportDate">June 19, 2025</strong> |
+                          Shift: <strong id="reportShift">9:00 AM - 5:00 PM</strong>
+                        </p>
+                      </div>
+                </div>
+                <div class="card-body">
+                    <!-- Card Matrix section -->
+                    <div class="row gx-3 mb-3" style="">
+                        <div class="col-md-3 col-sm-12">
+                          <div class="card mb-3 bg-light border-0">
+                            <div class="card-body text-center">
+                              <strong>Total Gas Sales</strong><br>
+                              <span id="summaryGasKg">0kg</span> | <span id="summaryGasTotal">₦0</span>
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div class="col-md-3 col-sm-12">
+                          <div class="card mb-3 bg-light border-0">
+                            <div class="card-body text-center">
+                              <strong>Total Accessories</strong><br>
+                              <span id="summaryAccessoryCount">0 pcs</span> | <span id="summaryAccessoryTotal">₦0</span>
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div class="col-md-3 col-sm-12">
+                          <div class="card mb-3 bg-light border-0">
+                            <div class="card-body text-center">
+                              <strong>Discounts Given</strong><br>
+                              <span id="summaryDiscountCount">0</span> | <span id="summaryDiscount">₦0</span>
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div class="col-md-3 col-sm-12">
+                          <div class="card mb-3 bg-light border-0">
+                            <div class="card-body text-center">
+                              <strong>Drafts Saved Today</strong><br>
+                              <span id="summaryDraftsCount">0</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+        
+                    <!-- Payments Methods section -->
+                    <div class="row gx-3 mb-3" style="border-top: dashed 1px #444;">
+                        <div class="col-12 py-3">
+                            <h5 class="fw-bold">Payment Method Breakdown</h5>
+                           
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="payments">
+                                    <thead>
+                                        <tr>
+                                            <th>Method</th>
+                                            <th>Amount</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <!-- Filled by JS -->
+                                       
+                                        
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Products sold and its display on top sales -->
+                     <div class="row gx-3 mb-3" style="border-top: dashed 1px #444;">
+                        <div class="col-12 py-3">
+                            <h5 class="fw-bold">Products Sold</h5>
+                           
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="products">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <!-- Filled by JS -->
+                                       
+                                        
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+        
+ <!-- Sales History section -->
+ <div class="row gx-3 mb-3" style="border-top: dashed 1px #444;">
+    <div class="col-12 py-3">
+        <h5 class="fw-bold">Sales Transactions History</h5>
+       
+        <div class="table-responsive">
+            <table class="table table-bordered" id="transactions">
+                <thead>
+                    <tr>
+                      <th>Invoice ID</th>
+                      <th>Time</th>
+                      <th>Sub Total</th>
+                      <th>Method</th>
+                      <th>Discount</th>
+                      <th>Tax</th>
+                      <th>Total</th>
+                      <th>Action</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                     <!-- Filled by JS -->
+                   
+                    
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+        
+                    <!-- Action Buttons -->
+                    <div class="row gx-3">
+                        <div class="col-sm-12 text-end">
+                          <button class="btn btn-info" onclick="exportToExcel()">📥 Excel</button>
+                            <button id="downloadBtn" class="btn btn-outline-success" onclick="downloadPDF()">📄 PDF</button>
+                            <button id="printBtn" class="btn btn-success ms-1">Print</button>
+                            <button class="btn btn-secondary ms-1" onclick="history.back();">Close</button>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+<!-----Recipts page------------------------------------>
+    <div class="row gx-3" style="display: none;">
+      <div class="col-xl-12" id="invoice" style="">
+        <div class="card">
+            <div class="card-header d-flex justify-content-center">
+                <img src="../assets/images/IMG_4703.PNG" class="logo" alt="Bootstrap Gallery" style="max-height: 70px !important;">
+            </div>
+            <div class="card-body">
+                <!-- Header Row -->
+                <div class="row gx-3">
+                
+                    <div class="col-xxl-9  col-lg-9 col-md-9 col-sm-9 col-12 text-center" style="width: 100% !important;">
+                        <p class="fw-bold mb-0"><strong> Maski Cooking Gas</strong> </p>
+                        <p class="small mb-0">
+                             9990 St. 000 Church Street, Suite 550
+                            Huntsville, Alabama, 99990
+                        </p>
+                        <p class="small">Tel: 08012345678 | Email: info@example.com</p>
+                    </div>
+                </div>
+      
+                <!-- Invoice Details -->
+                <div class="row gx-3" >
+                    <div class="col-sm-12 mt-2" style="border-top: 1px dashed #38393a;">
+                        <div class=" my-2">
+                          <h6 class="fw-bold pb-0">Sales Invoice</h6>
+                          <p class="d-flex justify-content-between m-0 mb-2" style="border-top: 1px dashed #38393a;">
+                            <span>Sales Point:</span>
+                            <span class="sales-point">Head Office</span>
+                          </p>
+                          <p class="d-flex justify-content-between m-0 mb-2" style="border-top: 1px dashed #38393a;">
+                            <span>Customer:</span>
+                            <span class="customer-name">Walk-in</span>
+                          </p>
+                          <p class="d-flex justify-content-between m-0 mb-2" style="border-top: 1px dashed #38393a;">
+                            <span>Sold By:</span>
+                            <span class="cashier-name">Samuel</span>
+                          </p>
+                          <p class="d-flex justify-content-between m-0 mb-2" style="border-top: 1px dashed #38393a;">
+                            <span>Payent:</span>
+                            <span class="payment-method">Transfer</span>
+                          </p>
+                              </p>
+                              <p class="d-flex justify-content-between m-0 mb-2" style="border-top: 1px dashed #38393a;">
+                                <span>Invoice No:</span>
+                                <span class="invoice-no">12334</span>
+                              </p>
+                              <p class="d-flex justify-content-between m-0 mb-2" style="border-top: 1px dashed #38393a;"d>
+                                <span>Invoice Date:</span>
+                                <span class="invoice-date">11/06/25 10:03:2025</span>
+                              </p>
+                            
+                        </div>
+                    </div>
+                </div>
+      
+                <!-- Table Section -->
+                <div class="row gx-3">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Items</th>
+                                        <th>Qty</th>
+                                        <th>Amount(#)</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <!-- Filled by JS -->
+                                  </tbody>
+                            </table>
+                            <div class="mt-2 mb-2 p-2" style="background: #e7ebf0 !important;">
+                               
+                                <p class="small mb-1" style="border-bottom: dashed 1px #38393a;">
+                                    
+                                        
+                                    Thanks for your Patronage! Please keep your
+                                    receipt as A proof of Payment!<br> 
+                            No refund of money or perishables after payment.
+                                                                       
+                                </p>
+                                <p class="small mt-1">
+                                   
+      Software by Qodebyte Digital Solution:
+      09134697313
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+      
+      
+                </div>
+            </div>
+        </div>
+      </div>
+      
+      </div>
+      
+      <!-----Sales Invoice Preview--------------------------------------------------------------------------------->
+      <div class="offcanvas offcanvas-end" id="confirmOffcanvas" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="offcanvas-header border-bottom">
+          <h5 class="offcanvas-title" id="confirmOffcanvasLabel">Sales Invoice Preview</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+      
+        <div class="offcanvas-body">
+          <!-- Company Info -->
+          <div class="text-center mb-2" style="border-bottom: 1px dashed #999;">
+            <h5 class="fw-bold mb-1">Maski Cooking Gas</h5>
+            <p class="mb-0 small">123 Business Road, Lagos</p>
+            <p class="small">Tel: 08012345678 | Email: info@example.com</p>
+          </div>
+          
+      
+          <!-- Sales Invoice Header -->
+      <!-- Sales Invoice Info Block -->
+      <div class="mb-3">
+        <h6 class="fw-bold pb-1">Sales Invoice</h6>
+        <pre id="offcanvasInvoiceInfo" style="font-family: 'Courier New', monospace; font-size: 14px; margin: 0;">
+          Sales Point : <span id="offcanvasSalesPoint">--</span>
+          Customer    : <span id="offcanvasCustomer">--</span>
+          Sold By     : <span id="offcanvasCashier">--</span>
+          Invoice No  : <span id="receiptNumber">--</span>
+          Posted On   : <span id="receiptDate">--</span>
+          </pre>
+      </div>
+      
+      
+      
+          <!-- Item Table -->
+          <div class="table-responsive" style="border-bottom: 1px dashed #999;">
+            <table class="table table-sm table-bordered">
+              <thead class="small">
+                <tr>
+                  <th>Item</th>
+                  <th>Qty</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody id="receiptItemBody">
+                <!-- Filled by JS -->
+              </tbody>
+            </table>
+          </div>
+      
+          <!-- Summary Section -->
+          <div class="border-top pt-2 small" style="border-bottom: 1px dashed #999;">
+            <div class="d-flex justify-content-between"><span>Payment Method:</span><span id="receiptMethod">-</span></div>
+            <div class="d-flex justify-content-between"><span>Subtotal:</span><span id="receiptSubtotal">₦0</span></div>
+            <div class="d-flex justify-content-between"><span>Discount:</span><span id="receiptDiscount">₦0</span></div>
+            <div class="d-flex justify-content-between"><span>VAT (10%):</span><span id="receiptVat">₦0</span></div>
+            
+            <div class="d-flex justify-content-between fw-bold fs-5 mt-2 p-2" style="border-top: 1px dashed #999;"><span>Total:</span><span id="receiptTotal">₦0</span></div>
+          </div>
+      
+          <!-- Print Button -->
+          <div class="mt-4 text-end" >
+            <button class="btn btn-secondary btn-sm"  data-bs-dismiss="offcanvas" aria-label="Close">Close</button>
+            <button class="btn btn-success btn-sm" onclick="printReceipt()">🖨️ Re-print Receipt</button>
+          </div>
+        </div>
+      </div>
+
+    <script>
+        document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('report').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    ['payments', 'products', 'transactions'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("report");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+
+  
+</script>
+    
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<!-- Row start -->
+
+<!-- Row end -->
+
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/barchart.js"></script>
+<script src="../assets/js/donutChart.js"></script>
+<script src="salesjs/sales-report.js"></script>
+<script src="../assets/js/order.js"></script>
+
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+</body>
+
+</html>

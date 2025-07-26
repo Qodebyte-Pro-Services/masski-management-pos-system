@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Staffs Management | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    .spinner-border {
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.select2-container--default .select2-selection--multiple {
+  min-height: 38px;
+  padding: 5px;
+}
+
+.days-checkbox {
+  padding: 8px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+	
+	@media print {
+    /* Remove unwanted elements */
+    #printBtn,nav[aria-label="Table pagination"],
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-size: 16px !important;
+        line-height: 1.5;
+    }
+
+    
+
+   @page {
+    size: A4 auto;
+    margin: 10mm;
+  }
+}
+
+    #salesTable {
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    h4, h6, p {
+        font-size: 16px !important;
+        margin: 0 0 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse !important;
+        margin-top: 10px;
+    }
+
+    th, td {
+       
+        font-size: 14px !important;
+        padding: 10px !important;
+        text-align: left;
+    }
+
+    .badge {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .text-end {
+        text-align: right !important;
+    }
+
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/ext-decoration-none">Home</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Staffs</li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+
+<div class="ms-auto d-lg-flex d-none flex-row">
+  <div class="d-flex flex-row gap-1" id="btnfilter">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStaffmodal">
+      <i class="bi bi-plus-square"></i> Add New Staff
+    </button>
+  </div></div>
+
+
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Total Staffs</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-success grd-success-light rounded-5 d-flex">
+	<i class="bi bi-people fs-4 lh-1 text-success"></i>
+</div>
+<div>
+
+<div id="total-staff" class="h4 text-success  overflow-hidden "
+style="max-width: 130px;">
+50
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Active Staffs</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+<i class="bi bi-person-plus-fill fs-4 lh-1 text-primary"></i>
+</div>
+<div>
+<!-- Wrap the long number -->
+<div id="total-active-staff" class="h4 text-success  overflow-hidden "
+style="max-width: 130px;">
+20
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Inactive Staff</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-warning grd-warning-light rounded-5 d-flex">
+<i class="bi bi-person-dash-fill fs-4 lh-1 text-warning"></i>
+
+</div>
+<h4 id="total-inactive-staff" class="text-warning">30 </h4>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: -30px;">
+	<div class="col-xxl-12">
+		<div class="card mb-3 p-3" style="background-color: #f8f9fa;">
+			<div class="header">
+			<div >
+			<h3>Staffs</h3>
+			
+			<p style="color: gray;">All staff records including active, suspended, and former employees</p>
+			</div>
+			<div class="dt-buttons btn-group">
+				<button class="btn btn-info me-2" onclick="exportToExcel()">📥 Excel</button>
+				<button id="downloadBtn" class="btn btn-outline-success me-2" onclick="downloadPDF()">📄 PDF</button>
+				<button id="printBtn" class="btn btn-success">Print</button>
+			  </div>
+			  
+			</div>
+			
+			<div class="card-body" style="padding: 0px !important;">
+			<div>
+			
+			
+			</div>
+			<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+			
+			<!-- Search Input with Icon Button (Right-aligned) -->
+			<div class="input-group" style="width: 60%;">
+			<button class="btn btn-sm btn-outline-secondary" type="button">
+			<i class="bi bi-search"></i>
+			</button>
+			<input type="text" class="form-control form-control-sm" placeholder="Search staff by name or Id.....">
+			
+			
+			</div>
+			
+			</div>
+			
+			<div class="table-responsive" id="salesTable">
+			<table id="staffTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+			<thead>
+			<tr>
+				<th>Staff-ID</th>
+				<th>Joined</th>
+				<th>Name</th>
+				<th>Position</th>
+        <th>Email</th>
+				<th>Phone</th>
+				<th>State</th>
+				<th>Work Days</th>
+       <th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr class="grd-primary-light">
+			<td>STF-001</td>
+			<td>28/10/2025</td>
+			<td>Samuel Qodebyte</td>
+			<td>Cashier</td>
+      <td>samuel@gmail.com</td>
+			<td>09134697313</td>
+			<td>Enugu State</td>
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="../staffs/detail.html" class="d-block text-decoration-none mb-1" >View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>
+			'
+			style="cursor: pointer;"></i>
+			</td>
+			</tr>
+			
+			
+			</tbody>
+			</table>
+			<nav aria-label="Table pagination">
+				<ul class="pagination justify-content-end" style="margin-top: 10px;">
+				  <li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">Previous</a>
+				  </li>
+				  <li class="page-item"><a class="page-link" href="#">1</a></li>
+				  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+				  <li class="page-item"><a class="page-link" href="#">3</a></li>
+				  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
+			  </nav>
+			</div>
+			</div>
+			</div>
+	</div>
+	
+	
+	</div>
+<!-- Row end -->
+<!----Model section -->
+<div class="modal fade" id="addStaffmodal" tabindex="-1" aria-labelledby="addStaffmodal"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStaffmodalLabel">
+                   Add New Staff
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+             <form id="addStaffForm" enctype="multipart/form-data">
+  <!-- Personal Information -->
+  <h5 class="mb-3">Personal Information</h5>
+
+  <div class="mb-3">
+    <label class="form-label">Full Name</label>
+    <input type="text" name="full_name" placeholder="Please Provide Full Name" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Gender</label>
+    <select name="gender" class="form-select" required>
+       <option selected disabled>Select Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+
+   <div class="mb-3">
+    <label class="form-label">Date of Birth</label>
+    <input type="date" class="form-control" name="date_of_birth" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Phone Number</label>
+    <input name="contact_no" type="tel" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Email Address</label>
+    <input name="email" type="email" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Home Address</label>
+    <input name="address" type="text" class="form-control">
+  </div>
+   <div class="mb-3">
+    <label class="form-label">State of Origin</label>
+    <input name="state_of_origin" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Emergency Contact</label>
+    <input name="emergency_contact" type="text" class="form-control" placeholder="Name & Phone Number" required>
+  </div>
+  
+
+
+  <!-- Job Details -->
+  <h5 class="mt-4 mb-3">Job Details</h5>
+
+<div class="mb-3">
+  <label class="form-label">Position</label>
+  <select name="position_name" id="positionSelect" class="form-select" required>
+    <option value="" disabled selected>Select Position</option>
+    
+  </select>
+</div>
+
+  <div class="mb-3">
+    <label class="form-label">Employment Type</label>
+    <select name="employment_type" class="form-select" required>
+      <option selected disabled>Select Type</option>
+      <option value="full_time">Full-Time</option>
+      <option value="part_time">Part-Time</option>
+      <option value="contract">Contract</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Work Shifts</label>
+    <select name="work_shift" class="form-select select2-multiple" multiple="multiple" required>
+      <option value="morning">Morning (8am-4pm)</option>
+      <option value="afternoon">Afternoon (12pm-8pm)</option>
+      <option value="night">Night (8pm-8am)</option>
+      <option value="rotational">Rotational</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Work Days</label>
+    <div class="days-checkbox">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="work_days" id="monday" value="Monday">
+        <label class="form-check-label" for="monday">Monday</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="work_days" id="tuesday" value="Tuesday">
+        <label class="form-check-label" for="tuesday">Tuesday</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="work_days" id="wednesday" value="Wednesday">
+        <label class="form-check-label" for="wednesday">Wednesday</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="work_days" id="thursday" value="Thursday">
+        <label class="form-check-label" for="thursday">Thursday</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="work_days" id="friday" value="Friday">
+        <label class="form-check-label" for="friday">Friday</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="work_days" id="saturday" value="Saturday">
+        <label class="form-check-label" for="saturday">Saturday</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="work_days" id="sunday" value="Sunday">
+        <label class="form-check-label" for="sunday">Sunday</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Start Date</label>
+    <input name="start_date" type="date" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Salary (₦)</label>
+    <input name="salary" type="number" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Bank Account Number</label>
+    <input name="bank_account_number" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Bank Name</label>
+    <input name="bank_name" type="text" class="form-control" required>
+  </div>
+
+  <!-- HR / Compliance -->
+  <h5 class="mt-4 mb-3">HR / Compliance</h5>
+
+  <div class="mb-3">
+    <label class="form-label">National ID / BVN</label>
+    <input name="national_id" type="text" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Guarantor Name</label>
+    <input name="guarantor_name" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Guarantor Contact</label>
+    <input name="guarantor_contact" type="text" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Relationship with Guarantor</label>
+    <input name="guarantor_relationship" type="text" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Guarantor Address</label>
+    <input name="guarantor_address" type="text" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Upload Staff Photo</label>
+    <input type="file" class="form-control" name="photo">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Upload ID / Document</label>
+    <input type="file" class="form-control" name="document">
+  </div>
+
+  <!-- Submit -->
+  <button id="staffBtn" type="submit" class="btn btn-primary mt-3">Add Staff</button>
+</form>
+
+        </div>
+    </div>
+</div>
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<script src="../assets/js/dashbaoardchart.js"></script>
+<script src="../assets/js/donutChart.js"></script>
+<script src="../assets/js/form.js"></script>
+
+<script>
+	//function to hide overwiev matrice when click tabs
+	document.addEventListener("DOMContentLoaded", function () {
+	  const gxRow = document.getElementById("gxRow");
+	  const customTab = document.getElementById("customTab");
+  
+	  // Function to toggle visibility
+	  function toggleGxRow(activeTabId) {
+		if (activeTabId === "tab-one") {
+		  gxRow.style.setProperty("display", "flex", "important"); // for .row
+		} else {
+		  gxRow.style.setProperty("display", "none", "important");
+		}
+	  }
+  
+	  // Initial check on page load
+	  const activeTab = customTab.querySelector(".nav-link.active");
+	  toggleGxRow(activeTab?.id);
+  
+	  // Event listener for tab change
+	  customTab.querySelectorAll(".nav-link").forEach(link => {
+		link.addEventListener("shown.bs.tab", function (e) {
+		  toggleGxRow(e.target.id);
+		});
+	  });
+	});
+
+	
+	document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('salesTable').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    [ 'transactions'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("report");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+  
+
+
+  </script>
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+<script>
+   	function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('addStaffForm');
+  const staffBtn = document.getElementById('staffBtn');
+  let originalBtnHtml = staffBtn.innerHTML;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+   
+    staffBtn.disabled = true;
+    staffBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...`;
+
+   
+    const formData = new FormData(form);
+
+    
+    const checkedDays = Array.from(form.querySelectorAll('input[name="work_days"]:checked')).map(cb => cb.value);
+    formData.delete('work_days');
+    checkedDays.forEach(day => formData.append('work_days', day));
+
+    fetch('http://localhost:3000/staff', {
+      method: 'POST',
+      body: formData
+    })
+    .then(async response => {
+      staffBtn.disabled = false;
+      staffBtn.innerHTML = originalBtnHtml;
+      if (response.ok) {
+        showToast('Staff added successfully!', 'success');
+        form.reset();
+        setTimeout(() => {
+          location.reload();
+
+        }, 1000); 
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addStaffmodal'));
+        if (modal) modal.hide();
+      } else {
+        const data = await response.json();
+        showToast(data.error || 'Failed to add staff', 'danger');
+      }
+    })
+    .catch(() => {
+      staffBtn.disabled = false;
+      staffBtn.innerHTML = originalBtnHtml;
+      showToast('Network error. Please try again.', 'danger');
+    });
+  });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('http://localhost:3000/staff-data')
+    .then(res => res.json())
+    .then(data => {
+      if (data.total_staff_number !== undefined) {
+        document.getElementById('total-staff').textContent = data.total_staff_number;
+      }
+      if (data.total_on_job_staff !== undefined) {
+        document.getElementById('total-active-staff').textContent = data.total_on_job_staff;
+      }
+      if (data.total_suspended_or_terminated !== undefined) {
+        document.getElementById('total-inactive-staff').textContent = data.total_suspended_or_terminated;
+      }
+    })
+    .catch(() => {
+      showToast('Failed to load staff data', 'danger');
+      document.getElementById('total-staff').textContent = '0';
+      document.getElementById('total-active-staff').textContent = '0';
+      document.getElementById('total-inactive-staff').textContent = '0';
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function loadStaffTable() {
+    fetch('http://localhost:3000/staff')
+      .then(res => res.json())
+      .then(async staffList => {
+        const staffWithDays = await Promise.all(staffList.map(async staff => {
+          let work_days = '';
+          try {
+            const shiftRes = await fetch(`http://localhost:3000/staff_shifts/staff/${staff.staff_id}`);
+            const shifts = await shiftRes.json();
+            work_days = shifts.map(s => s.work_days).join(', ');
+          } catch {
+            work_days = '';
+          }
+          return { ...staff, work_days };
+        }));
+
+        const tbody = document.querySelector('#staffTable tbody');
+        tbody.innerHTML = '';
+        staffWithDays.forEach(staff => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${staff.staff_id}</td>
+            <td>${staff.start_date ? new Date(staff.start_date).toLocaleDateString() : ''}</td>
+            <td>${staff.full_name}</td>
+            <td>${staff.position_name || ''}</td>
+            <td>${staff.email}</td>
+            <td>${staff.contact_no}</td>
+            <td>${staff.state_of_origin || ''}</td>
+            <td>${staff.work_days || ''}</td>
+            <td>
+              <i class="fs-3 bi bi-three-dots text-success staff-action"
+                data-staff-id="${staff.staff_id}"
+                tabindex="0"
+                data-bs-toggle="popover"
+                data-bs-trigger="focus"
+                data-bs-placement="bottom"
+                data-bs-html="true"
+                data-bs-content='
+                  <a href="../staffs/detail.html?staff_id=${staff.staff_id}" class="d-block text-decoration-none mb-1">View</a>
+                  <a href="#" class="d-block text-danger text-decoration-none staff-delete" data-staff-id="${staff.staff_id}">Delete</a>
+                '
+                style="cursor: pointer;"></i>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+       
+        if (window.jQuery && window.jQuery.fn.dataTable) {
+          $('#staffTable').DataTable({
+            destroy: true,
+            pageLength: 10,
+            lengthChange: false,
+            searching: true,
+            ordering: false,
+            info: false,
+            paging: true,
+            columnDefs: [
+              { targets: [0,1,2,3,4,5,6,7,8], className: 'align-middle' }
+            ]
+          });
+        }
+
+       
+        const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.forEach(function (popoverTriggerEl) {
+          new bootstrap.Popover(popoverTriggerEl);
+        });
+
+       
+        tbody.addEventListener('click', function (e) {
+          if (e.target.classList.contains('staff-delete')) {
+            e.preventDefault();
+            const staffId = e.target.getAttribute('data-staff-id');
+            if (confirm('Are you sure you want to delete this staff?')) {
+              fetch(`http://localhost:3000/staff/${staffId}`, {
+                method: 'DELETE'
+              })
+              .then(res => res.json())
+              .then(data => {
+                if (data.message === 'Staff deleted') {
+                  showToast('Staff deleted successfully', 'success');
+                  loadStaffTable();
+                } else {
+                  showToast(data.error || 'Failed to delete staff', 'danger');
+                }
+              })
+              .catch(() => showToast('Network error. Please try again.', 'danger'));
+            }
+          }
+        });
+      });
+  }
+
+  loadStaffTable();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('http://localhost:3000/roles')
+    .then(res => res.json())
+    .then(roles => {
+      const select = document.getElementById('positionSelect');
+      roles.forEach(role => {
+        const option = document.createElement('option');
+        option.value = role.role_name;
+        option.textContent = role.role_name;
+        select.appendChild(option);
+      });
+    })
+    .catch(() => {
+      showToast('Failed to load positions', 'danger');
+    });
+});
+</script>
+</body>
+
+</html>

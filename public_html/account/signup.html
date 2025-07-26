@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Signup | Maskis Cooking Gas</title>
+
+		<!-- Meta -->
+		<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+		<meta name="author" content="Bootstrap Gallery" />
+		<link rel="shortcut icon" href="../assets/images/favicon.svg" />
+
+		<!-- *************
+			************ CSS Files *************
+		************* -->
+		<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+		<link rel="stylesheet" href="../assets/css/main.min.css" />
+
+
+		<Style>
+			.forminput input {height: 45px;}
+			  .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    max-width: 300px;
+  }
+  
+  .toast.show {
+    opacity: 1;
+  }
+  
+  .toast.error {
+    background-color: #dc3545;
+  }
+  
+  .toast.success {
+    background-color: #28a745;
+  }
+  
+  .input-error {
+    border: 1px solid #dc3545 !important;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none;
+  }
+		</Style>
+	</head>
+
+	<body class="login-bg" style="
+  background: url('../assets/images/gastation.png');background-size: cover;
+  background-position: center center;">
+		<!-- Container start -->
+		<div class="container">
+		    <div id="toast" class="toast"></div>
+			<div class="row justify-content-center">
+				<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+					<form action="/account/otp" class="my-5 ">
+						<div class="login-form rounded-4 p-4 mt-5">
+							<a href="index.html" class="mb-4 d-flex">
+								<img src="../assets/images/logo.svg" class="img-fluid login-logo" alt="Earth Admin Dashboard" />
+							</a>
+							<h2 class="fw-light mb-4">SignUp</h2>
+							<div class="mb-3 d-flex gap-3 forminput">
+								<div class="flex-fill">
+								  <label class="form-label">First Name</label>
+								  <input type="text" class="form-control border-0" placeholder="Enter your first name" />
+								</div>
+								<div class="flex-fill">
+								  <label class="form-label">Last Name</label>
+								  <input type="text" class="form-control border-0" placeholder="Enter your last name" />
+								</div>
+							  </div>
+							<div class="mb-3 forminput">
+								<label class="form-label">Your Email</label>
+								<input type="text" class="form-control border-0" placeholder="Enter your email" />
+							</div>
+						
+							<div class="mb-3 forminput" >
+								<label class="form-label">Your Password</label>
+								<input type="password" class="form-control border-0" placeholder="Enter password" />
+							</div>
+							<div class="mb-3 forminput">
+								<label class="form-label">Confirm Password</label>
+								<input type="password" class="form-control border-0" placeholder="Re-enter password" />
+							</div>
+							<div class="d-flex align-items-center justify-content-between">
+								<div class="form-check m-0">
+									<input class="form-check-input border-0" type="checkbox" value="" id="termsConditions" />
+									<label class="form-check-label" for="termsConditions">I agree to the terms and conditions</label>
+								</div>
+							</div>
+							<div class="d-grid py-3 mt-3">
+								<button id="signUpBtn" type="submit" class="btn btn-lg btn-success text-white fw-bold">
+									Signup
+								</button>
+							</div>
+							<div class="text-center py-3">or Signup with</div>
+							<div class="d-flex gap-2 justify-content-center">
+								<button type="submit" class="btn btn-outline-light">
+									<i class="bi bi-google me-2"></i>Gmail
+								</button>
+								<button type="submit" class="btn btn-outline-light">
+									<i class="bi bi-facebook me-2"></i>Facebook
+								</button>
+							</div>
+							<div class="text-center pt-4">
+								<span>Already have an account?</span>
+								<a href="login" class="text-white text-decoration-underline ms-2">
+									Login</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    function showToast(message, type = 'info', duration = 5000) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast show';
+        toast.classList.add(type);
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.classList.remove(type), 300);
+        }, duration);
+    }
+
+    
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+        const errorElement = document.createElement('div');
+        errorElement.className = 'error-message';
+        input.parentNode.appendChild(errorElement);
+    });
+
+   
+    const phoneInput = document.createElement('div');
+    phoneInput.className = 'mb-3 forminput';
+    phoneInput.innerHTML = `
+        <label class="form-label">Phone Number</label>
+        <input type="text" class="form-control border-0" placeholder="Enter your phone number" />
+        <div class="error-message"></div>
+    `;
+    const emailInput = document.querySelector('.forminput:nth-of-type(2)');
+    emailInput.parentNode.insertBefore(phoneInput, emailInput.nextSibling);
+
+    const signupForm = document.querySelector('form[action="/account/otp"]');
+    
+    signupForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const signUpBtn = document.getElementById('signUpBtn');
+        signUpBtn.disabled = true;
+        signUpBtn.textContent = 'Signing up...';
+       
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('input-error'));
+        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+        
+       
+        const formData = {
+            firstName: document.querySelector('input[placeholder="Enter your first name"]').value,
+            lastName: document.querySelector('input[placeholder="Enter your last name"]').value,
+            email: document.querySelector('input[placeholder="Enter your email"]').value,
+            phone_number: document.querySelector('input[placeholder="Enter your phone number"]').value,
+            password: document.querySelector('input[placeholder="Enter password"]').value,
+            confirmPassword: document.querySelector('input[placeholder="Re-enter password"]').value,
+            termsChecked: document.getElementById('termsConditions').checked
+        };
+        
+       
+        if (!formData.termsChecked) {
+            showToast('Please agree to the terms and conditions', 'error');
+            document.getElementById('termsConditions').focus();
+            return;
+        }
+        
+        if (!formData.firstName) {
+            showError('input[placeholder="Enter your first name"]', 'First name is required');
+            return;
+        }
+        
+        if (!formData.lastName) {
+            showError('input[placeholder="Enter your last name"]', 'Last name is required');
+            return;
+        }
+        
+        if (!formData.email) {
+            showError('input[placeholder="Enter your email"]', 'Email is required');
+            return;
+        }
+        
+        if (!formData.phone_number) {
+            showError('input[placeholder="Enter your phone number"]', 'Phone number is required');
+            return;
+        }
+        
+        if (!formData.password) {
+            showError('input[placeholder="Enter password"]', 'Password is required');
+            return;
+        }
+        
+        if (!formData.confirmPassword) {
+            showError('input[placeholder="Re-enter password"]', 'Please confirm your password');
+            return;
+        }
+        
+        if (formData.password !== formData.confirmPassword) {
+            showError('input[placeholder="Enter password"]', 'Passwords do not match');
+            showError('input[placeholder="Re-enter password"]', 'Passwords do not match');
+            showToast('Passwords do not match', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                    email: formData.email,
+                    phone_number: formData.phone_number,
+                    password: formData.password,
+                    confirmPassword: formData.confirmPassword
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                showToast('Registration successful! Redirecting to OTP...', 'success');
+                setTimeout(() => {
+                    window.location.href = `/otp.html?email=${encodeURIComponent(formData.email)}`;
+                }, 1500);
+            } else {
+                
+                if (data.message.includes('First name and last name must contain only letters')) {
+                    showError('input[placeholder="Enter your first name"]', 'Must contain only letters');
+                    showError('input[placeholder="Enter your last name"]', 'Must contain only letters');
+                } else if (data.message.includes('Invalid email format')) {
+                    showError('input[placeholder="Enter your email"]', 'Invalid email format');
+                } else if (data.message.includes('Phone number must be 11 digits')) {
+                    showError('input[placeholder="Enter your phone number"]', 'Must be 11 digits');
+                } else if (data.message.includes('Password must be at least 8 characters long')) {
+                    showError('input[placeholder="Enter password"]', 'Must be at least 8 characters');
+                } else if (data.message.includes('Password cannot be the same as first name, last name, or email')) {
+                    showError('input[placeholder="Enter password"]', 'Too similar to personal info');
+                } else if (data.message.includes('Email already registered')) {
+                    showError('input[placeholder="Enter your email"]', 'Email already registered');
+                }else if (data.message.includes('super_admin already exists') || data.message.includes('Only one super_admin is allowed')) {
+                    showToast('A super admin already exists. Registration not allowed.', 'error');
+                    showError('input[placeholder="Enter your email"]', 'Super admin already exists');
+                }
+                
+                showToast(data.message || 'Registration failed', 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('An error occurred during registration', 'error');
+        }
+        finally {
+            signUpBtn.disabled = false;
+            signUpBtn.textContent = 'Signup';
+        }
+    });
+    
+    function showError(selector, message) {
+        const input = document.querySelector(selector);
+        input.classList.add('input-error');
+        const errorElement = input.parentNode.querySelector('.error-message');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        input.focus();
+    }
+    
+  
+    const socialButtons = document.querySelectorAll('.btn-outline-light');
+    socialButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            showToast('Social login functionality to be implemented', 'info');
+        });
+    });
+});
+</script>
+	</body>
+
+</html>

@@ -1,0 +1,4269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gas | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+
+
+    @media (max-width: 1024px) {
+      .drop {
+       display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+    }
+ 
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/ext-decoration-none">Home</a>
+</li>
+<li class="breadcrumb-item" >
+	<a href="/inventory/">Inventory</a></li>
+</li>
+<li id="product-name2" class="breadcrumb-item" aria-current="page"> Gas</li>
+</ol>
+<div class="ms-auto d-lg-flex d-none flex-row">
+<div class="d-flex flex-row gap-1" id="btnfilter">
+<button type="button" class="btn btn-sm btn-filter btn-range active">Today</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Yesterday</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Last 7 Days</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">This Month</button>
+<button type="button" class="btn btn-sm btn-filter btn-range" id="customRangeBtn" >Custom Range</button>
+</div>
+<!-- Custom Date Range Picker (Initially Hidden) -->
+<div id="customRangeContainer" class="mb-3" style="display: none;">
+<div class="d-flex gap-2 align-items-center">
+<input type="date" class="form-control form-control-sm" id="startDate" style="height: 10px;"/>
+<span>to</span>
+<input type="date" class="form-control form-control-sm" id="endDate" />
+<button class="btn btn-sm btn-success" onclick="applyCustomRange()">Apply</button>
+</div>
+</div>
+</div>
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+<div class="ms-auto d-lg-flex d-none flex-row">
+	<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">
+		<i class="bi bi-pencil"></i> Edit Product
+	</button></div>
+
+
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+	<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Total Variation</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+		<i class="bi bi-bar-chart fs-4 lh-1 text-primary"></i>
+	</div>
+	<div id="total_variation_number" class="h5 text-success  overflow-hidden "
+	style="max-width: 130px;">
+	6
+	</div>
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	
+	<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+	<div class="card mb-3">
+	<div class="card-body">
+	<h6 class="mb-3">Total  Stock</h6>
+	<div class="mb-2 d-flex align-items-center justify-content-between">
+	<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+	<i class="bi bi-cart-check fs-4 lh-1 text-primary"></i>
+	</div>
+	
+	<!-- Wrap the long number -->
+	<div id="total_stock" class="h5 text-success  overflow-hidden "
+	style="max-width: 130px;">
+	500
+	</div>
+	</div>
+	
+	</div>
+	</div>
+	</div>
+	
+	
+	
+		<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+			<div class="card mb-3">
+			<div class="card-body">
+			<h6 class="mb-3">Inventory Value</h6>
+			<div class="mb-2 d-flex align-items-center justify-content-between">
+			<div class="p-3 border border-success grd-success-light rounded-5 d-flex">
+			
+			<i class="bi bi-wallet2 fs-4 lh-1 text-su"></i>
+			
+			</div>
+			<div id="inventory-value" class="h5 text-success  overflow-hidden "
+			style="max-width: 130px;">
+			#500,000,000.00
+			</div>
+			
+			</div>
+			
+			</div>
+			</div>
+			</div>
+		<div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+		<div class="card mb-3">
+		<div class="card-body">
+		<h6 class="mb-3">Potential Sales Value</h6>
+		<div class="mb-2 d-flex align-items-center justify-content-between">
+		<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+		<i class="bi bi-bar-chart-line fs-4 lh-1 text-primary"></i>
+		</div>
+		<div id="potential_sales_value" class="h5 text-success  overflow-hidden "
+		style="max-width: 130px;">
+		#500,000,000.00
+		</div>
+		</div>
+	
+		</div>
+		</div>
+		</div>
+	</div>
+	
+<!-- Row end -->
+
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: -30px;">
+	<div class="col-xxl-12">
+	<div class="card mb-3">
+	<div class="card-body" style="background-color:#e4e9f0">
+	<div class="custom-tabs-container">
+	<ul class="nav nav-tabs" id="customTab" role="tablist" style="background-color: #f8f9fa;">
+	<li class="nav-item" role="presentation">
+	<a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#one" role="tab" aria-controls="one" aria-selected="true">Overview</a>
+	</li>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#two" role="tab" aria-controls="two" aria-selected="false" tabindex="-1">Variation</a>
+		</li>
+		<li hidden class="nav-item" role="presentation">
+			<a class="nav-link" id="tab-three" data-bs-toggle="tab" href="#three" role="tab" aria-controls="three" aria-selected="false" tabindex="-1">Attributes</a>
+			</li>
+	<li class="nav-item" role="presentation">
+	<a class="nav-link" id="tab-four" data-bs-toggle="tab" href="#four" role="tab" aria-controls="four" aria-selected="false" tabindex="-1">Stock Movement</a>
+	</li>
+
+	
+	<li class="nav-item" role="presentation">
+	<a class="nav-link" id="tab-five" data-bs-toggle="tab" href="#five" role="tab" aria-controls="five" aria-selected="false" tabindex="-1">Product Orders</a>
+	</li>
+	</ul>
+	<div class="tab-content" id="customTabContent" style="margin: 0 -20px;">
+	
+	
+	<!-- Tab one section -->
+	<div class="tab-pane fade show active" id="one" role="tabpanel" aria-labelledby="tab-one">
+	<div class=" text-center">
+	
+	
+	<div class="row gx-3">
+	<div class="col-lg-8 mx-auto mt-4" style="background-color: #f8f9fa;  border-radius: 12px; padding: 20px;">
+		<div class="card mb-3">
+			<div class="card-img"style="background-color:#f8f9fa !important">
+				<img id="product-featured-image" src="../assets/images/gas1.png" class="card-img-top img-fluid" alt="Bootstrap Dashboards"style="height: 300px;width: 300px;">
+			</div>
+			<div class="card-body text-start" >
+				<h4 id="product-name1" class="card-title mb-3"style="text-align: left;color:#246612">Cooking Gas</h4>
+				<!-- Top Label -->
+<div class="mb-3">
+	<label for="progressBar" class="form-label fw-bold text-end d-block">50 / 100</label>
+
+  
+	<!-- Progress Bar -->
+	<div class="progress" id="progressBar" style="height: 14px;">
+	  <div class="progress-bar bg-primary" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+		50%
+	  </div>
+	</div>
+  
+	<!-- Status Below -->
+	<div class="mt-2  d-flex align-items-center">
+	  
+	  <span class="text-secondary">Stock Level : </span>
+      <!-- <span class="text-success"> Normal <i class="bi bi-check-circle-fill me-2 text-success"></i></span> -->
+	</div>
+  </div>
+  
+				<h6 class="text-secondary">Description</h6>
+
+				<p id="product-description" class="mb-3">
+					
+					Cooking Geas is high-quality liquefied petroleum gas (LPG) designed specifically for cooking applications. Suitable for both domestic and commercial use, it delivers consistent flame quality, efficient heat output,
+					 and a safe cooking experience. Ideal for kitchens, restaurants, and food vendors
+				</p>
+				<div class="d-flex align-items-center">
+					<div class="row w-100">
+					  
+					  <div class="col-sm-12 mb-2 border-bottom d-flex justify-content-between">
+						<h6  class="text-secondary mb-0">Category</h6>
+						<p id="product-category" class="mb-0 text-end">Fuel</p>
+					  </div>
+				  
+					  <div class="col-sm-12 mb-2 border-bottom d-flex justify-content-between">
+						<h6 class="text-secondary mb-0">Brand</h6>
+						<p id="brand" class="mb-0 text-end">LPPC Gas</p>
+					  </div>
+				  
+					  <div class="col-sm-12 mb-2 border-bottom d-flex justify-content-between">
+						<h6 class="text-secondary mb-0">Unit</h6>
+						<p id="product-unit" class="mb-0 text-end">KG</p>
+					  </div>
+				  
+					  <div class="col-sm-12 mb-2 border-bottom d-flex justify-content-between">
+						<h6 class="text-secondary mb-0">Stock (Qty)</h6>
+						<p id="current_product_stock_qty_number" class="mb-0 text-end">1000</p>
+					  </div>
+				  
+					  <div class="col-sm-12 mb-4 border-bottom d-flex justify-content-between">
+						<h6 class="text-secondary mb-0">Created At</h6>
+						<p  id="created_at" class="mb-0 text-end">12 May 2025</p>
+					  </div>
+					  <div class="d-flex flex-wrap gap-3 ">
+						
+						<button id="product-delete-button" type="button" class="btn btn-secondary">
+							Delete
+						</button>
+						<button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#AdjustmentModel">
+							Adjust
+						</button>
+						<button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#orderModel">
+							Re Order
+						</button>
+						
+					</div>
+					</div>
+				  </div>
+				  
+			</div>
+		</div>
+	</div >
+	
+</div>
+	
+	</div>
+	</div>
+	<!-- end  -->
+	
+	
+	
+	<!------------------------------ Tab two section (Variation)--------------------------------->
+	<div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+		<div class="col-xxl-12">
+			<div class="card mb-3" style="background-color: #f8f9fa;">
+				<div class="header mb-5">
+				<div >
+				<h3 style="text-align: left;">Product Variations</h3>
+				<p class="text-muted mb-4">
+					Below is the list of available variations for this product.
+				  </p>
+				</div>
+				<div class="dt-buttons btn-group">
+
+					<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#variationModel">
+						<i class=" bi bi-plus-lg"></i>Add Variation
+					</button>
+					
+				</div>
+				</div>
+				
+				<div class="card-body" style="padding: 0px !important;">
+				<div>
+				
+				
+				</div>
+				
+				
+				<div class="table-responsive">
+				<table id="expensesTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+				<thead>
+				<tr>
+				<th scope="col">SkU</th>
+				<th scope="col"> Attributes</th>
+				<th scope="col">Stock (Qty)</th>
+				<th scope="col">Threshold</th>
+				<th scope="col">Cost Price</th>
+		
+				<th scope="col">Selling Price</th>
+				<th scope="col">Status</th>
+				<th scope="col">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>CG-001</td> <!-- SKU -->
+					<td>--</td> <!-- Name -->
+					
+					<td>1000kg</td> <!-- Stock (Qty) -->
+					<td  class="text-warning">200kg</td> <!-- Stock (Qty) -->
+					<td>₦5,000</td> <!-- Cost Price -->
+					<td>₦6,200</td>
+					<td><span class="badge bg-success">In Stock</span></td>
+					<td>
+						<i class="fs-3 bi bi-three-dots text-success"
+						   data-bs-toggle="popover"
+						   data-bs-placement="bottom"
+						   data-bs-html="true"
+						   data-bs-content='
+						   <a href="#" class="d-block text-primary text-decoration-none mb-1 open-edit-modal">Edit</a>
+							 <a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+						   style="cursor: pointer;"></i>
+					  </td>
+					  
+				</tr>
+				
+				
+				
+				</tbody>
+				</table>
+		<!-- Pagination aligned to right -->
+		<nav aria-label="Table pagination">
+			<ul class="pagination justify-content-end" style="margin-top: 10px;">
+			  <li class="page-item disabled">
+				<a class="page-link" href="#" tabindex="-1">Previous</a>
+			  </li>
+			  <li class="page-item"><a class="page-link" href="#">1</a></li>
+			  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+			  <li class="page-item"><a class="page-link" href="#">3</a></li>
+			  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+			</ul>
+		  </nav>
+				</div>
+				</div>
+				</div>
+		</div>
+		
+		</div>
+	
+	
+	<!--end------Attributs-------------------------->
+	
+	<div hidden class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+	<div class="col-xxl-12">
+		<div class="card mb-3" style="background-color: #f8f9fa;">
+			<div class="header drop mb-5">
+			<div >
+			<h3 style="text-align: left;">Variation Attributes</h3>
+			<p class="text-muted mb-4">
+				This table lists all the product attributes you have created.<br> Attributes define the different characteristics (like size, color, or type) that can be used to create product variations.
+			  </p>
+			</div>
+			<div class="dt-buttons btn-group">
+
+				<button type="button" class="btn btn-success" onclick="openAddAttribute()">
+					<i class=" bi bi-plus-lg"></i>Add Attributes
+				</button>
+
+
+				<button type="button" style="margin-left: 2px;" class="btn btn-success" onclick="openAddAttributeValue()">
+					<i class=" bi bi-plus-lg"></i>Add Attribute Value
+				</button>
+				
+			</div>
+			</div>
+			
+			<div class="card-body" style="padding: 0px !important;">
+			<div>
+			
+			
+			</div>
+			
+			
+			<div class="table-responsive">
+			<table id="attributeTable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+			<thead>
+			<tr>
+			<th scope="col">Id</th>
+			<th scope="col">Attributes Name</th>
+			<th scope="col">Attributes value</th>
+
+			<th scope="col">Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>ATT001</td> <!-- SKU -->
+				<td>Size</td> <!-- Name -->
+				<td>5kg</td> <!-- Value -->
+				
+				<td>
+					<i class="fs-3 bi bi-three-dots text-success"
+					   data-bs-toggle="popover"
+					   data-bs-placement="bottom"
+					   data-bs-html="true"
+					   data-bs-content='
+               <a href="#" class="d-block text-primary text-decoration-none mb-1 open-edit-attribute">Edit Attribute Name</a>
+               <a href="#" class="d-block text-info text-decoration-none mb-1 open-edit-attribute-value">Edit Attribute Value</a>
+               <a href="#" class="d-block text-danger text-decoration-none mb-1 delete-attribute">Delete Attribute</a>
+               <a href="#" class="d-block text-danger text-decoration-none delete-attribute-value">Delete Attribute Value</a>'
+           style="cursor: pointer;"></i>
+				  </td>
+			</tr>
+			
+			
+			
+			</tbody>
+			</table>
+	<!-- Pagination aligned to right -->
+	<nav aria-label="Table pagination">
+		<ul class="pagination justify-content-end" style="margin-top: 10px;">
+		  <li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1">Previous</a>
+		  </li>
+		  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+		  <li class="page-item "><a class="page-link" href="#">2</a></li>
+		  <li class="page-item"><a class="page-link" href="#">3</a></li>
+		  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+		</ul>
+	  </nav>
+			</div>
+			</div>
+			</div>
+	</div>
+	
+	</div>
+	
+	<!-----END----------------START OF Stock Movement ----------------------------------------->
+	<div class="tab-pane fade" id="four" role="tabpanel" aria-labelledby="tab-four" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+		<div class="col-xxl-12">
+		<div class="card mb-3" style="background-color: #f8f9fa;">
+		<div class="header">
+		<div >
+		<h3>Recent Stock Movement</h3>
+		<p style="color: gray;">Monitor the flow of inventory items in,out,adjust,damaed..</p>
+		</div>
+		<div class="dt-buttons btn-group">
+			<button id="print" type="button" class="btn btn-success">
+				<i class="bi bi-printer"></i> Print
+			</button>
+		</div>
+		</div>
+		
+		<div class="card-body" style="padding: 0px !important;">
+		<div>
+		<div class="d-flex flex-wrap gap-2 mb-3" >
+		
+		<button type="button " class="btn  btn-sm btn-filter active">
+		All
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+	Purchase
+		</button>
+		
+		<button type="button " class="btn  btn-sm btn-filter">
+		Sold
+		</button>
+		<button type="button " class="btn  btn-sm btn-filter">
+			Adjustment
+			</button>
+		</div>
+		
+		</div>
+		<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+		
+		<!-- Search Input with Icon Button (Right-aligned) -->
+		<div class="input-group" style="width: 60%;">
+		<button class="btn btn-sm btn-outline-secondary" type="button">
+		<i class="bi bi-search"></i>
+		</button>
+		<input type="text" class="form-control form-control-sm" placeholder="Search by ">
+		
+		
+		</div>
+		<select id="filterS">
+			<option value="All">All</option>
+			<option value="Today">Today</option>
+			<option value="7days">last 7 days</option>
+			
+			<option value="Month">This Month</option>
+			<option value="Year">This Year</option>
+			<option value="custome">Custom</option>
+			</select>
+		</div>
+		
+		<div class="table-responsive">
+			<table id="employeeTable"   class="display nowrap table align-middle table-hover m-0" style="width:100%; background-color: #f8f9fa; border: 1px solid #dee2e6;">
+		<thead >
+		<tr>
+		<th scope="col">Date</th>
+		<th scope="col">Item</th>
+		<th scope="col">Types</th>
+		<th scope="col">Quantity</th>
+		<th scope="col">Reason</th>
+		<th scope="col">Added By </th>
+		<th scope="col">Status</th>
+		
+		<th scope="col">Actions</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr class="grd-primary-light">
+		<td>28/10/2022</td>
+		<td>Gas</td>
+		<td>purchase</td>
+		<td>+2889Kg</td>
+		<td>Stock purcase</td>
+
+		<td>Samuel Qodebyte</td>
+		<td>
+		<span class="badge rounded-pill bg-success">Increase</span>
+		</td>
+		
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="#" class="d-block text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		
+		
+		</tr>
+		<tr class="grd-primary-light">
+		<td>28/10/2022</td>
+		<td>6kg Cyllender</td>
+		<td>Adjustment</td>
+		<td>-1</td>
+		<td>Damaged</td>
+		<td>Samuel Qodebyte</td>
+		<td>
+		<span class="badge rounded-pill bg-danger">Decrease</span>
+		</td>
+		
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="#" class="d-block text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		
+		
+		</tr>
+		<tr class="grd-primary-light">
+		<td>28/10/2022</td>
+		<td>Host</td>
+		<td>Sold</td>
+		<td>-13</td>
+		<td>Pos Sales</td>
+		<td>Samuel Qodebyte</td>
+		
+		<td>
+		<span class="badge rounded-pill bg-danger">Decrease</span>
+		</td>
+		
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="#" class="d-block text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		
+		
+		</tr>
+		<tr class="grd-primary-light">
+		<td>28/10/2022</td>
+		<td>6kg Cyllender</td>
+		<td>Adjustment</td>
+		<td>-1</td>
+		<td>Transfer out</td>
+		
+		<td>Samuel Qodebyte</td>
+		<td>
+		<span class="badge rounded-pill bg-danger">Decrease</span>
+		</td>
+		
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="../inventory/detail" class="d-block text-decoration-none mb-1">View</a>
+		<a href="delete" class="d-block text-danger text-decoration-none">Delete</a>'
+		style="cursor: pointer;"></i>
+		</td>
+		
+		
+		</tr>
+		</tbody>
+		</table>
+		<nav aria-label="Table pagination">
+			<ul class="pagination justify-content-end" style="margin-top: 10px;">
+			  <li class="page-item disabled">
+				<a class="page-link" href="#" tabindex="-1">Previous</a>
+			  </li>
+			  <li class="page-item"><a class="page-link" href="#">1</a></li>
+			  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+			  <li class="page-item"><a class="page-link" href="#">3</a></li>
+			  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+			</ul>
+		  </nav>
+		</div>
+		</div>
+		</div>
+		</div>
+		
+		</div>
+	
+	<!--END---------------------START Supplier--------------------------------------------------------------------------->
+	<div class="tab-pane fade" id="five" role="tabpanel" aria-labelledby="tab-five" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+	<!-- <div class="col-xxl-12">
+	<div class="card mb-3" style="background-color: #f8f9fa;">
+	<div class="header">
+	<div >
+	<h3>Purchase Order</h3>
+	<p style="color: gray;">Product Orders Information</p>
+	</div>
+	<div class="dt-buttons btn-group">
+
+		<button type="button" class="btn btn-success" onclick="openAddSupplierModal()">
+			<i class=" bi bi-plus-lg"></i>Add supplier
+		</button>
+		
+	</div>
+	</div>
+	
+	<div class="card-body" style="padding: 0px !important;">
+	<div>
+
+	
+	</div>
+	
+	
+	<div class="table-responsive">
+	<table id="suppliertable" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+	<thead>
+	<tr>
+	<th scope="col">ID</th>
+	<th scope="col">Supplier Name</th>
+	<th scope="col">Phone Number</th>
+	<th scope="col">Email</th>
+	<th scope="col">Address</th>
+
+	<th scope="col">Created on</th>
+	<th scope="col">Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	
+	<td>#Sup001</td>
+	<td>NNL PC Limited</td>
+	<td>09083374643</td>
+	<td>example@gmail.com</td>
+	<td>NO5 rd Asaba</td>
+	
+	<td>04/06/2025</td>
+	<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		   data-bs-toggle="popover"
+		   data-bs-placement="bottom"
+		   data-bs-html="true"
+		   data-bs-content='
+		   <a href="#" class="d-block text-primary text-decoration-none mb-1  open-edit-supplier">Edit</a>
+			 <a href="#" class="d-block text-danger text-decoration-none">Delete</a>'
+		   style="cursor: pointer;"></i>
+	  </td>
+	</tr>
+	
+	
+	
+	</tbody>
+	</table>
+	
+	</div>
+	</div>
+	</div>
+	</div> -->
+	
+
+    <div class="col-xxl-12">
+	<div class="card mb-3" style="background-color: #f8f9fa;">
+	<div class="header">
+	<div >
+	<h3>Purchase Order</h3>
+	
+	<p style="color: gray;">Track and manage all products purchase order</p>
+	</div>
+	<div class="dt-buttons btn-group">
+		<button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#orderModel">
+			Create Order
+		</button>
+	</div>
+	</div>
+	
+	<div class="card-body" style="padding: 0px !important;">
+	<div>
+	<div class="d-flex flex-wrap gap-2 mb-3" >
+	
+	<button type="button " class="btn  btn-sm btn-filter active">
+	All
+	</button>
+	<button type="button " class="btn  btn-sm btn-filter">
+Received	</button>
+	
+	<button type="button " class="btn  btn-sm btn-filter">
+	Pending
+	</button>
+	<button type="button " class="btn  btn-sm btn-filter">
+	Cancelled
+	</button>
+	</div>
+	
+	</div>
+	<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+	
+	<!-- Search Input with Icon Button (Right-aligned) -->
+	<div class="input-group" style="width: 60%;">
+	<button class="btn btn-sm btn-outline-secondary" type="button">
+	<i class="bi bi-search"></i>
+	</button>
+	<input type="text" class="form-control form-control-sm" placeholder="Search products...">
+	
+	
+	</div>
+	
+	</div>
+	
+	<div class="table-responsive">
+	<table id="product-order"  class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+	<thead>
+	<tr>
+	<th scope="col">PO Ref</th>
+	<th scope="col">Supplier</th>
+	<th scope="col">Order Date</th>
+	<th scope="col">Expected Delivery</th>
+	
+	<th scope="col">Total Amount(#)</th>
+	<th scope="col">Created By</th>
+	
+	<th scope="col">Payment Status</th>
+	<th scope="col">Status</th>
+	
+	<th scope="col">Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr class="grd-primary-light">
+	<td>Po-000123</td>
+	<td>LLPc Limited</td>
+	<td>12/06/2025</td>
+	<td>15/06/2025</td>
+	<td>30,000.00</td>
+	
+	<td>Samuel Qodebyte</td>
+	<td class="text-success">Paid</td>
+	
+	<td><span class="badge bg-success">Received</span></td>
+	<td>
+	<i class="fs-3 bi bi-three-dots text-success"
+	data-bs-toggle="popover"
+	data-bs-placement="bottom"
+	data-bs-html="true"
+	data-bs-content='
+	<a href="../inventory/po.html" class="d-block text-decoration-none mb-1">View</a>
+	
+		'
+	style="cursor: pointer;"></i>
+	</td>
+	</tr>
+	
+	<tr class="grd-primary-light">
+		<td>Po-000123</td>
+		<td>LLPc Limited</td>
+		<td>12/06/2025</td>
+		<td>15/06/2025</td>
+		<td>30,000.00</td>
+		
+		<td>Samuel Qodebyte</td>
+		<td class="text-success">Paid</td>
+		
+		<td><span class="badge bg-warning">Pending</span></td>
+		<td>
+		<i class="fs-3 bi bi-three-dots text-success"
+		data-bs-toggle="popover"
+		data-bs-placement="bottom"
+		data-bs-html="true"
+		data-bs-content='
+		<a href="#" class="d-block text-decoration-none mb-1">View</a>
+		<a href="#" class="d-block text-decoration-none mb-1">Edit</a>
+		<a href="#" class="d-block text-success text-decoration-none">Mark as Received</a>
+	
+		'
+		style="cursor: pointer;"></i>
+		</td>
+		</tr>
+		<tr class="grd-primary-light">
+			<td>Po-000123</td>
+			<td>LLPc Limited</td>
+			<td>12/06/2025</td>
+			<td>15/06/2025</td>
+			<td>30,000.00</td>
+			
+			<td>Samuel Qodebyte</td>
+			<td class="text-danger">Unpaid</td>
+			
+			<td><span class="badge bg-danger">Cancelled</span></td>
+			<td>
+			<i class="fs-3 bi bi-three-dots text-success"
+			data-bs-toggle="popover"
+			data-bs-placement="bottom"
+			data-bs-html="true"
+			data-bs-content='
+			<a href="#" class="d-block text-decoration-none mb-1">View</a>
+			<a href="#" class="d-block text-danger text-decoration-none">Delete</a>
+		
+			'
+			style="cursor: pointer;"></i>
+			</td>
+			</tr>
+	</tbody>
+	</table>
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	
+	</div>
+<!-- Row end -->
+<!----Model section -->
+<div id="model"></div>
+
+<div class="modal fade" id="variationModel" tabindex="-1" aria-labelledby="variationModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="variationModel">
+                  Create Products Variation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+             <form enctype="multipart/form-data" style="max-height: 500px; overflow:auto" id="variationForm">
+            <div class="modal-body">
+               
+                <div id="attributeContainer">
+                      <!-- <div class="row mb-3" >
+                    <div class="col-md-12 mt-4">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <label for="attributs" class="form-label mb-0">Attributs</label>
+                         <span class="text-success" role="button" onclick="openAddAttribute('variationModel')" style="font-size: 0.9rem;">Add Attributs</span> 
+
+                      </div>
+                      <select class="form-select" id="attributs" name="attributs" required>
+                        <option selected disabled>Choose...</option>
+                      
+                        
+                       
+                      </select>
+                    </div>
+                  </div>  
+                    <div class="row mb-3">
+                    
+                      <div class="col-md-12">
+                        <label for="attributsValue" class="form-label">Attributs Value</label>
+                        <select class="form-select" id="attributsValue" name="attributsValue" required>
+                          <option selected disabled>Choose...</option>
+                        </select>
+                      </div>
+                    </div> -->
+                </div>
+              
+                    <button type="button" class="btn btn-outline-primary mb-3" id="add-attribute-btn">Add More Attribute</button>
+
+                    <div class="row mb-4">
+                      <div class="col-md-6">
+                        <label for="cost_price" class="form-label">Cost Price</label>
+                        <input type="text" class="form-control" id="cost_price" name="cost_price" placeholder="3000" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="selling_price" class="form-label">Selling  Price</label>
+                        <input type="text" class="form-control" id="selling_price" name="selling_price" placeholder="3000" required>
+                      </div>                      </div>
+                      
+                       <div class="row mb-4">
+                        <div class="col-md-6">
+                          <label for="opening_stock_qty" class="form-label">Stock(QTY)</label>
+                          <input type="number" class="form-control" id="opening_stock_qty" name="opening_stock_qty" value="0" required>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="stock_qty_alert_level" class="form-label">Threshold</label>
+                          <input type="number" class="form-control" id="stock_qty_alert_level" name="stock_qty_alert_level" placeholder="3000" required>
+                        </div>    
+
+                      
+                          </div>
+        
+        <div class="row mb-4">
+              <div hidden class="col-md-6">
+                          <label for="stock_location" class="form-label">Stock Location</label>
+                          <input type="text" class="form-control" id="stock_location" name="stock_location" >
+                        </div>
+
+                          <div class="col-md-6">
+                          <label for="stock_expiry_date" class="form-label">Stock Expiry Time</label>
+                         <input type="date" class="form-control" id="stock_expiry_date" name="stock_expiry_date">
+                        </div>
+        </div>
+
+              
+                    <div class="mb-4">
+                      <label class="form-label">Upload Design</label>
+                      <div class="file-drop-area">
+                        
+                              <div style="width: 100px; height:100px;" id="imagePreviewContainer3" class="mt-2"></div>
+                        <input id="variationImage" type="file" name="design_file">
+                      </div>
+                    </div>
+              
+                    
+                  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="addVariationBtn" class="btn btn-success" onclick="addProductVariation()">
+                    Save Products
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addAttributeValue"
+     aria-labelledby="addSupplierModalLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="addSupplierModalLabel">Add  Attributs Value</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="addAttributeValueForm" >
+
+      <div class="mb-3">
+        <label for="attributeName" class="form-label">Attributs Name</label>
+        <select class="form-select" name="attribute_id" id="attributeName" required>
+          <option selected disabled>Choose...</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="supplierPhone" class="form-label">Attribute Value</label>
+        <input type="text" class="form-control" id="attValue" required placeholder="eg.red">
+      </div>
+
+
+       <div hidden class="mb-3">
+        <label for="supplierPhone" class="form-label">Attribute Value Display Order</label>
+        <input type="number" class="form-control" id="attValueOrder"  placeholder="1">
+      </div>
+      
+      
+      <button type="button" class="btn btn-success" onclick="addAttributsValue()">Add Attributs Value</button>
+    </form>
+  </div>
+</div>
+
+
+   <div class="modal fade" id="AdjustmentModel" tabindex="-1" aria-labelledby="AdjustmentModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AdjustmentModel">
+Adjust Products Variation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+               <form style="max-height: 500px; overflow-y: auto;" id="productAdjustmentForm">
+            <div class="modal-body">
+             
+                    <div class="row mb-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="AdjusstproductName" name="product_name" value="" readonly>
+                          </div>
+                     
+                      <div class="col-md-12">
+                        <label for="category" class="form-label">Product Variations</label>
+                        <select class="form-select" id="variationDropdown" name="product_variation" required>
+                          <option selected disabled>Choose...</option>
+            
+                        </select>
+                      </div>
+                    </div>
+              
+                    <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="brand" class="form-label">Current Stockt(Qty)</label>
+                       <input type="text" class="form-control" id="VariationcurrentStock" name="current_variations_stock_qty_number" readonly>
+                      </div>
+                    </div>
+                      <div class="row mb-3">
+                        <div class="col-md-12 mt-4">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <label for="adjustment_type" class="form-label mb-0">Adjustment Type</label>
+
+                          </div>
+                          <select class="form-select mt-1" id="adjustment_type" name="adjustment_type" required>
+                            <option selected disabled>Choose...</option>
+                                 <option id="increase">Increase Stock</option>
+                            <option id="decrease">Decrease Stock</option>
+                          </select>
+                        </div>
+                      </div>
+                      
+              
+                    <div class="row mb-4">
+                      <div class="col-md-12">
+                        <label for="size" class="form-label">Quantity</label>
+                        <input type="text" class="form-control" id="size" name="size" placeholder="quantity you want to add or reduce" required>
+                      </div>
+                      </div>
+              
+                    <div class="mb-3">
+                      <label for="adjustment_reason" class="form-label">Reason</label>
+                      <textarea class="form-control" id="adjustment_reason" name="adjustment_reason" rows="3"></textarea>
+                    </div>
+              
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                          
+                          <label for="performed_by" class="form-label">Added By</label>
+                          <input type="text" class="form-control" id="performed_by" name="performed_by" value="" readonly>
+                        </div>
+                        </div>
+              
+                    
+                  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button id="adjustBtn" type="button" class="btn btn-success" onclick="addAdjustment()">
+                    Save Products
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+  style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Products</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+       <form enctype="multipart/form-data"  style="max-height: 500px; overflow-y: auto;" id="editProductForm">
+      <div class="modal-body">
+       
+          <div class="row mb-3">
+            <div class="col-md-12 mb-3">
+              <label for="editProductName" class="form-label">Product Name</label>
+              <input type="text" class="form-control" id="editProductName" name="product_name" value="" required>
+            </div>
+            <div class="col-md-12">
+              <label for="category" class="form-label mb-0">Category</label>
+              <select class="form-select" id="editcategorydropdown" name="category_id" required>
+                <option disabled>Choose...</option>
+                
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <label for="editBrand" class="form-label">Brand</label>
+              <input type="text" class="form-control" id="editBrand" name="brand" value="" required>
+            </div>
+          </div>
+
+          <!-- <div class="row mb-4">
+            <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <label for="Unit" class="form-label mb-0">Unit</label>
+                        </div>
+                        
+                        <select class="form-select" id="unit" name="unit" required>
+                          <option selected disabled>Choose...</option>
+                        </select>
+                      </div>
+          </div> -->
+             <div class="row mb-3">
+            <div class="col-md-12">
+              <label for="editUnit" class="form-label">Unit</label>
+              <input type="text" class="form-control" id="editUnit" name="unit_name" value="" required>
+            </div>
+          </div> 
+
+          <!-- <div class="row mb-4">
+            <div class="form-check form-switch" style="padding-left:4em">
+              <input class="form-check-input custom-toggle" type="checkbox" id="isTaxable"
+                name="is_taxable" onchange="toggleTaxFields()" checked style="border:1px solid green">
+              <label class="form-check-label fw-bold" for="isTaxable">Is Taxable?</label>
+            </div>
+          </div>
+
+          <div id="taxFields" style="display: block;">
+            <div class="mb-3">
+              <label for="tax" class="form-label">Tax (%)</label>
+              <input type="number" class="form-control" id="tax" name="tax" value="7.5" min="0" step="0.01">
+            </div>
+
+            <div class="mb-3">
+              <label for="taxType" class="form-label">Tax Type</label>
+              <select class="form-select" id="taxType" name="tax_type">
+                <option disabled>Choose tax type</option>
+                <option value="inclusive" selected>Inclusive</option>
+                <option value="exclusive">Exclusive</option>
+              </select>
+            </div>
+          </div> -->
+
+          <div class="mb-3">
+            <label for="editDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="editDescription" name="product_description" rows="3"></textarea>
+          </div>
+
+        <div class="mb-4">
+  <label class="form-label">Upload Design</label>
+  <div class="file-drop-area" id="fileDropArea">
+    
+      <div style="width: 100px; height:100px; margin-left: auto; margin-right:auto;" id="imagePreviewContainer" class="mt-2"></div>
+    <input type="file" id="editProductFeaturedImage" name="design_file" accept="image/*" style="  width: 100%; height: 100%; cursor: pointer;">
+  </div>
+
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button id="editProductBtn" type="submit" class="btn btn-success">
+          Update Product
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="orderModel" tabindex="-1" aria-labelledby="orderModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="min-width: 650px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModel">
+                    Create Order
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                  <div class="row mb-3" >
+                    <div class="col-md-12 mt-4">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <label for="supplier" class="form-label mb-0">Supplier</label>
+                        <span class="text-success" role="button" onclick="openAddSupplierModal('orderModel')" style="font-size: 0.9rem;">Add supplier</span>
+
+                      </div>
+                      <select class="form-select mt-1" id="supplier" name="supplier"  >
+                        <option selected disabled>Choose...</option>
+                        
+                      </select>
+                    </div>
+                  </div>              
+                    <div class="row mb-3">
+                      <div class="col">
+                        <label for="orderDate" class="form-label">Order Date</label>
+                        <input type="date" id="orderDate" class="form-control" />
+                      </div>
+                      <div class="col">
+                        <label for="deliveryDate" class="form-label">Expected Delivery Date</label>
+                        <input type="date" id="deliveryDate" class="form-control" />
+                      </div>
+                    </div>
+              
+                    <div class="mb-3">
+                      <label class="form-label">Products</label>
+                      <div class="input-group">
+                        <select id="productSelect" class="form-select">
+                          <option value="">Select Product</option>
+                          
+                        </select>
+                        <select id="variationSelect" class="form-select">
+                          <option value="">Select Variation</option>
+                         
+                        </select>
+                       
+                      </div>
+                    </div>
+              
+                    <table class="table table-bordered mt-3">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Variation</th>
+                          <th>Quantity</th>
+                          <th>Unit Price</th>
+                          <th>Subtotal</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="productTableBody"></tbody>
+                    </table>
+              
+                    <div class="text-end mb-3">
+                      <strong>Total (₦): <span id="totalAmount">0.00</span></strong>
+                    </div>
+              
+                    <div class="d-flex justify-content-end gap-2">
+                      <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" id="addOrderBtn" class="btn btn-success">Save Order</button>
+                    </div>
+                  </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="EditvariationModel" tabindex="-1" aria-labelledby="EditvariationModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditvariationModel">
+                  Edit  Products Variation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form  enctype="multipart/form-data"  id="editVariationForm">
+                    
+                    <div class="editAttributeContainer">
+                     
+
+                    </div>
+
+
+                    <button type="button" class="btn btn-outline-primary mb-3" id="edit-add-attribute-btn">Add More Attribute</button>
+                     
+
+              
+                    <div class="row mb-4">
+                      <div class="col-md-6">
+                        <label for="costPrice" class="form-label">Cost Price</label>
+                        <input type="text" class="form-control" id="costPrice" name="cost_price" Value="" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="sellPrice" class="form-label">Selling  Price</label>
+                        <input type="text" class="form-control" id="sellPrice" name="selling_price" Value="" required>
+                      </div>                     
+                     </div>
+                      <div class="row mb-4">
+
+                        <div class="col-md-12">
+                          <label for="threshold" class="form-label">Threshold</label>
+                          <input type="number" class="form-control" id="threshold" name="stock_qty_alert_level" value="" required>
+                        </div>    
+                       
+
+
+              
+                    <div class="mb-4">
+                      <label class="form-label">Upload Design</label>
+                      <div class="file-drop-area">
+                        
+                         <div style="width: 100px; height:100px; margin-left: auto; margin-right:auto;" id="imagePreviewContainer2" class="mt-2"></div>
+                        <input type="file" name="variation_image" id="edit_design_file">
+                      </div>
+                    </div>
+              
+                    
+                  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button id="editVariationBtn" type="button" class="btn btn-success" >
+                    Edit Variation
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div  class="modal fade" id="EditattributsModel" tabindex="-1" aria-labelledby="EditattributsModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditattributsModel">
+                  Edit  Attributs
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="editAttributename" >
+                <div class="mb-3">
+                  <label for="supplierName" class="form-label">Attributs Name</label>
+                  <input type="text" class="form-control" id="attName" required value="color">
+                </div>
+                <button type="button" class="btn btn-success" >Edit Attributs</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="EditattributsValueModel" tabindex="-1" aria-labelledby="EditattributsValueModel"
+ style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditattributsValueModel">
+                  Edit  Attributs
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="editAttributeValue" >
+                <div hidden class="mb-3">
+                  <label for="supplierName" class="form-label">Attributs Name</label>
+                  <select name="attribute_name" class="form-select" id="edit-attribute-value-dropdown">
+                    <option selected value="#">choose attribute</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="editattributsValue" class="form-label">Attributs Value</label>  
+                  <input type="text" class="form-control" name="attribute_value" id="editattributsValue"  value="">
+                 
+                </div>
+
+                <div class="mb-3">
+                  <label for="editattributsValueOrder" class="form-label">Attributs Value Display Order</label>
+                  <input type="number" class="form-control" name="attribute_value_order" id="editattributsValueOrder" value="">
+
+                </div>
+
+
+                <button type="button" class="btn btn-success" >Edit Attributs</button>
+              </form>
+        </div>
+    </div>
+</div>
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<!-- <script src="../assets/js/qode.min1.js"></script> -->
+<script src="../assets/js/component.js"></script>
+<!-- <script src="../assets/js/barchart.js"></script>
+<script src="../assets/js/donutChart.js"></script> -->
+<script src="../assets/js/form.js"></script>
+<!-- <script src="../assets/js/order.js"></script> -->
+  
+
+	
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script> -->
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<!-- <script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script> -->
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const printBtn = document.getElementById('print');
+    if (printBtn) {
+        printBtn.addEventListener('click', function () {
+          
+        
+
+
+             const table = document.getElementById('employeeTable');
+            if (table) {
+                const printWindow = window.open('', '', 'height=600,width=900');
+                printWindow.document.write('<html><head><title>Print Stock Movement</title>');
+                printWindow.document.write('<link rel="stylesheet" href="../assets/css/main.min.css" />');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write('<h2>Stock Movement</h2>');
+                printWindow.document.write(table.outerHTML);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.focus();
+                setTimeout(() => printWindow.print(), 500);
+            }
+          
+        });
+    }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+    // Helper: get query param
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+
+    // Helper: format date
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    // Helper: show fallback
+    function showFallback(msg) {
+        document.getElementById('product-name1').textContent = msg;
+        const pn2 = document.getElementById('product-name2');
+        if (pn2) pn2.textContent = 'No data';
+        document.getElementById('product-description').textContent = '';
+        document.getElementById('product-category').textContent = '';
+        document.getElementById('brand').textContent = '';
+        document.getElementById('product-unit').textContent = '';
+        document.getElementById('current_product_stock_qty_number').textContent = '';
+        document.getElementById('created_at').textContent = '';
+        document.getElementById('product-featured-image').src = '../assets/images/gas1.png';
+        // Progress bar fallback
+        document.querySelector('.progress-bar').style.width = '0%';
+        document.querySelector('.progress-bar').textContent = '0%';
+        document.querySelector('.form-label[for="progressBar"]').textContent = '0 / 0';
+        document.querySelector('.mt-2 .text-success').innerHTML = 'No Data <i class="bi bi-x-circle-fill me-2 text-danger"></i>';
+    }
+
+    // Get product_id from URL
+    const product_id = getQueryParam('product_id');
+    if (!product_id) {
+        showToast('No product ID in URL', 'danger');
+        showFallback('No product selected');
+        return;
+    }
+
+    // Fetch product details
+    let product;
+    try {
+        const res = await fetch(`http://localhost:3000/product/${product_id}`);
+        if (!res.ok) {
+            showToast('Failed to fetch product', 'danger');
+            showFallback('No data yet');
+            return;
+        }
+        product = await res.json();
+        if (!product || Object.keys(product).length === 0) {
+            showFallback('No data yet');
+            return;
+        }
+    } catch (err) {
+        showToast('Network error', 'danger');
+        showFallback('No data yet');
+        return;
+    }
+
+    // Populate fields
+    document.getElementById('product-name1').textContent = product.product_name || 'No data';
+	document.getElementById('product-name2').textContent = product.product_name || 'No data';
+    document.getElementById('product-description').textContent = product.product_description || 'No description';
+    document.getElementById('product-category').textContent = product.category_name || 'No data';
+    document.getElementById('brand').textContent = product.brand || 'No data';
+    document.getElementById('product-unit').textContent = product.unit_name || 'No data';
+    document.getElementById('current_product_stock_qty_number').textContent = product.current_product_stock_qty_number ?? '0';
+    document.getElementById('created_at').textContent = formatDate(product.created_at);
+
+    // Featured image
+    if (product.product_featured_image) {
+        document.getElementById('product-featured-image').src = 
+            product.product_featured_image.startsWith('http')
+            ? product.product_featured_image
+            : `http://localhost:3000/uploads/${product.product_featured_image}`;
+    } else {
+        document.getElementById('product-featured-image').src = '../assets/images/gas1.png';
+    }
+
+    // Stock/progress bar logic
+    const stock = Number(product.current_product_stock_qty_number) || 0;
+    const alertLimit = Number(product.product_alert_limit) || 0;
+    let maxStock = Math.max(stock, alertLimit);
+    if (maxStock === 0) {
+        document.querySelector('.form-label[for="progressBar"]').textContent = '0 / 0';
+        document.querySelector('.progress-bar').style.width = '0%';
+        document.querySelector('.progress-bar').textContent = '0%';
+        document.querySelector('.progress-bar').setAttribute('aria-valuenow', 0);
+    } else {
+        let percent = Math.round((stock / maxStock) * 100);
+        document.querySelector('.form-label[for="progressBar"]').textContent = `${stock} / ${maxStock}`;
+        document.querySelector('.progress-bar').style.width = percent + '%';
+        document.querySelector('.progress-bar').textContent = percent + '%';
+        document.querySelector('.progress-bar').setAttribute('aria-valuenow', percent);
+    }
+
+  
+    let statusText = '';
+    let statusIcon = '';
+    let statusClass = '';
+    if (alertLimit === 0) {
+        statusText = 'No Alert Limit';
+        statusIcon = '<i class="bi bi-question-circle-fill me-2 text-secondary"></i>';
+        statusClass = 'text-secondary';
+    } else if (stock <= alertLimit) {
+        statusText = 'Low';
+        statusIcon = '<i class="bi bi-exclamation-triangle-fill me-2 text-warning"></i>';
+        statusClass = 'text-warning';
+    } else {
+        statusText = 'Normal';
+        statusIcon = '<i class="bi bi-check-circle-fill me-2 text-success"></i>';
+        statusClass = 'text-success';
+    }
+    const statusSpan = document.querySelector('.mt-2 .text-success, .mt-2 .text-warning, .mt-2 .text-secondary');
+    if (statusSpan) {
+        statusSpan.className = statusClass;
+        statusSpan.innerHTML = ` ${statusText} ${statusIcon}`;
+    }
+
+    
+    document.getElementById('product-delete-button').onclick = async function () {
+        if (!confirm('Are you sure you want to delete this product?')) return;
+        try {
+            const res = await fetch(`http://localhost:3000/product/${product_id}`, {
+                method: 'DELETE'
+            });
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Failed to delete');
+            }
+            showToast('Product deleted', 'success');
+            setTimeout(() => { window.location.href = '/inventory/'; }, 1200);
+        } catch (err) {
+            showToast(err.message || 'Delete failed', 'danger');
+        }
+    };
+});
+</script>
+
+<script>
+	function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+   
+    const attNameSelect = document.getElementById('attributeName');
+    const attValueInput = document.getElementById('attValue');
+    //const attValueOrderInput = document.getElementById('attValueOrder');
+    const addAttributeValueForm = document.getElementById('addAttributeValueForm');
+    const attributsValueSelect = document.getElementById('attributsValue');
+
+      if (!attNameSelect || !attValueInput  || !addAttributeValueForm) return;
+
+ 
+    async function loadAttributeNames() {
+        attNameSelect.innerHTML = '<option selected disabled>Loading...</option>';
+        try {
+            const res = await fetch('http://localhost:3000/attributes');
+            const attributes = await res.json();
+            attNameSelect.innerHTML = '<option selected disabled>Choose...</option>';
+            if (Array.isArray(attributes) && attributes.length > 0) {
+                attributes.forEach(att => {
+                    const opt = document.createElement('option');
+                    opt.value = att.attribute_id;
+                    opt.textContent = att.attribute_name;
+                    attNameSelect.appendChild(opt);
+                });
+            } else {
+                attNameSelect.innerHTML = '<option value="">No attributes available</option>';
+            }
+        } catch {
+            attNameSelect.innerHTML = '<option value="">Failed to load attributes</option>';
+        }
+    }
+
+   
+    window.addAttributsValue = async function () {
+        const attribute_id = attNameSelect.value;
+        const value = attValueInput.value.trim();
+       // const display_order = attValueOrderInput.value.trim();
+
+        if (!attribute_id || !value ) {
+            showToast("Please fill in all required fields.", "danger");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:3000/attributes/${attribute_id}/values`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ value })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to add attribute value');
+            showToast('Attribute value added successfully', 'success');
+            addAttributeValueForm.reset();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (err) {
+            showToast(err.message || 'Network error', 'danger');
+        }
+    };
+
+    const attributeValueOffcanvas = document.getElementById('addAttributeValue');
+    if (attributeValueOffcanvas) {
+        attributeValueOffcanvas.addEventListener('show.bs.offcanvas', loadAttributeNames);
+    } else {
+        loadAttributeNames();
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    let currentFilter = 'today';
+    let customStart = null;
+    let customEnd = null;
+
+    const product_id = new URLSearchParams(window.location.search).get('product_id');
+
+    function formatNaira(val) {
+        val = Number(val) || 0;
+        return '₦' + val.toLocaleString('en-NG', { minimumFractionDigits: 2 });
+    }
+
+    function setFallback() {
+        document.getElementById('total_variation_number').textContent = 'No data';
+        document.getElementById('total_stock').textContent = 'No data';
+        document.getElementById('inventory-value').textContent = 'No data';
+        document.getElementById('potential_sales_value').textContent = 'No data';
+    }
+
+
+    async function fetchData() {
+        if (!product_id) {
+            setFallback();
+            showToast('No product ID in URL', 'danger');
+            return;
+        }
+
+        try {
+            let url = `http://localhost:3000/product-data/${product_id}`;
+            if (currentFilter) url += `?range=${currentFilter}`;
+            if (currentFilter === 'custom' && customStart && customEnd) {
+                url += `&start=${customStart}&end=${customEnd}`;
+            }
+
+            const res = await fetch(url);
+            if (!res.ok) {
+                setFallback();
+                showToast('Failed to fetch product data', 'danger');
+                return;
+            }
+
+            const data = await res.json();
+            if (!data || Object.keys(data).length === 0) {
+                setFallback();
+                return;
+            }
+
+            document.getElementById('total_variation_number').textContent = data.product_variation_number ?? '0';
+            document.getElementById('total_stock').textContent = data.total_stock ?? '0';
+            document.getElementById('inventory-value').textContent = formatNaira(data.inventory_value);
+            document.getElementById('potential_sales_value').textContent = formatNaira(data.potential_sale_value);
+        } catch (err) {
+            setFallback();
+            showToast('Network error', 'danger');
+        }
+    }
+
+
+    const filterButtons = document.querySelectorAll('.btn-range');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const text = this.textContent.trim().toLowerCase();
+            if (text === 'today') currentFilter = 'today';
+            else if (text === 'yesterday') currentFilter = 'yesterday';
+            else if (text === 'last 7 days') currentFilter = 'last7days';
+            else if (text === 'this month') currentFilter = 'thismonth';
+            else if (text === 'custom range') {
+                currentFilter = 'custom';
+                document.getElementById('customRangeContainer').style.display = 'block';
+                return;
+            } else {
+                currentFilter = 'today';
+            }
+
+            
+            document.getElementById('customRangeContainer').style.display = 'none';
+            fetchData();
+        });
+    });
+
+ 
+    window.applyCustomRange = function () {
+        const start = document.getElementById('startDate').value;
+        const end = document.getElementById('endDate').value;
+        if (!start || !end) {
+            showToast('Please select both start and end date', 'warning');
+            return;
+        }
+        customStart = start;
+        customEnd = end;
+        fetchData();
+    };
+
+   
+    fetchData();
+});
+</script>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Helper: get query param
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+
+    // Helper: format Naira
+    function formatNaira(val) {
+        val = Number(val) || 0;
+        return '₦' + val.toLocaleString('en-NG', {minimumFractionDigits: 2});
+    }
+
+    function formatAttributes(attrs) {
+        if (!Array.isArray(attrs) || attrs.length === 0) return '--';
+        return attrs.map(a => a.value).join('-');
+    }
+
+    // Pagination variables
+    const pageSize = 5;
+    let allVariations = [];
+    let currentPage = 1;
+
+    // Main render function
+    async function renderTable(page = 1) {
+        const tbody = document.querySelector('#expensesTable tbody');
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Loading...</td></tr>`;
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = allVariations.slice(start, end);
+
+        if (pageData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">No variations found</td></tr>`;
+            renderPagination(1, 1);
+            return;
+        }
+
+        // Fetch attributes for each variation
+        const rows = await Promise.all(pageData.map(async v => {
+            let attributes = '--';
+            try {
+                const res = await fetch(`http://localhost:3000/product_variations/${v.variations_id}/with_attributes`);
+                if (res.ok) {
+                    const data = await res.json();
+                    attributes = formatAttributes(data.attributes);
+                }
+            } catch {}
+            // Status logic
+            let status = 'In Stock', badge = 'success';
+            if (Number(v.current_variations_stock_qty_number) <= Number(v.stock_qty_alert_level)) {
+                status = 'Low'; badge = 'warning';
+            }
+            if (Number(v.current_variations_stock_qty_number) === 0) {
+                status = 'Out'; badge = 'danger';
+            }
+            return `
+            <tr>
+                <td>${v.sku || v.variations_id}</td>
+                <td>${attributes}</td>
+                <td>${v.current_variations_stock_qty_number ?? 0} ${v.unit_name || ''}</td>
+                <td class="text-warning">${v.stock_qty_alert_level ?? 0} ${v.unit_name || ''}</td>
+                <td>${formatNaira(v.cost_price)}</td>
+                <td>${formatNaira(v.selling_price)}</td>
+                <td><span class="badge bg-${badge}">${status}</span></td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                        data-variation-id="${v.variations_id}"
+                        style="cursor: pointer;"
+                        data-bs-toggle="popover"
+                        data-bs-placement="bottom"
+                        data-bs-html="true"
+                        data-bs-content='
+                            <a href="#" class="d-block text-primary text-decoration-none mb-1 open-edit-modal">Edit</a>
+                            <a href="#" class="d-block text-danger text-decoration-none delete-variation">Delete</a>'
+                    ></i>
+                </td>
+            </tr>
+            `;
+        }));
+
+        tbody.innerHTML = rows.join('');
+
+        // Initialize popovers and attach handlers
+        const popoverTriggerList = [].slice.call(tbody.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.forEach(function (popoverTriggerEl) {
+            new bootstrap.Popover(popoverTriggerEl, { html: true });
+
+            popoverTriggerEl.addEventListener('shown.bs.popover', function () {
+                const popoverId = popoverTriggerEl.getAttribute('aria-describedby');
+                if (!popoverId) return;
+                const popover = document.getElementById(popoverId);
+                if (!popover) return;
+
+                // Delete handler
+                const deleteLink = popover.querySelector('.delete-variation');
+                if (deleteLink) {
+                    deleteLink.onclick = async function (e) {
+                        e.preventDefault();
+                        const variationId = popoverTriggerEl.getAttribute('data-variation-id');
+                        if (!variationId) return;
+                        if (!confirm('Delete this variation?')) return;
+                        try {
+                            const res = await fetch(`http://localhost:3000/product_variations/${variationId}`, { method: 'DELETE' });
+                            const data = await res.json();
+                            if (!res.ok) throw new Error(data.error || 'Delete failed');
+                            showToast('Variation deleted', 'success');
+                            // Remove from allVariations and re-render
+                            allVariations = allVariations.filter(v => v.variations_id !== variationId);
+                            renderTable(currentPage);
+                        } catch (err) {
+                            showToast(err.message || 'Delete failed', 'danger');
+                        }
+                    };
+                }
+
+               
+                const editLink = popover.querySelector('.open-edit-modal');
+                if (editLink) {
+  editLink.onclick = async function (e) {
+    e.preventDefault();
+    const variationId = popoverTriggerEl.getAttribute('data-variation-id');
+    const editModal = new bootstrap.Modal(document.getElementById('EditvariationModel'));
+    editModal.show();
+
+    const editForm = document.getElementById('editVariationForm');
+    const editAttrContainer = editForm.querySelector('.editAttributeContainer');
+    if (editAttrContainer) editAttrContainer.innerHTML = '';
+
+    try {
+        const res = await fetch(`http://localhost:3000/product_variations/${variationId}/with_attributes`);
+        if (!res.ok) throw new Error('Failed to fetch variation');
+        const data = await res.json();
+
+        
+        editForm.querySelector('#costPrice').value = data.cost_price || '';
+        editForm.querySelector('#sellPrice').value = data.selling_price || '';
+        editForm.querySelector('#threshold').value = data.stock_qty_alert_level || '';
+
+       
+        if (Array.isArray(data.attributes)) {
+            for (const attr of data.attributes) {
+                await createEditAttributeBlock(attr.attribute_id, attr.value_id);
+            }
+        }
+    } catch (err) {
+        showToast('Failed to load variation for edit', 'danger');
+    }
+
+    document.getElementById('edit-add-attribute-btn').onclick = () => createEditAttributeBlock();
+
+    editForm.querySelector('.btn-success').onclick = async function (ev) {
+        ev.preventDefault();
+        const editVariationBtn = document.getElementById('editVariationBtn');
+        setButtonLoading(editVariationBtn, true, 'Updating...');
+        const formData = new FormData(editForm);
+
+        
+        const attrBlocks = editForm.querySelectorAll('.edit-attribute-block');
+        const attributes = [];
+        let valid = true;
+        attrBlocks.forEach(block => {
+            const attrSelect = block.querySelector('.edit-attribute-select');
+            const valueSelect = block.querySelector('.edit-value-select');
+            if (!attrSelect.value || !valueSelect.value) valid = false;
+            else attributes.push({ attribute_id: attrSelect.value, value_id: valueSelect.value });
+        });
+        if (!valid) {
+            showToast('Please select all attributes and values', 'danger');
+            return;
+        }
+        formData.append('attributes', JSON.stringify(attributes));
+
+       
+        const design_file = editForm.querySelector('#edit_design_file').files[0];
+        if (design_file) {
+            formData.append('variation_image', design_file);
+        }
+
+        try {
+            const res = await fetch(`http://localhost:3000/product_variations/${variationId}`, {
+                method: 'PATCH',
+                body: formData
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to update variation');
+            showToast('Variation updated', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } catch (err) {
+            showToast(err.message || 'Update failed', 'danger');
+        }
+        finally {
+            setButtonLoading(editVariationBtn, false, 'Edit Variation');
+        }
+    };
+};
+}
+
+async function getAttributesList() {
+    try {
+        const res = await fetch('http://localhost:3000/attributes');
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+    } catch {
+        return [];
+    }
+}
+
+async function getAttributeValues(attribute_id) {
+    try {
+        const res = await fetch(`http://localhost:3000/attributes/${attribute_id}/values`);
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+    } catch {
+        return [];
+    }
+}
+    async function createEditAttributeBlock(selectedAttrId, selectedValueId) {
+    const attributes = await getAttributesList();
+    const block = document.createElement('div');
+    block.className = 'edit-attribute-block row mb-3';
+
+
+    const attrCol = document.createElement('div');
+    attrCol.className = 'col-md-6 mt-2';
+    const attrLabel = document.createElement('label');
+    attrLabel.className = 'form-label mb-0';
+    attrLabel.textContent = 'Attribute';
+    const attrSelect = document.createElement('select');
+    attrSelect.className = 'form-select edit-attribute-select';
+    attrSelect.required = true;
+    attrSelect.innerHTML = '<option selected disabled>Choose...</option>';
+    attributes.forEach(attr => {
+        const opt = document.createElement('option');
+        opt.value = attr.attribute_id;
+        opt.textContent = attr.attribute_name;
+        if (attr.attribute_id == selectedAttrId) opt.selected = true;
+        attrSelect.appendChild(opt);
+    });
+    attrCol.appendChild(attrLabel);
+    attrCol.appendChild(attrSelect);
+
+  
+    const valueCol = document.createElement('div');
+    valueCol.className = 'col-md-6 mt-2';
+    const valueLabel = document.createElement('label');
+    valueLabel.className = 'form-label mb-0';
+    valueLabel.textContent = 'Attribute Value';
+    const valueSelect = document.createElement('select');
+    valueSelect.className = 'form-select edit-value-select';
+    valueSelect.required = true;
+    valueSelect.innerHTML = '<option selected disabled>Choose...</option>';
+    valueCol.appendChild(valueLabel);
+    valueCol.appendChild(valueSelect);
+
+    
+      if (selectedAttrId) {
+        const values = await getAttributeValues(selectedAttrId);
+        values.forEach(val => {
+            const opt = document.createElement('option');
+            opt.value = val.value_id;
+            opt.textContent = val.value;
+            if (val.value_id == selectedValueId) opt.selected = true;
+            valueSelect.appendChild(opt);
+        });
+    }
+
+    
+    attrSelect.addEventListener('change', async function () {
+        valueSelect.innerHTML = '<option selected disabled>Loading...</option>';
+        const values = await getAttributeValues(this.value);
+        valueSelect.innerHTML = '<option selected disabled>Choose...</option>';
+        values.forEach(val => {
+            const opt = document.createElement('option');
+            opt.value = val.value_id;
+            opt.textContent = val.value;
+            valueSelect.appendChild(opt);
+        });
+    });
+
+
+    const removeCol = document.createElement('div');
+    removeCol.className = 'col-12 mt-2';
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn btn-danger btn-sm';
+    removeBtn.textContent = 'Remove';
+    removeBtn.onclick = () => block.remove();
+    removeCol.appendChild(removeBtn);
+
+    block.appendChild(attrCol);
+    block.appendChild(valueCol);
+    block.appendChild(removeCol);
+
+ 
+    let editAttrContainer = document.querySelector('.editAttributeContainer');
+    if (!editAttrContainer) {
+        editAttrContainer = document.createElement('div');
+        editAttrContainer.className = 'editAttributeContainer';
+        document.getElementById('editVariationForm').insertBefore(editAttrContainer, document.getElementById('editVariationForm').firstChild);
+    }
+    editAttrContainer.appendChild(block);
+}
+
+
+document.getElementById('edit-add-attribute-btn')?.addEventListener('click', () => createEditAttributeBlock());
+});
+        });
+
+        renderPagination(page, Math.ceil(allVariations.length / pageSize));
+    }
+
+   
+    function renderPagination(current, total) {
+        const nav = document.querySelector('#expensesTable').parentElement.querySelector('nav ul.pagination');
+        if (!nav) return;
+        nav.innerHTML = '';
+
+        nav.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+            <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+        </li>`;
+        for (let i = 1; i <= total; i++) {
+            nav.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+        }
+        nav.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+            <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+        </li>`;
+
+        nav.querySelectorAll('a.page-link').forEach(link => {
+            link.onclick = function (e) {
+                e.preventDefault();
+                const page = Number(this.getAttribute('data-page'));
+                if (page >= 1 && page <= total && page !== currentPage) {
+                    currentPage = page;
+                    renderTable(currentPage);
+                }
+            };
+        });
+    }
+
+    // Initial fetch
+    async function loadVariations() {
+        const product_id = getQueryParam('product_id');
+        if (!product_id) {
+            showToast('No product ID in URL', 'danger');
+            document.querySelector('#expensesTable tbody').innerHTML = `<tr><td colspan="8" class="text-center text-muted">No product selected</td></tr>`;
+            return;
+        }
+        try {
+            const res = await fetch(`http://localhost:3000/product_variations/product/${product_id}`);
+            if (!res.ok) throw new Error();
+            allVariations = await res.json();
+            if (!Array.isArray(allVariations) || allVariations.length === 0) {
+                document.querySelector('#expensesTable tbody').innerHTML = `<tr><td colspan="8" class="text-center text-muted">No variations found</td></tr>`;
+                renderPagination(1, 1);
+                return;
+            }
+            renderTable(1);
+        } catch {
+            document.querySelector('#expensesTable tbody').innerHTML = `<tr><td colspan="8" class="text-center text-muted">Failed to load variations</td></tr>`;
+            renderPagination(1, 1);
+        }
+    }
+
+    loadVariations();
+});
+</script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const pageSize = 8;
+    let allAttributes = [];
+    let currentPage = 1;
+
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+
+    async function getAttributesList() {
+    try {
+        const res = await fetch('http://localhost:3000/attributes');
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+    } catch {
+        return [];
+    }
+}
+    function renderAttributeTable(page = 1) {
+        const tbody = document.querySelector('#attributeTable tbody');
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Loading...</td></tr>`;
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = allAttributes.slice(start, end);
+
+        if (pageData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">No attributes found</td></tr>`;
+            renderPagination(1, 1);
+            return;
+        }
+
+        tbody.innerHTML = pageData.map(attr => `
+            <tr>
+                <td>${attr.variation_attribute_id}</td>
+                <td>${attr.attribute_name}</td>
+                <td>${attr.attribute_value}</td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                       data-variation-attribute-id="${attr.variation_attribute_id}"
+                       style="cursor: pointer;"
+                       data-bs-toggle="popover"
+                       data-bs-placement="bottom"
+                       data-bs-html="true"
+                    data-bs-content='
+    <!-- <a href="#" class="d-block text-primary text-decoration-none mb-1 open-edit-attribute">Edit Attribute Name</a>
+    
+     <a href="#" class="d-block text-danger text-decoration-none mb-1 delete-attribute">Delete Attribute</a>  -->
+     <a href="#" class="d-block text-info text-decoration-none mb-1 open-edit-attribute-value">Edit Attribute Value</a>
+    <a href="#" class="d-block text-danger text-decoration-none delete-attribute-value">Delete Attribute Value</a>
+   
+   '>
+                    </i>
+                </td>
+            </tr>
+        `).join('');
+
+        // Initialize Bootstrap popovers and attach action handlers
+        const popoverTriggerList = [].slice.call(tbody.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.forEach(function (popoverTriggerEl) {
+            new bootstrap.Popover(popoverTriggerEl, { html: true });
+
+            popoverTriggerEl.addEventListener('shown.bs.popover', function () {
+                // Find the popover element
+                const popoverId = popoverTriggerEl.getAttribute('aria-describedby');
+                if (!popoverId) return;
+                const popover = document.getElementById(popoverId);
+                if (!popover) return;
+
+                const row = popoverTriggerEl.closest('tr');
+const attrId = row.querySelector('td:nth-child(1)').textContent;
+const attrName = row.querySelector('td:nth-child(2)').textContent;
+const attrValue = row.querySelector('td:nth-child(3)').textContent;
+const attrObj = allAttributes.find(a => a.variation_attribute_id == attrId);
+
+
+       
+    const deleteAttrBtn = popover.querySelector('.delete-attribute');
+if (deleteAttrBtn) {
+    deleteAttrBtn.onclick = async function (e) {
+        e.preventDefault();
+        if (!attrObj?.attribute_id) {
+            showToast('Attribute ID not found', 'danger');
+            return;
+        }
+        if (!confirm('Delete this attribute and all its values?')) return;
+        try {
+            const res = await fetch(`http://localhost:3000/attributes/${attrObj.attribute_id}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Delete failed');
+            showToast('Attribute deleted', 'success');
+            allAttributes = allAttributes.filter(a => a.attribute_id !== attrObj.attribute_id);
+            renderAttributeTable(currentPage);
+        } catch (err) {
+            showToast(err.message || 'Delete failed', 'danger');
+        }
+    };
+}
+
+const deleteAttrValueBtn = popover.querySelector('.delete-attribute-value');
+if (deleteAttrValueBtn) {
+    deleteAttrValueBtn.onclick = async function (e) {
+        e.preventDefault();
+        if (!attrObj?.value_id) {
+            showToast('Attribute Value ID not found', 'danger');
+            return;
+        }
+        if (!confirm('Delete this attribute value?')) return;
+        try {
+            const res = await fetch(`http://localhost:3000/attributes/values/${attrObj.value_id}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Delete failed');
+            showToast('Attribute value deleted', 'success');
+            allAttributes = allAttributes.filter(a => a.value_id !== attrObj.value_id);
+            renderAttributeTable(currentPage);
+        } catch (err) {
+            showToast(err.message || 'Delete failed', 'danger');
+        }
+    };
+}
+
+
+               
+             const editAttrBtn = popover.querySelector('.open-edit-attribute');
+if (editAttrBtn) {
+    editAttrBtn.onclick = function (e) {
+        e.preventDefault();
+     
+        const modal = new bootstrap.Modal(document.getElementById('EditattributsModel'));
+        document.querySelector('#EditattributsModel #attName').value = attrObj.attribute_name;
+        modal.show();
+
+      
+        document.querySelector('#editAttributename .btn-success').onclick = async function () {
+            const newName = document.querySelector('#EditattributsModel #attName').value.trim();
+            if (!newName) {
+                showToast('Name required', 'danger');
+                return;
+            }
+            try {
+                const res = await fetch(`http://localhost:3000/attributes/${attrObj.attribute_id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ attribute_name: newName })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Update failed');
+                showToast('Attribute updated', 'success');
+                modal.hide();
+                loadAttributes();
+            } catch (err) {
+                showToast(err.message || 'Update failed', 'danger');
+            }
+        };
+    };
+}
+            
+const editValueBtn = popover.querySelector('.open-edit-attribute-value');
+if (editValueBtn) {
+    editValueBtn.onclick = async function (e) {
+        e.preventDefault();
+        const modal = new bootstrap.Modal(document.getElementById('EditattributsValueModel'));
+        // Populate attribute dropdown
+        const attDropdown = document.getElementById('edit-attribute-value-dropdown');
+        attDropdown.innerHTML = '';
+        const attributes = await getAttributesList();
+        attributes.forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a.attribute_id;
+            opt.textContent = a.attribute_name;
+            if (a.attribute_id === attrObj.attribute_id) opt.selected = true;
+            attDropdown.appendChild(opt);
+        });
+
+        // Set value and order
+        document.getElementById('editattributsValue').value = attrObj.attribute_value;
+        document.getElementById('editattributsValueOrder').value = attrObj.display_order || '';
+
+        modal.show();
+
+        // Submit handler
+        document.querySelector('#editAttributeValue .btn-success').onclick = async function () {
+            const value = document.getElementById('editattributsValue').value.trim();
+            const display_order = document.getElementById('editattributsValueOrder').value.trim();
+            if (!attrObj.value_id || !value) {
+                showToast('Value required', 'danger');
+                return;
+            }
+            try {
+                const res = await fetch(`http://localhost:3000/attributes/values/${attrObj.value_id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ value, display_order })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Update failed');
+                showToast('Attribute value updated', 'success');
+                modal.hide();
+                loadAttributes();
+            } catch (err) {
+                showToast(err.message || 'Update failed', 'danger');
+            }
+        };
+    };
+}
+
+});
+        });
+
+        renderPagination(page, Math.ceil(allAttributes.length / pageSize));
+    }
+
+    // Render pagination
+    function renderPagination(current, total) {
+        const nav = document.querySelector('#attributeTable').parentElement.querySelector('nav ul.pagination');
+        if (!nav) return;
+        nav.innerHTML = '';
+
+        nav.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+            <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+        </li>`;
+
+        for (let i = 1; i <= total; i++) {
+            nav.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+        }
+
+        nav.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+            <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+        </li>`;
+
+        nav.querySelectorAll('a.page-link').forEach(link => {
+            link.onclick = function (e) {
+                e.preventDefault();
+                const page = Number(this.getAttribute('data-page'));
+                if (page >= 1 && page <= total && page !== currentPage) {
+                    currentPage = page;
+                    renderAttributeTable(currentPage);
+                }
+            };
+        });
+    }
+
+    // Load attributes
+    async function loadAttributes() {
+        const product_id = getQueryParam('product_id');
+        if (!product_id) {
+            showToast('No product ID in URL', 'danger');
+            document.querySelector('#attributeTable tbody').innerHTML = `<tr><td colspan="4" class="text-center text-muted">No product selected</td></tr>`;
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:3000/variation_attributes/product/${product_id}`);
+            if (!res.ok) throw new Error();
+            allAttributes = await res.json();
+            if (!Array.isArray(allAttributes) || allAttributes.length === 0) {
+                document.querySelector('#attributeTable tbody').innerHTML = `<tr><td colspan="4" class="text-center text-muted">No attributes found</td></tr>`;
+                renderPagination(1, 1);
+                return;
+            }
+            renderAttributeTable(1);
+        } catch {
+            document.querySelector('#attributeTable tbody').innerHTML = `<tr><td colspan="4" class="text-center text-muted">Failed to load attributes</td></tr>`;
+            renderPagination(1, 1);
+        }
+    }
+
+    loadAttributes();
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+   
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+    function badgeClass(action) {
+        return action === 'increase' ? 'bg-success' : 'bg-danger';
+    }
+    function badgeText(action) {
+        return action === 'increase' ? 'Increase' : 'Decrease';
+    }
+    function prefixQty(action, qty) {
+        return (action === 'increase' ? '+' : '-') + qty;
+    }
+
+
+    const pageSize = 8;
+    let allMods = [];
+    let filteredMods = [];
+    let currentPage = 1;
+
+   
+    async function loadStockMods() {
+        const product_id = getQueryParam('product_id');
+        if (!product_id) {
+            showToast('No product ID in URL', 'danger');
+            document.querySelector('#employeeTable tbody').innerHTML = `<tr><td colspan="8" class="text-center text-muted">No product selected</td></tr>`;
+            return;
+        }
+      
+        let variations = [];
+        try {
+            const res = await fetch(`http://localhost:3000/product_variations/product/${product_id}`);
+            if (res.ok) variations = await res.json();
+        } catch {}
+        const variationIds = variations.map(v => v.variations_id);
+
+     
+        let mods = [];
+        try {
+            const res = await fetch(`http://localhost:3000/stock_modify/product/${product_id}`);
+            if (res.ok) mods = await res.json();
+        } catch {}
+
+       
+        for (const vid of variationIds) {
+            try {
+                const res = await fetch(`http://localhost:3000/stock_modify/variation/${vid}`);
+                if (res.ok) {
+                    const vmods = await res.json();
+                    mods = mods.concat(vmods);
+                }
+            } catch {}
+        }
+
+      
+const allModsMerged = mods;
+const uniqueMods = [];
+const seenIds = new Set();
+for (const mod of allModsMerged) {
+    const id = String(mod.stock_modify_id);
+    if (!seenIds.has(id)) {
+        uniqueMods.push(mod);
+        seenIds.add(id);
+    }
+}
+
+         await Promise.all(uniqueMods.map(async mod => {
+            if (mod.variations_id) {
+                try {
+                    const vres = await fetch(`http://localhost:3000/product_variations/${mod.variations_id}/with_attributes`);
+                    if (vres.ok) {
+                        const vdata = await vres.json();
+                      
+                        const attrValues = Array.isArray(vdata.attributes)
+                            ? vdata.attributes.map(a => a.value).join('-')
+                            : '';
+                mod.mashup_name =  (attrValues ?  attrValues + '-'  : '') + vdata.product_name;        
+                    } else {
+                        mod.mashup_name = mod.product_name || '--';
+                    }
+                } catch {
+                    mod.mashup_name = mod.product_name || '--';
+                }
+            } else {
+                mod.mashup_name = mod.product_name || '--';
+            }
+        }));
+
+uniqueMods.sort((a, b) => new Date(b.date) - new Date(a.date));
+allMods = uniqueMods;
+filteredMods = uniqueMods;
+renderTable(1);
+    }
+
+   
+    function applyFilters() {
+        let mods = [...allMods];
+      
+        const typeBtns = document.querySelectorAll('.btn-filter');
+        let type = 'All';
+        typeBtns.forEach(btn => {
+            if (btn.classList.contains('active')) type = btn.textContent.trim();
+        });
+        if (type !== 'All') {
+            mods = mods.filter(m => (m.adjustment_type || '').toLowerCase() === type.toLowerCase());
+        }
+      
+        const dateFilter = document.getElementById('filterS').value;
+        if (dateFilter && dateFilter !== 'All') {
+            const now = new Date();
+            mods = mods.filter(m => {
+                const d = new Date(m.date);
+                if (dateFilter === 'Today') {
+                    return d.toDateString() === now.toDateString();
+                } else if (dateFilter === '7days') {
+                    const diff = (now - d) / (1000 * 60 * 60 * 24);
+                    return diff <= 7;
+                } else if (dateFilter === 'Month') {
+                    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                } else if (dateFilter === 'Year') {
+                    return d.getFullYear() === now.getFullYear();
+                }
+              
+                return true;
+            });
+        }
+    
+        const searchVal = document.querySelector('.input-group input[type="text"]').value.trim().toLowerCase();
+        if (searchVal) {
+            mods = mods.filter(m =>
+                (m.product_name || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_type || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_action || '').toLowerCase().includes(searchVal) ||
+                (m.adjustment_reason || '').toLowerCase().includes(searchVal) ||
+                (m.notes || '').toLowerCase().includes(searchVal) ||
+                (m.performed_by || '').toLowerCase().includes(searchVal)
+            );
+        }
+        filteredMods = mods;
+        renderTable(1);
+    }
+
+    
+    function renderTable(page = 1) {
+        const tbody = document.querySelector('#employeeTable tbody');
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Loading...</td></tr>`;
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = filteredMods.slice(start, end);
+
+        if (pageData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">No stock movement found</td></tr>`;
+            renderPagination(1, 1);
+            return;
+        }
+
+        tbody.innerHTML = pageData.map(mod => `
+            <tr class="grd-primary-light">
+                <td>${formatDate(mod.date)}</td>
+               <td>${mod.mashup_name || '--'}</td>
+                <td>${mod.adjustment_type || '--'}</td>
+                <td>${mod.adjustment_action === 'increase' ? '+' : '-'}${mod.size || 0}</td>
+                <td>${mod.adjustment_reason || mod.notes || '--'}</td>
+                <td>${mod.performed_by || '--'}</td>
+                <td>
+                    <span class="badge rounded-pill ${badgeClass(mod.adjustment_action)}">${badgeText(mod.adjustment_action)}</span>
+                </td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                        data-stock-modify-id="${mod.stock_modify_id}"
+                        style="cursor: pointer;"
+                        data-bs-toggle="popover"
+                        data-bs-placement="bottom"
+                        data-bs-html="true"
+                        data-bs-content='
+                            <a href="#" class="d-block text-decoration-none mb-1">View</a>
+                            <a href="#" class="d-block text-danger text-decoration-none delete-stock-mod">Delete</a>'
+                    ></i>
+                </td>
+            </tr>
+        `).join('');
+
+      
+    const popoverTriggerList = [].slice.call(tbody.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.forEach(function (popoverTriggerEl) {
+        new bootstrap.Popover(popoverTriggerEl, { html: true, container: 'body' });
+
+        popoverTriggerEl.addEventListener('shown.bs.popover', function () {
+                const popoverId = popoverTriggerEl.getAttribute('aria-describedby');
+        if (!popoverId) return;
+        const popover = document.getElementById(popoverId);
+        if (!popover) return;
+
+         const deleteBtn = popover.querySelector('.delete-stock-mod');
+        if (deleteBtn) {
+            deleteBtn.onclick = async function (e) {
+                e.preventDefault();
+                const stock_modify_id = popoverTriggerEl.getAttribute('data-stock-modify-id');
+                if (!stock_modify_id) return;
+                if (!confirm('Delete this stock modification?')) return;
+                try {
+                    const res = await fetch(`http://localhost:3000/stock_modify/${stock_modify_id}`, { method: 'DELETE' });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error || 'Delete failed');
+                    showToast('Stock modification deleted', 'success');
+                    setTimeout(() => {
+                        allMods = allMods.filter(m => m.stock_modify_id !== stock_modify_id);
+                        filteredMods = filteredMods.filter(m => m.stock_modify_id !== stock_modify_id);
+                        renderTable(currentPage);
+                        reload.page();
+                    }, 1000);
+                } catch (err) {
+                    showToast(err.message || 'Delete failed', 'danger');
+                }
+            };
+        }
+
+         const viewBtn = popover.querySelector('a:not(.delete-stock-mod)');
+        if (viewBtn) {
+            viewBtn.onclick = function (e) {
+                e.preventDefault();
+                showToast('View clicked', 'success');
+            };
+        }
+        });
+    });
+
+       
+
+        renderPagination(page, Math.ceil(filteredMods.length / pageSize));
+    }
+
+ 
+    function renderPagination(current, total) {
+        const nav = document.querySelector('#employeeTable').parentElement.querySelector('nav ul.pagination');
+        if (!nav) return;
+        nav.innerHTML = '';
+
+        nav.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+            <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+        </li>`;
+        for (let i = 1; i <= total; i++) {
+            nav.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+        }
+        nav.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+            <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+        </li>`;
+
+        nav.querySelectorAll('a.page-link').forEach(link => {
+            link.onclick = function (e) {
+                e.preventDefault();
+                const page = Number(this.getAttribute('data-page'));
+                if (page >= 1 && page <= total && page !== currentPage) {
+                    currentPage = page;
+                    renderTable(currentPage);
+                }
+            };
+        });
+    }
+
+
+    document.querySelectorAll('.btn-filter').forEach(btn => {
+        btn.onclick = function () {
+            document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            applyFilters();
+        };
+    });
+
+
+    document.getElementById('filterS').onchange = applyFilters;
+
+   
+    document.querySelector('.input-group input[type="text"]').oninput = function () {
+        applyFilters();
+    };
+
+   
+    loadStockMods();
+});
+</script>
+
+<!-- <script>
+document.addEventListener('DOMContentLoaded', async function () {
+    // Helper: get query param
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    const tbody = document.querySelector('#suppliertable tbody');
+    tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Loading...</td></tr>`;
+
+    const product_id = getQueryParam('product_id');
+    if (!product_id) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No product selected</td></tr>`;
+        return;
+    }
+
+    // Fetch product to get supplier_id
+    let supplier_id = null;
+    try {
+        const res = await fetch(`http://localhost:3000/product/${product_id}`);
+        if (!res.ok) throw new Error();
+        const product = await res.json();
+        supplier_id = product.supplier_id;
+        if (!supplier_id) throw new Error();
+    } catch {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No supplier found for this product</td></tr>`;
+        return;
+    }
+
+    // Fetch supplier details
+    try {
+        const res = await fetch(`http://localhost:3000/product_supplier/${supplier_id}`);
+        if (!res.ok) throw new Error();
+        const s = await res.json();
+        tbody.innerHTML = `
+            <tr>
+                <td>${s.supplier_id}</td>
+                <td>${s.supplier_name || '--'}</td>
+                <td>${s.contact_phone_number || '--'}</td>
+                <td>${s.email || '--'}</td>
+                <td>${s.address || '--'}</td>
+                <td>${formatDate(s.created_at)}</td>
+                <td>
+                    <i class="fs-3 bi bi-three-dots text-success"
+                       data-supplier-id="${s.supplier_id}"
+                       style="cursor: pointer;"
+                       data-bs-toggle="popover"
+                       data-bs-placement="bottom"
+                       data-bs-html="true"
+                       data-bs-content='
+                           <a href="#" class="d-block text-primary text-decoration-none mb-1 open-edit-supplier">Edit</a>
+                           <a href="#" class="d-block text-danger text-decoration-none delete-supplier">Delete</a>'
+                    ></i>
+                </td>
+            </tr>
+        `;
+
+        // Delete handler
+        tbody.querySelectorAll('.delete-supplier').forEach(link => {
+            link.onclick = async function (e) {
+                e.preventDefault();
+                const supplierId = this.closest('i').getAttribute('data-supplier-id');
+                if (!supplierId) return;
+                if (!confirm('Delete this supplier?')) return;
+                try {
+                    const res = await fetch(`http://localhost:3000/product_supplier/${supplierId}`, { method: 'DELETE' });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error || 'Delete failed');
+                    showToast('Supplier deleted', 'success');
+                    tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Supplier deleted</td></tr>`;
+                } catch (err) {
+                    showToast(err.message || 'Delete failed', 'danger');
+                }
+            };
+        });
+
+    } catch {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Failed to load supplier</td></tr>`;
+    }
+});
+</script> -->
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Helper: get query param
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+
+    // State
+    let product_id = getQueryParam('product_id');
+    let product_name = '';
+    let current_product_stock_qty_number = 0;
+
+    // Elements
+    const variationForm = document.getElementById('variationForm');
+   const attributesContainer = document.getElementById('attributeContainer');
+    const addAttributeBtn = document.getElementById('add-attribute-btn');
+
+    // Load product info
+    async function loadProductInfo() {
+        if (!product_id) {
+            showToast('No product ID in URL', 'danger');
+            return;
+        }
+        try {
+            const res = await fetch(`http://localhost:3000/product/${product_id}`);
+            if (!res.ok) throw new Error();
+            const product = await res.json();
+            product_name = product.product_name || '';
+            current_product_stock_qty_number = Number(product.current_product_stock_qty_number) || 0;
+        } catch {
+            showToast('Failed to load product info', 'danger');
+        }
+    }
+
+    // Load attributes for select
+    async function getAttributesList() {
+        try {
+            const res = await fetch('http://localhost:3000/attributes');
+            const data = await res.json();
+            return Array.isArray(data) ? data : [];
+        } catch {
+            return [];
+        }
+    }
+
+    // Load attribute values for a given attribute_id
+    async function getAttributeValues(attribute_id) {
+        try {
+            const res = await fetch(`http://localhost:3000/attributes/${attribute_id}/values`);
+            const data = await res.json();
+            return Array.isArray(data) ? data : [];
+        } catch {
+            return [];
+        }
+    }
+
+    // Create a new attribute/value select block
+    async function createAttributeBlock() {
+        const attributes = await getAttributesList();
+        const block = document.createElement('div');
+        block.className = 'attribute-block row mb-3';
+
+        // Attribute select
+        const attrCol = document.createElement('div');
+        attrCol.className = 'col-md-6 mt-2';
+        const attrLabel = document.createElement('label');
+        attrLabel.className = 'form-label mb-0';
+        attrLabel.textContent = 'Attribute';
+        const attrSelect = document.createElement('select');
+        attrSelect.className = 'form-select attribute-select';
+        attrSelect.required = true;
+        attrSelect.innerHTML = '<option selected disabled>Choose...</option>';
+        attributes.forEach(attr => {
+            const opt = document.createElement('option');
+            opt.value = attr.attribute_id;
+            opt.textContent = attr.attribute_name;
+            attrSelect.appendChild(opt);
+        });
+        attrCol.appendChild(attrLabel);
+        attrCol.appendChild(attrSelect);
+
+        // Value select
+        const valueCol = document.createElement('div');
+        valueCol.className = 'col-md-6 mt-2';
+        const valueLabel = document.createElement('label');
+        valueLabel.className = 'form-label mb-0';
+        valueLabel.textContent = 'Attribute Value';
+        const valueSelect = document.createElement('select');
+        valueSelect.className = 'form-select value-select';
+        valueSelect.required = true;
+        valueSelect.innerHTML = '<option selected disabled>Choose...</option>';
+        valueCol.appendChild(valueLabel);
+        valueCol.appendChild(valueSelect);
+
+        // Remove button
+        const removeCol = document.createElement('div');
+        removeCol.className = 'col-12 mt-2';
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn btn-danger btn-sm';
+        removeBtn.textContent = 'Remove';
+        removeBtn.onclick = () => block.remove();
+        removeCol.appendChild(removeBtn);
+
+        // When attribute changes, load values
+        attrSelect.addEventListener('change', async function () {
+            valueSelect.innerHTML = '<option selected disabled>Loading...</option>';
+            const values = await getAttributeValues(this.value);
+            valueSelect.innerHTML = '<option selected disabled>Choose...</option>';
+            values.forEach(val => {
+                const opt = document.createElement('option');
+                opt.value = val.value_id;
+                opt.textContent = val.value;
+                valueSelect.appendChild(opt);
+            });
+        });
+
+        block.appendChild(attrCol);
+        block.appendChild(valueCol);
+        block.appendChild(removeCol);
+
+        attributesContainer.appendChild(block);
+    }
+
+    // Add first attribute block on load
+    createAttributeBlock();
+
+    // Add more attribute blocks
+    addAttributeBtn.addEventListener('click', createAttributeBlock);
+
+    // On submit
+    window.addProductVariation = async function () {
+        const addVariationBtn = document.getElementById('addVariationBtn');
+        setButtonLoading(addVariationBtn, true, "Saving...");
+        if (!product_id) {
+            showToast('No product ID in URL', 'danger');
+            return;
+        }
+        const formData = new FormData(variationForm);
+
+        // Gather all attribute/value pairs
+        const attributeBlocks = attributesContainer.querySelectorAll('.attribute-block');
+        const attributes = [];
+        let valid = true;
+        attributeBlocks.forEach(block => {
+            const attrSelect = block.querySelector('.attribute-select');
+            const valueSelect = block.querySelector('.value-select');
+            if (!attrSelect.value || !valueSelect.value) {
+                valid = false;
+            } else {
+                attributes.push({ attribute_id: attrSelect.value, value_id: valueSelect.value });
+            }
+        });
+        if (!valid) {
+            showToast('Please select all attributes and values', 'danger');
+            return;
+        }
+
+        // Required fields
+        const cost_price = formData.get('cost_price');
+        const selling_price = formData.get('selling_price');
+         const opening_stock_qty = formData.get('opening_stock_qty');
+        const stock_qty_alert_level = formData.get('stock_qty_alert_level');
+        const stock_location = formData.get('stock_location');
+        const stock_expiry_date = formData.get('stock_expiry_date');
+       
+        if (!cost_price || !selling_price || !opening_stock_qty || !stock_qty_alert_level ) {
+            showToast('Please fill all required fields', 'danger');
+            return;
+        }
+
+        formData.append('product_id', product_id);
+        formData.append('product_name', product_name);
+        formData.append('attributes', JSON.stringify(attributes));
+        formData.append('current_variations_stock_qty_number', opening_stock_qty);
+
+        // Rename file input for backend
+           const design_file = formData.get('design_file');
+if (design_file && design_file.name) {
+    formData.delete('design_file'); // <-- Remove the original field
+    formData.append('variation_image', design_file); // Only this file field will be sent
+}
+
+        try {
+            // POST to create variation
+            const res = await fetch('http://localhost:3000/product_variations', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to create variation');
+
+            // PATCH product stock
+            const newStock = current_product_stock_qty_number + Number(opening_stock_qty);
+            await fetch(`http://localhost:3000/product/${product_id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ current_product_stock_qty_number: newStock })
+            });
+
+            showToast('Product variation created', 'success');
+            variationForm.reset();
+            attributesContainer.innerHTML = '';
+            createAttributeBlock();
+       setTimeout(() => { window.location.reload(); }, 1000);
+        } catch (err) {
+            showToast(err.message || 'Network error', 'danger');
+        }
+        finally {
+        setButtonLoading(addVariationBtn, false);
+    }
+    };
+
+    // Initial load
+    loadProductInfo();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+  
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+
+    
+    function setAdjustmentFallback(msg = 'No data yet') {
+        document.getElementById('AdjusstproductName').value = msg;
+        document.getElementById('VariationcurrentStock').value = '';
+        document.getElementById('variationDropdown').innerHTML = '<option selected disabled>No variations</option>';
+        document.getElementById('performed_by').value = 'No data';
+    }
+
+
+    const product_id = getQueryParam('product_id');
+    if (!product_id) {
+        setAdjustmentFallback('No product ID');
+        showToast('No product ID in URL', 'danger');
+        return;
+    }
+
+  
+    let performed_by = 'No data';
+    try {
+        const user = JSON.parse(sessionStorage.getItem('admin'));
+        if (user && user.first_name && user.last_name) {
+            performed_by = `${user.first_name} ${user.last_name}`;
+        }
+    } catch {}
+    document.getElementById('performed_by').value = performed_by;
+
+
+    let product_name = '';
+    let current_stock = '';
+    try {
+        const res = await fetch(`http://localhost:3000/product/${product_id}`);
+        if (!res.ok) throw new Error();
+        const product = await res.json();
+        if (!product || Object.keys(product).length === 0) throw new Error();
+        product_name = product.product_name || '';
+        document.getElementById('AdjusstproductName').value = product_name;
+    } catch {
+        setAdjustmentFallback();
+        showToast('No product data found', 'danger');
+        return;
+    }
+
+    let variations = [];
+try {
+    const res = await fetch(`http://localhost:3000/product_variations/product/${product_id}`);
+    if (!res.ok) throw new Error();
+    variations = await res.json();
+    const select = document.getElementById('variationDropdown');
+    select.onchange = function () {
+    const selectedId = this.value;
+    const selectedVariation = variations.find(v => v.variations_id === selectedId);
+    document.getElementById('VariationcurrentStock').value =
+        selectedVariation ? (selectedVariation.current_variations_stock_qty_number || 0) : '';
+};
+document.getElementById('VariationcurrentStock').value = '';
+    select.innerHTML = '<option selected disabled>Choose...</option>';
+    if (Array.isArray(variations) && variations.length > 0) {
+
+        await Promise.all(variations.map(async v => {
+            let variationName = '';
+            try {
+                const attrRes = await fetch(`http://localhost:3000/product_variations/${v.variations_id}/with_attributes`);
+                if (attrRes.ok) {
+                    const attrData = await attrRes.json();
+                    if (Array.isArray(attrData.attributes) && attrData.attributes.length > 0) {
+                        variationName = attrData.attributes.map(a => a.value).join('-');
+                    }
+                }
+            } catch {}
+            const opt = document.createElement('option');
+            opt.value = v.variations_id;
+            opt.textContent = variationName || v.sku || v.product_name || v.variations_id;
+            select.appendChild(opt);
+        }));
+    } else {
+        select.innerHTML = '<option selected disabled>No variations</option>';
+    }
+} catch {
+    document.getElementById('variationDropdown').innerHTML = '<option selected disabled>Failed to load variations</option>';
+}
+
+  
+    window.addAdjustment = async function () {
+        const adjustBtn = document.getElementById('adjustBtn');
+        setButtonLoading(adjustBtn, true, "Saving...");
+        const adjustment_type = document.getElementById('adjustment_type').value;
+        const variations_id = document.getElementById('variationDropdown').value;
+        const size = document.getElementById('size').value;
+        const adjustment_action = adjustment_type === "Increase Stock" ? "increase" : "decrease";
+        const adjustment_reason = document.getElementById('adjustment_reason').value;
+        const notes = adjustment_reason;
+        const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const performed_by = document.getElementById('performed_by').value;
+
+     
+        if (!adjustment_type || !product_name || !product_id || !variations_id || !size || !adjustment_action || !performed_by) {
+            showToast('Please fill all required fields', 'danger');
+            return;
+        }
+
+     
+        try {
+            const payload = {
+                adjustment_type,
+                product_name,
+                product_id,
+                variations_id,
+                size,
+                adjustment_action,
+                adjustment_reason,
+                notes,
+                date,
+                performed_by
+            };
+            const res = await fetch('http://localhost:3000/stock_modify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to create adjustment');
+            showToast('Stock adjustment saved', 'success');
+            document.getElementById('productAdjustmentForm').reset();
+           const selectedVariation = variations.find(v => v.variations_id === variations_id);
+if (selectedVariation) {
+    let newQty = Number(selectedVariation.current_variations_stock_qty_number) || 0;
+    if (adjustment_action === 'increase') {
+        newQty += Number(size);
+    } else if (adjustment_action === 'decrease') {
+        newQty -= Number(size);
+        if (newQty < 0) newQty = 0;
+    }
+
+  
+    try {
+        const patchRes = await fetch(`http://localhost:3000/product_variations/${variations_id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ current_variations_stock_qty_number: newQty })
+        });
+        const patchData = await patchRes.json();
+        if (!patchRes.ok) throw new Error(patchData.error || 'Failed to update variation stock');
+    } catch (err) {
+        showToast('Stock updated in log, but failed to update variation quantity', 'warning');
+    }
+
+  
+    try {
+      
+        const res = await fetch(`http://localhost:3000/product_variations/product/${product_id}`);
+        const allVars = await res.json();
+      
+        const totalStock = allVars.reduce((sum, v) => sum + (Number(v.current_variations_stock_qty_number) || 0), 0);
+      
+        await fetch(`http://localhost:3000/product/${product_id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ current_product_stock_qty_number: totalStock })
+        });
+    } catch (err) {
+        showToast('Variation updated, but failed to update product total stock', 'warning');
+    }
+}
+
+setTimeout(() => { window.location.reload(); }, 1000);
+        } catch (err) {
+            showToast(err.message || 'Network error', 'danger');
+        }
+        finally {
+            setButtonLoading(adjustBtn, false);
+        }
+    };
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Helper: get query param
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+
+    // Helper: show fallback
+    function setEditFallback() {
+        const productName = document.getElementById('editProductName');
+        const brand = document.getElementById('editBrand');
+        const product_description = document.getElementById('editDescription');
+        const category = document.getElementById('editcategorydropdown');
+        const unit = document.getElementById('editUnit');
+        const productFeaturedImage = document.getElementById('editProductFeaturedImage');
+        if (productName) productName.value = '';
+        if (brand) brand.value = '';
+        if (product_description) product_description.value = '';
+        if (category) category.innerHTML = '<option selected disabled>No categories</option>';
+        if (unit) unit.value = '';
+        showToast('No values yet', 'danger');
+    }
+
+ 
+ async function categoryDropDown(selectedValue) {
+        const select = document.getElementById('editcategorydropdown');
+        select.innerHTML = '<option selected disabled>Loading categories...</option>';
+        try {
+            const res = await fetch('http://localhost:3000/product_category');
+            const categories = await res.json();
+            select.innerHTML = '<option selected disabled>Choose...</option>';
+            categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat.category_id;
+                opt.textContent = cat.category_name;
+                if (selectedValue && cat.category_id == selectedValue) opt.selected = true;
+                select.appendChild(opt);
+            });
+        } catch {
+            select.innerHTML = '<option selected disabled>Failed to load categories</option>';
+        }
+    }
+
+   
+    const product_id = getQueryParam('product_id');
+    if (!product_id) {
+        setEditFallback();
+        showToast('No product ID in URL', 'danger');
+        return;
+    }
+
+    
+    async function loadProductForEdit() {
+        try {
+            const res = await fetch(`http://localhost:3000/product/${product_id}`);
+            if (!res.ok) {
+                setEditFallback();
+                showToast('Failed to fetch product', 'danger');
+                return;
+            }
+            const product = await res.json();
+            console.log(product);
+            if (!product || Object.keys(product).length === 0) {
+                setEditFallback();
+                return;
+            }
+            // Populate fields
+            document.getElementById('editProductName').value = product.product_name || '';
+            document.getElementById('editBrand').value = product.brand || '';
+            document.getElementById('editDescription').value = product.product_description || '';
+            document.getElementById('editUnit').value = product.unit_name || '';
+            document.getElementById('editProductFeaturedImage').src = product.product_featured_image || 'https://via.placeholder.com/150';
+            await categoryDropDown(product.category_id);   
+            
+        } catch (err) {
+            setEditFallback();
+            showToast('Network error', 'danger');
+            console.error('Error loading product:', err);
+        }
+    }
+
+    // PATCH submit
+    document.getElementById('editProductForm').onsubmit = async function (e) {
+        e.preventDefault();
+        const editProductBtn = document.getElementById('editProductBtn');
+        setButtonLoading(editProductBtn, true, "Saving...");
+        const form = e.target;
+        const formData = new FormData(form);
+
+    
+           
+   
+
+        const fileInput = form.querySelector('input[type="file"][name="design_file"]');
+        if (fileInput && fileInput.files.length > 0) {
+            formData.append('product_featured_image', fileInput.files[0]);
+        }
+
+        try {
+            const res = await fetch(`http://localhost:3000/product/${product_id}`, {
+                method: 'PATCH',
+                body: formData
+            });
+            const data = await res.json();
+            if (!res.ok) {
+    console.error('Update failed:', data);
+    throw new Error(data.details || data.error || 'Failed to update product');
+  }
+            showToast('Product updated successfully', 'success');
+            setTimeout(() => window.location.reload(), 1200);
+        } catch (err) {
+            console.error('Update error:', err);
+         showToast(err.message || 'Update failed', 'danger');
+        }
+        finally {
+            setButtonLoading(editProductBtn, false);
+        }
+    };
+
+
+        const editModal = document.getElementById('editModal');
+    if (editModal) {
+        editModal.addEventListener('show.bs.modal', function () {
+            loadProductForEdit();
+        });
+    }
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const supplierSelect = document.querySelector('#orderForm #supplier');
+    const productSelect = document.getElementById('productSelect');
+    const variationSelect = document.getElementById('variationSelect');
+    const productTableBody = document.getElementById('productTableBody');
+    const totalAmountSpan = document.getElementById('totalAmount');
+    const orderForm = document.getElementById('orderForm');
+
+    let orderItems = [];
+    let currentProduct = null;
+
+    function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+    const product_id = getQueryParam('product_id');
+
+   
+    async function loadSuppliers() {
+        supplierSelect.innerHTML = '<option selected disabled>Loading...</option>';
+        try {
+            const res = await fetch('http://localhost:3000/product_supplier');
+            const data = await res.json();
+            supplierSelect.innerHTML = '';
+            if (Array.isArray(data) && data.length > 0) {
+                supplierSelect.innerHTML = '<option selected disabled>Choose...</option>';
+                data.forEach(sup => {
+                    const opt = document.createElement('option');
+                    opt.value = sup.supplier_id;
+                    opt.textContent = sup.supplier_name;
+                    supplierSelect.appendChild(opt);
+                });
+            } else {
+                supplierSelect.innerHTML = '<option selected disabled>No data yet</option>';
+            }
+        } catch {
+            supplierSelect.innerHTML = '<option selected disabled>Failed to load</option>';
+        }
+    }
+
+  
+    async function loadCurrentProduct() {
+        productSelect.innerHTML = '<option value="">Loading...</option>';
+        productSelect.disabled = true;
+        try {
+            const res = await fetch(`http://localhost:3000/product/${product_id}`);
+            if (!res.ok) throw new Error();
+            const product = await res.json();
+            currentProduct = product;
+            productSelect.innerHTML = '';
+            const opt = document.createElement('option');
+            opt.value = product.product_id;
+            opt.textContent = product.product_name;
+            opt.selected = true;
+            productSelect.appendChild(opt);
+            productSelect.disabled = true;
+        } catch {
+            productSelect.innerHTML = '<option value="">Failed to load</option>';
+        }
+    }
+
+   
+    async function getVariationName(variations_id) {
+        try {
+            const res = await fetch(`http://localhost:3000/product_variations/${variations_id}/with_attributes`);
+            if (!res.ok) return '';
+            const data = await res.json();
+            if (Array.isArray(data.attributes) && data.attributes.length > 0) {
+                return data.attributes.map(a => a.value).join('-');
+            }
+            return '';
+        } catch {
+            return '';
+        }
+    }
+
+    
+    async function loadVariations() {
+        variationSelect.innerHTML = '<option value="">Loading...</option>';
+        try {
+            const res = await fetch(`http://localhost:3000/product_variations/product/${product_id}`);
+            const data = await res.json();
+            variationSelect.innerHTML = '<option value="">Select Variation</option>';
+            if (Array.isArray(data) && data.length > 0) {
+                for (const variation of data) {
+                   
+                    const variationName = await getVariationName(variation.variations_id);
+                    const opt = document.createElement('option');
+                    opt.value = variation.variations_id;
+                    opt.textContent = variationName ? variationName : (variation.sku || variation.variations_id);
+                    opt.dataset.variationName = variationName;
+                    opt.dataset.costPrice = variation.cost_price;
+                    variationSelect.appendChild(opt);
+                }
+            } else {
+                variationSelect.innerHTML = '<option value="">No data yet</option>';
+            }
+        } catch {
+            variationSelect.innerHTML = '<option value="">Failed to load</option>';
+        }
+    }
+
+   
+    async function addProductToOrderTable() {
+        const product_id_val = productSelect.value;
+        const product_name = productSelect.options[productSelect.selectedIndex]?.text || '';
+        const variations_id = variationSelect.value;
+        const variation_name = variationSelect.options[variationSelect.selectedIndex]?.text || '';
+        const unit_price = parseFloat(variationSelect.options[variationSelect.selectedIndex]?.dataset.costPrice) || 0;
+
+        if (!product_id_val || !variations_id) {
+            showToast('Select product and variation', 'danger');
+            return;
+        }
+
+        let quantity = prompt('Enter quantity:', '1');
+        quantity = parseInt(quantity, 10);
+        if (isNaN(quantity) || quantity <= 0) {
+            showToast('Invalid quantity', 'danger');
+            return;
+        }
+
+        if (orderItems.some(item => item.product_id === product_id_val && item.variations_id === variations_id)) {
+            showToast('This product/variation is already added', 'danger');
+            return;
+        }
+
+        const subtotal = unit_price * quantity;
+
+        orderItems.push({
+            product_id: product_id_val,
+            product_name,
+            variations_id,
+            variation_name,
+            quantity,
+            unit_price,
+            subtotal
+        });
+
+        renderOrderTable();
+    }
+
+    
+    function renderOrderTable() {
+        productTableBody.innerHTML = '';
+        let total = 0;
+        if (orderItems.length === 0) {
+            productTableBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">No products added</td></tr>`;
+        } else {
+            orderItems.forEach((item, idx) => {
+                total += item.subtotal;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.product_name}</td>
+                    <td>${item.variation_name}</td>
+                    <td>
+                        <input type="number" min="1" class="form-control form-control-sm order-qty-input" data-idx="${idx}" value="${item.quantity}">
+                    </td>
+                    <td>
+                        <input type="number" min="0" step="0.01" class="form-control form-control-sm order-unit-price-input" data-idx="${idx}" value="${item.unit_price}">
+                    </td>
+                    <td>${item.subtotal.toLocaleString()}</td>
+                    <td><button type="button" class="btn btn-danger btn-sm" data-idx="${idx}">Remove</button></td>
+                `;
+                productTableBody.appendChild(tr);
+            });
+        }
+        totalAmountSpan.textContent = total.toLocaleString(undefined, {minimumFractionDigits: 2});
+
+        
+        productTableBody.querySelectorAll('button[data-idx]').forEach(btn => {
+            btn.onclick = function() {
+                const idx = parseInt(this.dataset.idx, 10);
+                orderItems.splice(idx, 1);
+                renderOrderTable();
+            };
+        });
+
+       
+        productTableBody.querySelectorAll('.order-qty-input').forEach(input => {
+            input.onchange = function() {
+                const idx = parseInt(this.dataset.idx, 10);
+                let qty = parseInt(this.value, 10);
+                if (isNaN(qty) || qty <= 0) qty = 1;
+                orderItems[idx].quantity = qty;
+                orderItems[idx].subtotal = orderItems[idx].unit_price * qty;
+                renderOrderTable();
+            };
+        });
+
+       
+        productTableBody.querySelectorAll('.order-unit-price-input').forEach(input => {
+            input.onchange = function() {
+                const idx = parseInt(this.dataset.idx, 10);
+                let price = parseFloat(this.value);
+                if (isNaN(price) || price < 0) price = 0;
+                orderItems[idx].unit_price = price;
+                orderItems[idx].subtotal = price * orderItems[idx].quantity;
+                renderOrderTable();
+            };
+        });
+    }
+
+   
+    variationSelect.addEventListener('change', addProductToOrderTable);
+
+
+    document.getElementById('orderModel').addEventListener('show.bs.modal', function () {
+        loadSuppliers();
+        loadCurrentProduct();
+        loadVariations();
+        orderItems = [];
+        renderOrderTable();
+        totalAmountSpan.textContent = '0.00';
+    });
+
+     orderForm.addEventListener('submit', async function (e) {
+        const addOrderBtn = document.getElementById('addOrderBtn');
+        setButtonLoading(addOrderBtn, true, "Creating Order...");
+        e.preventDefault();
+        if (orderItems.length === 0) {
+            showToast('Add at least one product to the order', 'danger');
+            return;
+        }
+        const supplier_id = supplierSelect.value;
+        const supplier_name = supplierSelect.options[supplierSelect.selectedIndex]?.text || '';
+        const order_date = document.getElementById('orderDate').value;
+        const expected_delivery_date = document.getElementById('deliveryDate').value;
+
+         let created_by = "System";
+    try {
+        const adminStr = sessionStorage.getItem('admin');
+        if (adminStr) {
+            const admin = JSON.parse(adminStr);
+            if (admin.first_name || admin.last_name) {
+                created_by = `${admin.first_name || ''} ${admin.last_name || ''}`.trim();
+            }
+        }
+    } catch {
+        created_by = "System";
+    }
+
+        if (!supplier_id || !order_date) {
+            showToast('Supplier and order date are required', 'danger');
+            return;
+        }
+
+        try {
+               for (const item of orderItems) {
+            await fetch(`http://localhost:3000/product_variations/${item.variations_id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cost_price: item.unit_price })
+            });
+        }
+          
+          const payload = {
+            supplier_id,
+            supplier_name,
+            order_date,
+            expected_delivery_date,
+            created_by,
+            items: orderItems.map(item => ({
+                product_id: item.product_id,
+                product_name: item.product_name,
+                variations_id: item.variations_id,
+                variation_name: item.variation_name,
+                order_quantity: item.quantity,
+                order_amount: item.subtotal,
+                unit_price: item.unit_price
+            }))
+        };
+        const res = await fetch('http://localhost:3000/product_order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to create order');
+
+        showToast('Order created successfully', 'success');
+        setTimeout(() => window.location.reload(), 1200);
+        orderForm.reset();
+        orderItems = [];
+        renderOrderTable();
+        totalAmountSpan.textContent = '0.00';
+        bootstrap.Modal.getInstance(document.getElementById('orderModel')).hide();
+    } catch (err) {
+        showToast(err.message || 'Failed to create order', 'danger');
+    }finally {
+        setButtonLoading(addOrderBtn, false);
+    }
+});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const fileInput = document.getElementById('editProductFeaturedImage');
+  const previewContainer = document.getElementById('imagePreviewContainer');
+
+  fileInput.addEventListener('change', function () {
+    const file = fileInput.files[0];
+    previewContainer.innerHTML = ''; // clear old preview
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = 'Design Preview';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '200px';
+        img.style.border = '1px solid #ccc';
+        img.style.padding = '4px';
+        previewContainer.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewContainer.innerHTML = '<span class="text-danger">No preview available for non-image file.</span>';
+    }
+  });
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput3 = document.getElementById('variationImage');
+        const previewContainer3 = document.getElementById('imagePreviewContainer3');
+  fileInput3.addEventListener('change', function () {
+    const file = fileInput3.files[0];
+    previewContainer3.innerHTML = '';
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = 'Design Preview';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '200px';
+        img.style.border = '1px solid #ccc';
+        img.style.padding = '4px';
+        previewContainer3.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewContainer3.innerHTML = '<span class="text-danger">No preview available for non-image file.</span>';
+    }
+  });
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const fileInput2 = document.getElementById('edit_design_file');
+    const previewContainer2 = document.getElementById('imagePreviewContainer2');
+    fileInput2.addEventListener('change', function () {
+    const file = fileInput2.files[0];
+    previewContainer2.innerHTML = '';
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = 'Design Preview';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '200px';
+        img.style.border = '1px solid #ccc';
+        img.style.padding = '4px';
+        previewContainer2.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewContainer2.innerHTML = '<span class="text-danger">No preview available for non-image file.</span>';
+    }
+  });
+});
+</script>
+
+<script>
+    function setButtonLoading(btn, isLoading, loadingText = "Processing...") {
+    if (!btn) return;
+    if (isLoading) {
+        btn.disabled = true;
+        btn.dataset.originalText = btn.textContent;
+        btn.textContent = loadingText;
+    } else {
+        btn.disabled = false;
+        btn.textContent = btn.dataset.originalText || "Submit";
+    }
+}
+</script>
+
+<script>
+	let allOrders = [];
+let filteredOrders = [];
+let orderCurrentPage = 1;
+const orderPageSize = 10;
+
+function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleDateString('en-GB');
+    }
+
+
+async function fetchOrders() {
+    const params = new URLSearchParams(window.location.search);
+    const product_id = params.get('product_id');
+    if (!product_id) {
+        showToast("No product selected", "danger");
+        return [];
+    }
+    try {
+        const res = await fetch(`http://localhost:3000/product_order/product/${product_id}`);
+        if (!res.ok) throw new Error("Failed to fetch orders");
+        return await res.json();
+    } catch (err) {
+        showToast("Error loading orders", "danger");
+        return [];
+    }
+}
+
+function groupOrdersByOrderId(orders) {
+    const grouped = {};
+    for (const order of orders) {
+        if (!grouped[order.order_id]) {
+            grouped[order.order_id] = {
+                ...order,
+                items: [],
+                total_amount: 0
+            };
+        }
+        grouped[order.order_id].items.push(order);
+        grouped[order.order_id].total_amount += Number(order.order_amount) || 0;
+    }
+    return Object.values(grouped);
+}
+
+function renderOrderTable(page = 1) {
+     const tbody = document.querySelector('.tab-pane#five tbody'); 
+    if (!filteredOrders || filteredOrders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">No orders found</td></tr>`;
+        renderOrderPagination(1, 1);
+        return;
+    }
+    const start = (page - 1) * orderPageSize;
+    const end = start + orderPageSize;
+    const pageData = filteredOrders.slice(start, end);
+
+    tbody.innerHTML = "";
+    for (const order of pageData) {
+          let paymentStatus = "Awaiting Payment Confirmation";
+        let paymentClass = "text-warning";
+        if (order.has_payment_confirmed === "confirmed") {
+            paymentStatus = "Paid";
+            paymentClass = "text-success";
+        } else if (order.has_payment_confirmed === "awaiting") {
+            paymentStatus = "Awaiting Payment Confirmation";
+            paymentClass = "text-warning";
+        }
+        tbody.innerHTML += `
+        <tr>
+            <td>${order.order_id}</td>
+            <td>${order.supplier_name}</td>
+            <td>${formatDate(order.order_date)}</td>
+            <td>${formatDate(order.expected_delivery_date)}</td>
+            <td>${Number(order.total_amount).toLocaleString()}</td>
+            <td>${order.created_by || ''}</td>
+            <td class="${paymentClass}">${paymentStatus}</td>
+            <td>
+                <span class="badge bg-${order.order_status === 'received' ? 'success' : order.order_status === 'pending' ? 'warning' : 'danger'}">
+                    ${order.order_status.charAt(0).toUpperCase() + order.order_status.slice(1)}
+                </span>
+            </td>
+            <td>
+                <i class="fs-3 bi bi-three-dots text-success"
+                   style="cursor: pointer;"
+                   data-order-id="${order.order_id}">
+                </i>
+            </td>
+        </tr>`;
+    }
+
+  document.querySelectorAll('.tab-pane#five .bi-three-dots').forEach((icon, idx) => {
+    icon.addEventListener('click', function (e) {
+        document.querySelectorAll('.popover-menu').forEach(p => p.remove());
+        const pop = document.createElement('div');
+        pop.className = 'popover-menu position-absolute bg-white border rounded shadow-sm p-2';
+        pop.style.minWidth = '120px';
+        pop.style.top = (icon.getBoundingClientRect().bottom + window.scrollY) + 'px';
+        pop.style.left = (icon.getBoundingClientRect().left + window.scrollX - 60) + 'px';
+
+       
+        const order = filteredOrders[(orderCurrentPage - 1) * orderPageSize + idx];
+
+         let actions = `
+                <a href="../inventory/po.html?order_id=${icon.getAttribute('data-order-id')}" class="d-block text-decoration-none mb-1">View</a>
+                <a href="#" class="d-block text-danger text-decoration-none delete-order">Delete</a>
+            `;
+            if (order.has_payment_confirmed === "confirmed" && order.order_status !== 'received') {
+                actions += `<a href="#" class="d-block text-success text-decoration-none mark-received">Mark as Received</a>`;
+            } else if (order.has_payment_confirmed === "awaiting") {
+                actions += `<a href="#" class="d-block text-primary text-decoration-none paid-for">Mark As Paid</a>`;
+            }
+
+            pop.innerHTML = actions;
+            document.body.appendChild(pop);
+
+        function closePop(e) {
+            if (!pop.contains(e.target) && e.target !== icon) {
+                pop.remove();
+                document.removeEventListener('mousedown', closePop);
+            }
+        }
+        document.addEventListener('mousedown', closePop);
+
+        pop.querySelector('.delete-order').onclick = (ev) => {
+            ev.preventDefault();
+            if (confirm("Are you sure you want to delete this order?")) {
+                deleteOrder(icon.getAttribute('data-order-id'));
+            }
+            pop.remove();
+        };
+
+          const paidForBtn = pop.querySelector('.paid-for');
+            if (paidForBtn) {
+                paidForBtn.onclick = async (ev) => {
+                    ev.preventDefault();
+                    paidForBtn.textContent = "Confirming...";
+                    paidForBtn.disabled = true;
+                    try {
+                        const orderId = icon.getAttribute('data-order-id');
+                        const res = await fetch(`http://localhost:3000/product_order/${orderId}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ has_payment_confirmed: "confirmed" })
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.error || "Failed to confirm payment");
+                        showToast("Payment confirmed", "success");
+                        await loadOrderTable();
+                    } catch (err) {
+                        showToast(err.message, "danger");
+                    }
+                    pop.remove();
+                };
+            }
+          const markReceivedBtn = pop.querySelector('.mark-received');
+if (markReceivedBtn && !markReceivedBtn.classList.contains('disabled')) {
+    markReceivedBtn.onclick = async (ev) => {
+        ev.preventDefault();
+        markReceivedBtn.textContent = "Marking...";
+        markReceivedBtn.disabled = true;
+        try {
+            const orderId = icon.getAttribute('data-order-id');
+            const orderRes = await fetch(`http://localhost:3000/product_order/${orderId}`);
+            if (!orderRes.ok) throw new Error("Failed to fetch order items");
+            const orderItems = await orderRes.json();
+
+            for (const item of Array.isArray(orderItems) ? orderItems : [orderItems]) {
+                const variations_id = item.variations_id;
+                const order_quantity = Number(item.order_quantity) || 0;
+                if (!variations_id || !order_quantity) continue;
+
+                const varRes = await fetch(`http://localhost:3000/product_variations/${variations_id}`);
+                if (!varRes.ok) continue;
+                const variation = await varRes.json();
+                const currentQty = Number(variation.current_variations_stock_qty_number) || 0;
+                const newQty = currentQty + order_quantity;
+
+                await fetch(`http://localhost:3000/product_variations/${variations_id}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ current_variations_stock_qty_number: newQty })
+                });
+
+                let performed_by = "System";
+                try {
+                    const adminStr = sessionStorage.getItem('admin');
+                    if (adminStr) {
+                        const admin = JSON.parse(adminStr);
+                        if (admin.first_name || admin.last_name) {
+                            performed_by = `${admin.first_name || ''} ${admin.last_name || ''}`.trim();
+                        }
+                    }
+                } catch {
+                    performed_by = "System";
+                }
+                await fetch('http://localhost:3000/stock_modify', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        adjustment_type: "Purchase",
+                        product_name: item.product_name || "",
+                        product_id: item.product_id || "",
+                        variations_id: item.variations_id || "",
+                        size: order_quantity,
+                        adjustment_action: "increase",
+                        adjustment_reason: "Product was Purchased to add to stock",
+                        notes: "Product was Purchased to add to stock",
+                        date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                        performed_by
+                    })
+                });
+            }
+
+            const res = await fetch(`http://localhost:3000/product_order/${orderId}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ order_status: "received" })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Failed to mark as received");
+            showToast("Order marked as received", "success");
+            setTimeout(() => {
+                window.location.reload();
+            }, 1200);
+            await loadOrderTable();
+        } catch (err) {
+            showToast(err.message, "danger");
+        }
+        pop.remove();
+    };
+}
+        });
+    });
+    renderOrderPagination(page, Math.ceil(filteredOrders.length / orderPageSize));
+}
+
+function renderOrderPagination(current, total) {
+    let pagination = document.getElementById('order-pagination');
+    if (!pagination) {
+        pagination = document.createElement('nav');
+        pagination.id = 'order-pagination';
+        pagination.setAttribute('aria-label', 'Table pagination');
+        pagination.innerHTML = `<ul class="pagination justify-content-end" style="margin-top: 10px;"></ul>`;
+        document.querySelector('.tab-pane#five .table-responsive').appendChild(pagination);
+    }
+    const ul = pagination.querySelector('ul');
+    ul.innerHTML = '';
+
+    ul.innerHTML += `<li class="page-item${current === 1 ? ' disabled' : ''}">
+        <a class="page-link" href="#" tabindex="-1" data-page="${current - 1}">Previous</a>
+    </li>`;
+
+    for (let i = 1; i <= total; i++) {
+        ul.innerHTML += `<li class="page-item${i === current ? ' active' : ''}">
+            <a class="page-link" href="#" data-page="${i}">${i}</a>
+        </li>`;
+    }
+
+    ul.innerHTML += `<li class="page-item${current === total ? ' disabled' : ''}">
+        <a class="page-link" href="#" data-page="${current + 1}">Next</a>
+    </li>`;
+
+    ul.querySelectorAll('a.page-link').forEach(link => {
+        link.onclick = function (e) {
+            e.preventDefault();
+            const page = Number(this.getAttribute('data-page'));
+            if (page >= 1 && page <= total && page !== orderCurrentPage) {
+                orderCurrentPage = page;
+                renderOrderTable(orderCurrentPage);
+            }
+        };
+    });
+}
+
+function filterOrdersByStatus(status) {
+    if (!status || status === 'All') {
+        filteredOrders = [...allOrders];
+    } else {
+        filteredOrders = allOrders.filter(o => o.order_status && o.order_status.toLowerCase() === status.toLowerCase());
+    }
+    orderCurrentPage = 1;
+    renderOrderTable(orderCurrentPage);
+}
+
+function filterOrdersBySearch(term) {
+    if (!term) {
+        filteredOrders = [...allOrders];
+    } else {
+        const t = term.toLowerCase();
+        filteredOrders = allOrders.filter(o =>
+            (o.supplier_name && o.supplier_name.toLowerCase().includes(t)) ||
+            (o.product_name && o.product_name.toLowerCase().includes(t)) ||
+            (o.order_id && o.order_id.toLowerCase().includes(t))
+        );
+    }
+    orderCurrentPage = 1;
+    renderOrderTable(orderCurrentPage);
+}
+
+async function deleteOrder(order_id) {
+    try {
+        const res = await fetch(`http://localhost:3000/product_order/${order_id}`, { method: "DELETE" });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || "Delete failed");
+        }
+        showToast("Order deleted successfully", "success");
+        await loadOrderTable();
+    } catch (err) {
+        showToast(err.message, "danger");
+    }
+}
+
+async function loadOrderTable() {
+    const tbody = document.querySelector('.tab-pane#five tbody');
+    tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">Loading...</td></tr>`;
+    const orders = await fetchOrders();
+      allOrders = groupOrdersByOrderId(orders);
+    filteredOrders = [...allOrders];
+    renderOrderTable(orderCurrentPage);
+}
+
+// Attach filter and search events
+document.addEventListener('DOMContentLoaded', function () {
+    // Status filter
+    document.querySelectorAll('.tab-pane#five .btn-filter').forEach(btn => {
+        btn.onclick = function () {
+            document.querySelectorAll('.tab-pane#five .btn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterOrdersByStatus(btn.textContent.trim());
+        };
+    });
+    // Search input
+    const searchInput = document.querySelector('.tab-pane#five input[placeholder="Search products..."]');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            filterOrdersBySearch(this.value);
+        });
+    }
+    // Initial load
+    loadOrderTable();
+});
+</script>
+
+</body>
+
+</html>

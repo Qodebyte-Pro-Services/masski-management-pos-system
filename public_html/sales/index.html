@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sales Managentment | Maskis Cooking Gas</title>
+
+<!-- Meta -->
+<meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+<meta name="author" content="Bootstrap Gallery" />
+<link rel="shortcut icon" href="../../assets/images/favicon.svg" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- *************
+************ CSS Files *************
+************* -->
+
+<link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/qode-d1.css" />
+<link rel="stylesheet" href="../assets/css/main.min.css" />
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables Core CSS + JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<!-- *************
+************ Vendor Css Files *************
+************ -->
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- html2pdf.js for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Scrollbar CSS -->
+<link rel="stylesheet" href="../assets/vendor/overlay-scroll/OverlayScrollbars.min.css" />
+<style>
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-icon {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+	.pagination .page-item.active .page-link {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      color: white !important;
+    }
+	.pagination  .page-link {color: #28a745 !important;}
+	.file-drop-area {
+      position: relative;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .file-drop-area:hover {
+      background-color: #f8f9fa;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+	
+
+  </style>
+</head>
+
+<body>
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+<!-- Main container start -->
+<div class="main-container" style="background-color: #fff !important;">
+
+<!-- Sidebar wrapper start -->
+<div id="Sidebar"></div>
+<!-- Sidebar wrapper end -->
+
+<!-- App container starts -->
+<div class="app-container" style="flex-grow: 1;">
+<!-- App header starts -->
+<div id="header"></div>
+
+<!-- App header ends -->
+
+<!-- App hero header starts -->
+<div class="app-hero-header mb-4" style=" position: static !important; background-color:transparent;">
+
+<!-- Breadcrumb and Stats start -->
+<div class="d-flex align-items-center mb-3">
+
+<!-- Breadcrumb start -->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<i class="bi bi-house lh-1"></i>
+<a href="../dashboard/ext-decoration-none">Home</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Sales</li>
+</ol>
+<!-- Breadcrumb end -->
+
+<!-- Sales stats start -->
+<!-- Filter Buttons -->
+<div class="ms-auto d-lg-flex d-none flex-row">
+<div class="d-flex flex-row gap-1" id="btnfilter">
+<button type="button" class="btn btn-sm btn-filter btn-range active">Today</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Yesterday</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">Last 7 Days</button>
+<button type="button" class="btn btn-sm btn-filter btn-range">This Month</button>
+<button type="button" class="btn btn-sm btn-filter btn-range" id="customRangeBtn" >Custom Range</button>
+</div>
+<!-- Custom Date Range Picker (Initially Hidden) -->
+<div id="customRangeContainer" class="mb-3" style="display: none;">
+<div class="d-flex gap-2 align-items-center">
+<input type="date" class="form-control form-control-sm" id="startDate" style="height: 10px;"/>
+<span>to</span>
+<input type="date" class="form-control form-control-sm" id="endDate" />
+<button class="btn btn-sm btn-success" onclick="applyCustomRange()">Apply</button>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<!-- Sales stats end -->
+</div>
+<!-- Breadcrumb and stats end -->
+
+<!-- Row start -->
+<div id="gxRow" class="row gx-3">
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Total Fuel Sales</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+	<i class="bi bi-bar-chart fs-4 lh-1 text-primary"></i>
+</div>
+<div>
+
+<div class="h4 text-success  overflow-hidden "
+style="max-width: 130px;">
+₦0
+</div>
+<div class="h5 text-  overflow-hidden "
+style="max-width: 130px;">
+KG
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Total Non Fuel Sales</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-primary grd-primary-light rounded-5 d-flex">
+<i class="bi bi-cart-check fs-4 lh-1 text-primary"></i>
+</div>
+<div>
+<!-- Wrap the long number -->
+<div class="h4 text-success  overflow-hidden "
+style="max-width: 130px;">
+₦0
+</div>
+<div class="h5 text-  overflow-hidden "
+style="max-width: 130px;">
+pcs
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="card mb-3">
+<div class="card-body">
+<h6 class="mb-3">Cash : Pos : Transfer : Split Ratio</h6>
+<div class="mb-2 d-flex align-items-center justify-content-between">
+<div class="p-3 border border-warning grd-warning-light rounded-5 d-flex">
+<i class="bi bi-bar-chart-steps fs-4 lh-1 text-warning"></i>
+
+</div>
+<h4 class="text-warning">0 : 0 : 0 </h4>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+<!-- Row end -->
+</div>
+<!-- App Hero header ends -->
+<!-- App body starts -->
+<div class="app-body">
+<!-- Row start -->
+<div class="row gx-3" style="margin-top: -30px;">
+	<div class="col-xxl-12">
+	<div class="card mb-3">
+	<div class="card-body" style="background-color:#e4e9f0">
+	<div class="custom-tabs-container">
+	<ul class="nav nav-tabs" id="customTab" role="tablist" style="background-color: #f8f9fa;">
+	<li class="nav-item" role="presentation">
+	<a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#one" role="tab" aria-controls="one" aria-selected="true">Overview</a>
+	</li>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#two" role="tab" aria-controls="two" aria-selected="false" tabindex="-1">Sales History</a>
+		</li>
+		
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" href="sales-reports.html">Sales Reports</a>
+		</li>
+	
+	
+	</ul>
+	<div class="tab-content" id="customTabContent" style="margin: 0 -20px;">
+	
+	
+	<!-- Tab one section -->
+	<div class="tab-pane fade show active" id="one" role="tabpanel" aria-labelledby="tab-one" >
+	<div class=" text-center">
+	
+		<div class="col-lg-12 mx-auto" style="background-color: #f8f9fa;height: 500px;">
+			<div class="chart-container">
+			<div class="header">
+			<div>
+			<h3>Today's Overview</h3>
+			<p style="color: gray;">Fuel and non fuel Sales </p>
+			</div>
+			
+			<select hidden id="filterSelect">
+			<option value="Today">Today</option>
+			<option value="7days">last 7 days</option>
+			
+			<option value="Month">This Month</option>
+			<option value="Year">This Year</option>
+			</select>
+			</div>
+			
+			<canvas id="salesChart2" style="width: 100%; height: 100%;"></canvas>
+			
+			</div>
+			
+			</div>
+	<!---------donught section----------------->
+	<div class="row gx-3">
+	<div class="col-lg-6 mx-auto mt-4" style="background-color: #f8f9fa;  border-radius: 12px; padding: 20px;">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+	<div>
+	<h3 class="mb-0">Sales Distribution</h3>
+	<div class="text-secondary mb-2">Sales made through pruchase method</div>
+	</div>
+	
+	
+	<select hidden id="filterSelect" class="form-select w-auto" style="font-size: 14px;">
+	<option value="Today">Today</option>
+	<option value="7days">last 7 days</option>
+	
+	<option value="Month">Month</option>
+	<option value="Year">Year</option>
+	</select>
+	</div>
+	
+	<div class="row" id="salesCategories">
+	<!-- Left: Chart -->
+	<div class="col-md-6">
+	<canvas id="donutChart" style="max-height: 200px;"></canvas>
+	
+	</div>
+	
+	<!-- Right: Revenue Info -->
+	<div class="col-md-6">
+
+	
+	<div class="revenue mb-2">
+	
+	</div>
+	<div class="legend mt-4">
+	<div class="legend-item d-flex justify-content-between mb-2">
+	<div class="d-flex align-items-center">
+	<span class="dot me-2" style="background:#f16565; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+	Walk-In
+	</div>
+	<div><span id="gasAmount">0</span></div>
+	</div>
+	
+	<div class="legend-item d-flex justify-content-between">
+	<div class="d-flex align-items-center">
+	<span class="dot me-2" style="background:#3ed9a4; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+	Online
+	</div>
+	<div><span id="storeAmount">0</span></div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div >
+
+
+	<div class="col-lg-5 mx-auto mt-4" style="background-color: #f8f9fa; ">
+		<div class="card mb-3" style="background-color: #f8f9fa;">
+			<div class="header p-3">
+			<div >
+			<h3>Top Selling Products</h3>
+			<p style="color: gray;">List of all the products with highest Sales</p>
+			</div>
+			<div class="dt-buttons btn-group">
+				
+			</div>
+			</div>
+			
+			<div class="card-body" style="padding: 0px !important;">
+			
+			
+			
+			<div class="table-responsive">
+				<table id="employeeTable"   class="display nowrap table align-middle table-hover m-0" style="width:100%; background-color: #f8f9fa; border: 1px solid #dee2e6;">
+			<thead >
+			<tr>
+			
+			<th scope="col">Product</th>
+			<th scope="col">Item</th>
+			<th scope="col">Quantity</th>
+			<th scope="col">Units Price(#)</th>
+			<th scope="col">Total (#)</th>
+			</tr>
+			</thead>
+			<tbody>
+	
+			
+			</tbody>
+			</table>
+			<!-- <nav aria-label="Table pagination">
+				<ul class="pagination justify-content-end" style="margin-top: 10px;">
+				  <li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">Previous</a>
+				  </li>
+				  <li class="page-item"><a class="page-link" href="#">1</a></li>
+				  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+				  <li class="page-item"><a class="page-link" href="#">3</a></li>
+				  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
+			  </nav> -->
+			</div>
+			</div>
+			</div>
+	</div>
+</div>
+	
+	</div>
+	</div>
+	<!-- end  -->
+	
+	
+	
+	<!------------------------------ Tab two sales history--------------------------------->
+	<div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="tab-two" style="background-color: #f8f9fa;padding:  20px ;">
+	
+	
+		<div class="col-xxl-12">
+			<div class="card mb-3" style="background-color: #f8f9fa;">
+				<div class="header">
+				<div >
+				<h3>Recent Sales</h3>
+				
+				<p style="color: gray;">All Sales history paid,pending and cancelled sales</p>
+				</div>
+				<div class="dt-buttons btn-group">
+					<button class="btn btn-info me-2" onclick="exportToExcel()">📥 Excel</button>
+					<button id="downloadBtn" class="btn btn-outline-success me-2" onclick="downloadPDF()">📄 PDF</button>
+					<button id="printBtn" class="btn btn-success">Print</button>
+				  </div>
+				  
+				</div>
+				
+				<div class="card-body" style="padding: 0px !important;">
+				<div>
+				<div class="d-flex flex-wrap gap-2 mb-3" >
+				
+				<button type="button " class="btn  btn-sm btn-filter active">
+				All
+				</button>
+				<button type="button " class="btn  btn-sm btn-filter">
+				Paid
+				</button>		
+				
+				</div>
+				
+				</div>
+				<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+				
+				<!-- Search Input with Icon Button (Right-aligned) -->
+				<div class="input-group" style="width: 60%;">
+				<button class="btn btn-sm btn-outline-secondary" type="button">
+				<i class="bi bi-search"></i>
+				</button>
+				<input type="text" class="form-control form-control-sm" placeholder="Search sales by cashier,customer,sales point">
+				
+				
+				</div>
+				<div class="filter-wrapper">
+			
+
+					<select>
+					  <option value="">Filter by</option>
+					  <option value="date">Status</option>
+					  <option value="date">Cashier</option>
+					  <option value="status">Csutomer</option>
+					  <option value="amount">Sales  Point</option>
+					  <option value="amount">Payment Method</option>
+					</select>
+				  </div>
+				</div>
+				
+				<div class="table-responsive" id="salesTable">
+				<table id="transactions" class="table align-middle table-hover m-0" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+				<thead>
+				<tr>
+					<th>Invoice No</th>
+					<th> Time</th>
+					<th>Customer Name</th>				
+					<th>Payment</th>
+          <th>Cashier</th>
+      <th>Discount(#)</th>
+      <th>VAT(#)</th>
+      <th>Total(#)</th>
+	  <th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+				</table>
+				<nav aria-label="Table pagination">
+					<ul class="pagination justify-content-end" style="margin-top: 10px;">
+					  <li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					  </li>
+					  <li class="page-item"><a class="page-link" href="#">1</a></li>
+					  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+					  <li class="page-item"><a class="page-link" href="#">3</a></li>
+					  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				  </nav>
+				</div>
+				</div>
+				</div>
+		</div>
+		
+		</div>
+	
+	
+	
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	
+	</div>
+<!-- Row end -->
+<!----Model section -->
+<div id="model"></div>
+</div>
+<!-- App body ends -->
+<div id="footer"></div>
+
+<!-- App footer end -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="../assets/js/qode.min1.js"></script>
+<script src="../assets/js/component.js"></script>
+<!-- <script src="../assets/js/dashbaoardchart.js"></script> -->
+<!-- <script src="../assets/js/donutChart.js"></script> -->
+<script src="../assets/js/form.js"></script>
+
+<script>
+	//function to hide overwiev matrice when click tabs
+	document.addEventListener("DOMContentLoaded", function () {
+	  const gxRow = document.getElementById("gxRow");
+	  const customTab = document.getElementById("customTab");
+  
+	  // Function to toggle visibility
+	  function toggleGxRow(activeTabId) {
+		if (activeTabId === "tab-one") {
+		  gxRow.style.setProperty("display", "flex", "important"); // for .row
+		} else {
+		  gxRow.style.setProperty("display", "none", "important");
+		}
+	  }
+  
+	  // Initial check on page load
+	  const activeTab = customTab.querySelector(".nav-link.active");
+	  toggleGxRow(activeTab?.id);
+  
+	  // Event listener for tab change
+	  customTab.querySelectorAll(".nav-link").forEach(link => {
+		link.addEventListener("shown.bs.tab", function (e) {
+		  toggleGxRow(e.target.id);
+		});
+	  });
+	});
+
+	
+	document.getElementById('printBtn').addEventListener('click', function () {
+            const invoiceContent = document.getElementById('salesTable').innerHTML;
+            const originalContent = document.body.innerHTML;
+    
+            document.body.innerHTML = invoiceContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Optional: reloads the page after printing
+        });
+
+        
+       
+      
+        
+
+  function exportToExcel() {
+    let wb = XLSX.utils.book_new();
+    [ 'transactions'].forEach(id => {
+      const ws = XLSX.utils.table_to_sheet(document.getElementById(id));
+      XLSX.utils.book_append_sheet(wb, ws, id.charAt(0).toUpperCase() + id.slice(1));
+    });
+    XLSX.writeFile(wb, 'Daily-Sales-Report.xlsx');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("report");
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: 'Daily-Sales-Report.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }).save();
+  }
+
+  
+
+
+  </script>
+  
+
+</div>
+<!-- App container ends -->
+
+</div>
+<!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+************ JavaScript Files *************
+************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- *************
+************ Vendor Js Files *************
+************* -->
+<!-- Buttons Extension -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- Required for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Required for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Overlay Scroll JS -->
+<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+<!-- Apex Charts -->
+<script src="../assets/vendor/apex/apexcharts.min.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/sales.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/revenue.js"></script>
+<script src="../assets/vendor/apex/custom/dash1/source.js"></script>
+
+<!-- Vector Maps -->
+<script src="../assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+<script src="../assets/vendor/jvectormap/gdp-data.js"></script>
+<script src="../assets/vendor/jvectormap/continents-mill.js"></script>
+<script src="../assets/vendor/jvectormap/custom/world-map-markers3.js"></script>
+<script>
+const ORDERS_API = "http://localhost:3000/order";
+let currentPage = 1;
+let currentSearch = '';
+let currentFilter = 'today';
+let customStart = '';
+let customEnd = '';
+const pageSize = 10;
+
+// Shared Formatters
+function formatCurrency(num, prefix = '₦') {
+  return prefix + Number(num).toLocaleString();
+}
+
+function formatQty(num, unit = "pcs") {
+  return Number(num).toLocaleString() + unit;
+}
+
+function showCustomRange() {
+  document.getElementById('customRangeContainer').style.display = '';
+}
+
+function hideCustomRange() {
+  document.getElementById('customRangeContainer').style.display = 'none';
+}
+
+function setActiveBtn(btn) {
+  document.querySelectorAll('#btnfilter .btn-range').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// Dashboard Logic
+async function fetchDashboardData(range = 'today', start = '', end = '') {
+  let url = `http://localhost:3000/dashboard_sales_summary?range=${range}`;
+  if (range === 'custom' && start && end) {
+    url += `&start=${start}&end=${end}`;
+  }
+  const res = await fetch(url);
+  return await res.json();
+}
+
+function updateFuelCard(data) {
+  document.querySelectorAll('.card-body').forEach(card => {
+    if (card.querySelector('h6')?.textContent.includes('Total Fuel Sales')) {
+      card.querySelector('.h4').textContent = formatCurrency(data.sales);
+      card.querySelector('.h5').textContent = formatQty(data.sold_qty, "KG");
+    }
+  });
+}
+
+function updateOtherCard(data) {
+  document.querySelectorAll('.card-body').forEach(card => {
+    if (card.querySelector('h6')?.textContent.includes('Total Non Fuel Sales')) {
+      card.querySelector('.h4').textContent = formatCurrency(data.sales);
+      card.querySelector('.h5').textContent = formatQty(data.sold_qty, "pcs");
+    }
+  });
+}
+
+function updateCashPosTransfer(ratio) {
+  const card = Array.from(document.querySelectorAll('.card-body')).find(card =>
+    card.querySelector('h6')?.textContent.includes('Cash : Pos : Transfer : Split Ratio')
+  );
+  if (!card) return;
+  const cash = ratio['cash'] || 0;
+  const pos = ratio['pos'] || ratio['credit_card'] || 0;
+  const transfer = ratio['bank_transfer'] || ratio['transfer'] || 0;
+   const split = ratio['split'] || 0;
+   
+  card.querySelector('h4').textContent = `${cash} : ${pos} : ${transfer} : ${split}`;
+}
+
+function updateTopProductsTable(products) {
+  const tbody = document.querySelector('#employeeTable tbody');
+  tbody.innerHTML = '';
+  products.forEach(prod => {
+    const variationLabel = prod.variation ? prod.variation + ' ' : '';
+    const imgSrc = prod.variation_image
+      ? `http://localhost:3000/uploads/${prod.variation_image}`
+      : 'https://via.placeholder.com/40x40?text=No+Image';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><img src="${imgSrc}" alt="${prod.product_name}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;"></td>
+      <td>${variationLabel}${prod.product_name}</td>
+      <td>${prod.total_sold}</td>
+      <td>${formatCurrency(prod.unit_price)}</td>
+      <td>${formatCurrency(prod.total_sales)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+let salesChart2;
+function updateSalesGraph(salesGraph) {
+  const ctx = document.getElementById('salesChart2').getContext('2d');
+  const labels = salesGraph.map(row => row.hour);
+  const fuelData = salesGraph.map(row => row.fuel);
+  const otherData = salesGraph.map(row => row.others);
+  if (salesChart2) salesChart2.destroy();
+  salesChart2 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Fuel', data: fuelData, backgroundColor: '#28a745' },
+        { label: 'Non fuel', data: otherData, backgroundColor: '#007bff' }
+      ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+  });
+}
+
+function updateDonutChart(orderMethodDonut) {
+  const legendMap = {
+    'at_station_order': { label: 'Walk-In', color: '#f16565', amountId: 'gasAmount' },
+    'online_order': { label: 'Online', color: '#3ed9a4', amountId: 'storeAmount' }
+  };
+  const labels = [], data = [], backgroundColors = [];
+  let walkInValue = 0, onlineValue = 0;
+  Object.entries(orderMethodDonut).forEach(([key, value]) => {
+    if (legendMap[key]) {
+      labels.push(legendMap[key].label);
+      data.push(value);
+      backgroundColors.push(legendMap[key].color);
+      if (key === 'at_station_order') walkInValue = value;
+      if (key === 'online_order') onlineValue = value;
+    }
+  });
+  document.getElementById('gasAmount').textContent = walkInValue;
+  document.getElementById('storeAmount').textContent = onlineValue;
+  const ctx = document.getElementById('donutChart').getContext('2d');
+  if (window.donutChart && typeof window.donutChart.destroy === 'function') window.donutChart.destroy();
+  window.donutChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor: backgroundColors }] },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+}
+
+async function refreshDashboard(range = 'today', start = '', end = '') {
+  const data = await fetchDashboardData(range, start, end);
+  updateFuelCard(data.total_fuel_data);
+  updateOtherCard(data.total_other_stock_data);
+  updateCashPosTransfer(data.payment_method_ratio);
+  updateSalesGraph(data.sales_graph);
+  updateDonutChart(data.order_method_donut);
+  updateTopProductsTable(data.top_selling_products);
+}
+
+// Orders Logic
+async function fetchOrders(page = 1, search = '', filter = 'today', start = '', end = '') {
+  let url = `${ORDERS_API}?page=${page}&limit=${pageSize}&search=${encodeURIComponent(search)}&filter=${encodeURIComponent(filter)}`;
+  if (filter === 'custom' && start && end) url += `&start=${start}&end=${end}`;
+  const res = await fetch(url);
+  return await res.json();
+}
+
+function renderOrdersTable(orders) {
+  const tbody = document.querySelector('#transactions tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  orders.forEach(order => {
+    const createdAt = new Date(order.created_at);
+    const now = new Date();
+    const isToday = createdAt.toDateString() === now.toDateString();
+    const formattedTime = createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+    const formattedDate = `${createdAt.getDate()}/${createdAt.getMonth() + 1}/${createdAt.getFullYear()}`;
+    const displayTime = isToday ? formattedTime : `${formattedTime} ${formattedDate}`;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${order.order_id}</td>
+      <td>${displayTime}</td>
+      <td>${order.customer_fullname || ''}</td>
+      <td>${(() => {
+        const pm = order.payment_method || '';
+        if (pm === 'credit_card') return 'Card';
+        if (pm === 'cash') return 'Cash';
+        if (pm === 'bank_transfer') return 'Transfer';
+        if (pm === 'split') return 'Split';
+        return pm.charAt(0).toUpperCase() + pm.slice(1);
+      })()}</td>
+      <td>${order.cashier_name}</td>
+      <td>${formatCurrency(order.discount || 0)}</td>
+      <td>${formatCurrency(order.tax || 0)}</td>
+      <td>${formatCurrency(order.total_order_amount || 0)}</td>
+      <td><i class="fs-3 bi bi-three-dots text-success" data-bs-toggle="popover" data-bs-placement="bottom" tabindex="0" data-bs-content='
+        <a href="../sales/invoice.html?order_id=${order.order_id}" class="d-block text-decoration-none mb-1">View</a>
+        <a href="#" class="d-block text-danger text-decoration-none" onclick="deleteOrder(\"${order.order_id}\")">Delete</a>' style="cursor: pointer;"></i></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  setTimeout(initPopovers, 0);
+}
+
+function renderPagination(total) {
+  const pageCount = Math.ceil(total / pageSize);
+  const pagination = document.querySelector('.pagination');
+  if (!pagination) return;
+  pagination.innerHTML = '';
+  pagination.innerHTML += `<li class="page-item${currentPage === 1 ? ' disabled' : ''}"><a class="page-link" href="#" onclick="gotoPage(${currentPage - 1});return false;">Previous</a></li>`;
+  for (let i = 1; i <= pageCount; i++) {
+    pagination.innerHTML += `<li class="page-item${i === currentPage ? ' active' : ''}"><a class="page-link" href="#" onclick="gotoPage(${i});return false;">${i}</a></li>`;
+  }
+  pagination.innerHTML += `<li class="page-item${currentPage === pageCount ? ' disabled' : ''}"><a class="page-link" href="#" onclick="gotoPage(${currentPage + 1});return false;">Next</a></li>`;
+}
+
+function initPopovers() {
+  const popoverElements = document.querySelectorAll('[data-bs-toggle="popover"]');
+  popoverElements.forEach(el => {
+    if (el._popoverInstance) el._popoverInstance.dispose();
+    el._popoverInstance = new bootstrap.Popover(el, { trigger: 'click', html: true });
+  });
+}
+
+async function loadOrders() {
+  const { total, orders } = await fetchOrders(currentPage, currentSearch, currentFilter, customStart, customEnd);
+  renderOrdersTable(orders);
+  renderPagination(total);
+}
+
+window.gotoPage = function (page) {
+  if (page < 1) return;
+  currentPage = page;
+  loadOrders();
+};
+
+window.applyCustomRange = function () {
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
+  if (!start || !end) return showToast('Please select both start and end dates');
+  setActiveBtn(document.getElementById('customRangeBtn'));
+  customStart = start;
+  customEnd = end;
+  currentFilter = 'custom';
+  currentPage = 1;
+  refreshDashboard('custom', start, end);
+  loadOrders();
+  hideCustomRange();
+};
+
+window.deleteOrder = async function (order_id) {
+  if (confirm('Are you sure you want to delete this order?')) {
+    try {
+      const res = await fetch(`${ORDERS_API}/${order_id}`, { method: 'DELETE', credentials: 'include' });
+      const data = await res.json();
+      if (res.ok) {
+        showToast('Order deleted successfully');
+        setTimeout(() => loadOrders(), 1000);
+      } else {
+        showToast(data.error || 'Failed to delete order');
+      }
+    } catch (err) {
+      showToast('Network error. Could not delete order.');
+    }
+  }
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+  refreshDashboard();
+  loadOrders();
+  document.querySelectorAll('#btnfilter .btn-range').forEach(btn => {
+    btn.addEventListener('click', function () {
+      setActiveBtn(this);
+      const text = this.textContent.trim().toLowerCase();
+      hideCustomRange();
+      if (text === 'today') {
+        currentFilter = 'today';
+        refreshDashboard('today');
+      } else if (text === 'yesterday') {
+        currentFilter = 'yesterday';
+        refreshDashboard('yesterday');
+      } else if (text.includes('7')) {
+        currentFilter = 'last7days';
+        refreshDashboard('last7days');
+      } else if (text.includes('month')) {
+        currentFilter = 'thismonth';
+        refreshDashboard('thismonth');
+      } else if (text.includes('custom')) {
+        showCustomRange();
+        return;
+      }
+      currentPage = 1;
+      loadOrders();
+    });
+  });
+
+  const searchInput = document.querySelector('.input-group input[type="text"]');
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      currentSearch = this.value;
+      currentPage = 1;
+      loadOrders();
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {
+      if (el._popoverInstance && !el.contains(e.target)) {
+        el._popoverInstance.hide();
+      }
+    });
+  });
+});
+</script>
+
+<!-- <script>
+const ORDERS_API = "http://localhost:3000/order";
+const ORDER_DETAILS_API = "http://localhost:3000/order/order_details/";
+
+let currentPage = 1;
+let currentSearch = '';
+let currentFilter = '';
+const pageSize = 10;
+
+
+
+async function fetchOrders(page = 1, search = '', filter = '') {
+  const url = `${ORDERS_API}?page=${page}&limit=${pageSize}&search=${encodeURIComponent(search)}&filter=${encodeURIComponent(filter)}`;
+  const res = await fetch(url);
+  return await res.json();
+}
+
+function formatCurrency(num) {
+  return Number(num).toLocaleString(undefined, { minimumFractionDigits: 2 });
+}
+
+function initPopovers() {
+  const popoverElements = document.querySelectorAll('[data-bs-toggle="popover"]');
+  popoverElements.forEach(el => {
+    if (el._popoverInstance) {
+      el._popoverInstance.dispose();
+    }
+    el._popoverInstance = new bootstrap.Popover(el, { trigger: 'click', html: true });
+  });
+}function renderOrdersTable(orders) {
+  const tbody = document.querySelector('#transactions tbody');
+  tbody.innerHTML = '';
+  orders.forEach(order => {
+    const createdAt = new Date(order.created_at);
+    const now = new Date();
+
+    const isToday =
+      createdAt.getDate() === now.getDate() &&
+      createdAt.getMonth() === now.getMonth() &&
+      createdAt.getFullYear() === now.getFullYear();
+
+    const formattedTime = createdAt.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    const formattedDate = `${createdAt.getDate()}/${createdAt.getMonth() + 1}/${createdAt.getFullYear()}`;
+
+    const displayTime = isToday ? formattedTime : `${formattedTime} ${formattedDate}`;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${order.order_id}</td>
+     <td>${displayTime}</td>
+      <td>${order.customer_fullname || ''}</td>
+           <td>${
+        (() => {
+          let paymentMethod = order.payment_method || '';
+          if (paymentMethod === 'credit_card') return 'Card';
+          else if (paymentMethod === 'cash') return 'Cash';
+          else if (paymentMethod === 'bank_transfer') return 'Transfer';
+          else if (paymentMethod === 'split') return 'Split';
+          return paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1);
+        })()
+      }</td>
+      <td>${order.cashier_name}</td>
+      <td>${formatCurrency(order.discount || 0)}</td>
+      <td>${formatCurrency(order.tax || 0)}</td>
+      <td>${formatCurrency(order.total_order_amount || 0)}</td>
+      <td>
+        <i class="fs-3 bi bi-three-dots text-success"
+          data-bs-toggle="popover"
+          data-bs-placement="bottom"
+          data-bs-html="true"
+          tabindex="0"
+          data-bs-content='
+            <a href="../sales/invoice.html?order_id=${order.order_id}" class="d-block text-decoration-none mb-1">View</a>
+            <a href="#" class="d-block text-danger text-decoration-none" onclick="deleteOrder(&quot;${order.order_id}&quot;)">Delete</a>'
+          style="cursor: pointer;"></i>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  setTimeout(initPopovers, 0);
+}
+
+function renderPagination(total) {
+  const pageCount = Math.ceil(total / pageSize);
+  const pagination = document.querySelector('.pagination');
+  if (!pagination) return;
+  pagination.innerHTML = '';
+
+  pagination.innerHTML += `<li class="page-item${currentPage === 1 ? ' disabled' : ''}">
+    <a class="page-link" href="#" onclick="gotoPage(${currentPage - 1});return false;">Previous</a>
+  </li>`;
+
+
+  for (let i = 1; i <= pageCount; i++) {
+    pagination.innerHTML += `<li class="page-item${i === currentPage ? ' active' : ''}">
+      <a class="page-link" href="#" onclick="gotoPage(${i});return false;">${i}</a>
+    </li>`;
+  }
+
+  pagination.innerHTML += `<li class="page-item${currentPage === pageCount ? ' disabled' : ''}">
+    <a class="page-link" href="#" onclick="gotoPage(${currentPage + 1});return false;">Next</a>
+  </li>`;
+}
+
+window.gotoPage = function(page) {
+  if (page < 1) return;
+  currentPage = page;
+  loadOrders();
+};
+
+async function loadOrders() {
+  const { total, orders } = await fetchOrders(currentPage, currentSearch, currentFilter);
+  renderOrdersTable(orders);
+  renderPagination(total);
+}
+
+
+document.querySelector('.input-group input[type="text"]').addEventListener('input', function() {
+  currentSearch = this.value;
+  currentPage = 1;
+  loadOrders();
+});
+
+document.querySelector('.filter-wrapper select').addEventListener('change', function() {
+  currentFilter = this.value;
+  currentPage = 1;
+  loadOrders();
+});
+
+document.addEventListener('click', function(e) {
+  document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {
+    if (el._popoverInstance && !el.contains(e.target)) {
+      el._popoverInstance.hide();
+    }
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', loadOrders);
+
+
+window.deleteOrder = async function(order_id) {
+  if (confirm('Are you sure you want to delete this order?')) {
+    try {
+      const res = await fetch(`http://localhost:3000/order/${order_id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showToast('Order deleted successfully');
+        setTimeout(() => {
+           loadOrders(); 
+
+        }, 1000);
+       
+      } else {
+        showToast(data.error || 'Failed to delete order');
+      }
+    } catch (err) {
+      showToast('Network error. Could not delete order.');
+    }
+  }
+};
+</script> -->
+
+<script>
+  function showToast(message, type = "success") {
+    let toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type === "success" ? "success" : "danger"} border-0 show position-fixed top-0 end-0 m-3`;
+    toast.style.zIndex = 9999;
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3500);
+    toast.querySelector('.btn-close').onclick = () => toast.remove();
+}
+</script>
+<!-- Custom JS files -->
+<script src="../assets/js/custom.js"></script>
+</body>
+
+</html>

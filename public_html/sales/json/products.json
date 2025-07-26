@@ -1,0 +1,69 @@
+[
+  {
+    "id": 1,
+    "name": "Cylinder",
+    "categoryId": 2,
+    "brandId": 1,
+   
+    "variations": [
+      {
+        "label": "5kg-Red",
+        "price": 5000,
+        "image": "../assets/images/gas1.png",
+        "unit": "unit",
+        "sku": "CYL-5R"
+      },
+      {
+        "label": "12kg-Blue",
+        "price": 9500,
+        "image": "../assets/images/gas1.png",
+        "unit": "unit",
+        "sku": "CYL-12B"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Gas",
+    "categoryId": 1,
+    "brandId": 2,
+    "variations": [
+      {
+        "label": "Cooking",
+        "price": 1200,
+        "image": "../assets/images/gas1.png",
+        "unit": "kg",
+        "sku": "GAS-COOK"
+      },
+      {
+        "label": "Industrial",
+        "price": 13000,
+        "image": "../assets/images/gas1.png",
+        "unit": "kg",
+        "sku": "GAS-IND"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Burner",
+    "categoryId": 2,
+    "brandId": 3,
+    "variations": [
+      {
+        "label": "Single",
+        "price": 6000,
+        "image": "../assets/images/gas1.png",
+        "unit": "unit",
+        "sku": "BUR-SIN"
+      },
+      {
+        "label": "Double",
+        "price": 9500,
+        "image": "../assets/images/gas1.png",
+        "unit": "unit",
+        "sku": "BUR-DOU"
+      }
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_1" data-name="Group 1" transform="translate(-38 -1010)">
+    <g id="brand-gatsby" transform="translate(38.006 1010.006)">
+      <path id="Path_1" data-name="Path 1" d="M11.993,23.994a11.937,11.937,0,0,0,12-12,11.935,11.935,0,0,0-12-12,11.934,11.934,0,0,0-12,12,11.937,11.937,0,0,0,12,12Z" fill="#f44336"/>
+    </g>
+    <g id="gmail" transform="translate(25.55 985.937)">
+      <path id="Path_2" data-name="Path 2" d="M17.935,59.689h2.4V53.859L16.9,51.3v7.369A1.029,1.029,0,0,0,17.935,59.689Z" transform="translate(0 -17.971)" fill="#fff"/>
+      <path id="Path_3" data-name="Path 3" d="M100.3,59.689h2.4a1.032,1.032,0,0,0,1.035-1.035V51.3l-3.426,2.573v5.817Z" transform="translate(-71.739 -17.971)" fill="#fff"/>
+      <path id="Path_4" data-name="Path 4" d="M100.3,31.475v4.632l3.426-2.516v-1.6a1.544,1.544,0,0,0-2.475-1.23Z" transform="translate(-71.739 -0.034)" fill="#fff"/>
+      <path id="Path_5" data-name="Path 5" d="M41.323,42.265V37.753l4.188,3.137,4.4-3.3L49.76,42.2l-4.236,3.14Z" transform="translate(-21.074 -6.359)" fill="#fff" fill-rule="evenodd"/>
+      <path id="Path_6" data-name="Path 6" d="M16.9,31.945v2.37l3.426,1.573V31.441l-.965-.727A1.543,1.543,0,0,0,16.9,31.945Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>
