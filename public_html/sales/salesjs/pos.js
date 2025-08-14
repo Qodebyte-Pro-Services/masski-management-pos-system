@@ -9,6 +9,39 @@ const coupons = {
   "WELCOME500": { type: "fixed", value: 500 }
 };
 
+  function showOfflineStockWarning() {
+  if (!navigator.onLine) {
+    let warning = document.getElementById('offlineStockWarning');
+    if (!warning) {
+      warning = document.createElement('div');
+      warning.id = 'offlineStockWarning';
+      warning.className = 'alert alert-warning text-center my-2';
+      warning.innerHTML = '⚠️ Stock shown is last synced. Actual stock may differ.';
+      const grid = document.getElementById('products_grid');
+      if (grid) grid.parentNode.insertBefore(warning, grid);
+    }
+  } else {
+    const warning = document.getElementById('offlineStockWarning');
+    if (warning) warning.remove();
+  }
+}
+
+function canCheckoutOffline() {
+  let ok = true;
+  let warnings = [];
+  cart.forEach(item => {
+    const product = allProducts.find(v =>
+      (v.variation_id || v.variations_id) == item.variations_id
+    );
+    const lastKnownQty = product ? Number(product.current_variations_stock_qty_number) : null;
+    if (lastKnownQty !== null && item.qty > lastKnownQty) {
+      ok = false;
+      warnings.push(`"${item.name}" exceeds last known stock (${lastKnownQty}).`);
+    }
+  });
+  return { ok, warnings };
+}
+
 //function to add product to cart
 function addToCart(name, price, image = 'pod.jpg', unit = null, product_id = null, variations_id = null) {
   const variation = allProducts.find(v =>
@@ -26,6 +59,7 @@ function addToCart(name, price, image = 'pod.jpg', unit = null, product_id = nul
   }
   renderCart();
 }
+
 
 
   function updateQty(index, qty) {
@@ -270,11 +304,37 @@ function showInput(type) {
   }
 }
 
+function checkCartStockBeforeSale() {
+  let errors = [];
+  cart.forEach(item => {
+    const product = allProducts.find(v =>
+      (v.variation_id || v.variations_id) == item.variations_id
+    );
+    const availableStock = product ? Number(product.current_variations_stock_qty_number) : null;
+    if (availableStock !== null && item.qty > availableStock) {
+      errors.push(`Cannot sell ${item.qty} units of "${item.name}". Only ${availableStock} in stock.`);
+    }
+  });
+  return errors;
+}
+
 let pendingPaymentMethod = null;
 //for preview...
 function payNow(method) {
   if (cart.length === 0) {
     showToast("⚠️ No products added to cart.");
+    return;
+  }
+
+  const stockErrors = checkCartStockBeforeSale();
+  if (stockErrors.length > 0) {
+    showToast(stockErrors.join(" "), "danger");
+    return;
+  }
+
+    const check = canCheckoutOffline();
+  if (!check.ok && !navigator.onLine) {
+    showToast("⚠️ " + check.warnings.join(" "), "warning");
     return;
   }
 
@@ -421,9 +481,9 @@ try {
   safeSet("#invoice span.payment-method", method.toUpperCase());
   safeSet("#invoice span.invoice-no", invoiceNumber);
   safeSet("#invoice span.invoice-date", dateTime);
-
-
-    let exclusiveTaxRates = new Set();
+    
+    
+     let exclusiveTaxRates = new Set();
   cart.forEach(item => {
     const taxInfo = variationTaxMap[item.variations_id];
     if (taxInfo && taxInfo.tax_type === 'exclusive') {
@@ -496,6 +556,13 @@ document.getElementById("confirmBtn").addEventListener("click", async () => {
   const now = new Date();
   const invoiceNumber = "TX-" + now.getTime();
   const dateTime = now.toLocaleString();
+
+
+  const stockErrors = checkCartStockBeforeSale();
+  if (stockErrors.length > 0) {
+    showToast(stockErrors.join(" "), "danger");
+    return;
+  }
 
 const customerSelect = document.getElementById("customer");
 const customer_id = customerSelect.value || null;
@@ -710,13 +777,21 @@ document.getElementById("printReceiptBtn").addEventListener("click", function ()
 
   <style>
   @media print {
+  * {
+      color: #000 !important;
+      background: #fff !important;
+      --webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important
+  }
     body, html {
-       font-size: 16px !important;
-   font-family: 'Courier New', Courier, monospace !important;
+       font-size: 18px !important;
+   font-family: monospace !important;
     margin: 0 !important;
     padding: 0 !important;
     color: #000 !important;
     background: #fff !important;
+     -webkit-font-smoothing: none !important;
+  text-rendering: geometricPrecision !important;
     }
     @page {
       size: 58mm auto;
@@ -732,11 +807,11 @@ document.getElementById("printReceiptBtn").addEventListener("click", function ()
       margin: 0 0 2px !important;
       padding: 2px 2px !important;
       color: #111 !important;
-      font-weight: 800 !important;
+      font-weight: bold !important;
       letter-spacing: 0.01em;
     }
     h4, h6 {
-      font-weight: 800 !important;
+      font-weight: bold !important;
     }
     table {
       width: 100%;
@@ -748,11 +823,11 @@ document.getElementById("printReceiptBtn").addEventListener("click", function ()
     text-align: left;
     }
     img.logo {
-         max-height: 25px !important;
+        max-height: 25px !important;
             opacity: 1 !important;
             filter: brightness(0) contrast(2) !important;
             display: block;
-            margin: 0 auto 1px auto !important;
+            margin: 0 auto 0.5px auto !important;
     }
     .card, .card-header, .card-body, .table-responsive {
       border: none !important;
@@ -1097,7 +1172,7 @@ const salesStore = localforage.createInstance({
 });
 
 async function saveTransactionToLocal(data) {
-
+    
    let admin = null;
   try {
     admin = JSON.parse(sessionStorage.getItem('admin'));
@@ -1114,7 +1189,6 @@ async function saveTransactionToLocal(data) {
   data.admin_first_name = admin_first_name;
   data.admin_last_name = admin_last_name;
   data.admin_id = admin_id;
-
 
 
   const existingSales = (await salesStore.getItem("sales")) || [];
@@ -1221,8 +1295,6 @@ async function loadProducts() {
 
 
 
-
-
     function renderProducts(products) {
   const container = document.querySelector('#products_grid .row.gx-3');
   const noResultsMessage = document.getElementById('noResultsMessage');
@@ -1231,7 +1303,7 @@ async function loadProducts() {
   let count = 0;
 
   products.forEach(variation => {
-
+  
     const attrString = (variation.attributes && variation.attributes.length)
       ? variation.attributes.map(a => a.value).join(' - ')
       : '';
@@ -1338,6 +1410,7 @@ async function loadBrands() {
   renderBrands(brands);
   localforage.setItem('brands', brands);
 }
+
 
 function renderBrands(brands) {
   const brandSelect = document.getElementById('productBrand');
@@ -1571,6 +1644,7 @@ loadCustomers();
 fillCompanyInfo();
   fillSalesCompanyInfo();
    updateOfflineIndicator();
+   showOfflineStockWarning();
   document.querySelector('input[placeholder*="Search"]').addEventListener('input', filterProducts);
   setInterval(refreshAllData, 600000);
   syncUnsyncedSales();
@@ -1591,6 +1665,12 @@ fillCompanyInfo();
   }
 }
 
-  window.addEventListener("online", syncUnsyncedSales);
-  window.addEventListener('online', updateOfflineIndicator);
-window.addEventListener('offline', updateOfflineIndicator);
+window.addEventListener("online", function() {
+  syncUnsyncedSales();
+  updateOfflineIndicator();
+  showOfflineStockWarning();
+});
+window.addEventListener('offline', function() {
+  updateOfflineIndicator();
+  showOfflineStockWarning();
+});
